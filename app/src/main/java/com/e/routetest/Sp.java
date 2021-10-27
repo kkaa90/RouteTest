@@ -46,8 +46,17 @@ public class Sp {
         this.spotsAddress = spotsAddress;
     }
 
-    public Sp(String spotsName, String spotsX, String spotsY, String spotsAddress) {
+    public String getSpotsId() {
+        return spotsId;
+    }
+
+    public void setSpotsId(String spotsId) {
+        this.spotsId = spotsId;
+    }
+
+    public Sp(String spotsName, String spotsId, String spotsX, String spotsY, String spotsAddress) {
         this.spotsName = spotsName;
+        this.spotsId = spotsId;
         this.spotsX = spotsX;
         this.spotsY = spotsY;
         this.spotsAddress = spotsAddress;
@@ -56,6 +65,7 @@ public class Sp {
     @PrimaryKey(autoGenerate = true)
     private int routeId;
     private String spotsName;
+    private String spotsId;
     private String spotsX;
     private String spotsY;
     private String spotsAddress;
