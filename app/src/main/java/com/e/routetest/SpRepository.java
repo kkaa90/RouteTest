@@ -1,5 +1,6 @@
 package com.e.routetest;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -11,7 +12,7 @@ import java.util.List;
 public interface SpRepository {
 
     @Query("SELECT * FROM sp")
-    List<Sp> findAll();
+    LiveData<Sp> findAll();
 
     @Query("SELECT * FROM sp where routeid=:routeId")
     Sp findById(int routeId);

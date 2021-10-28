@@ -1,6 +1,7 @@
 package com.e.routetest;
 
 import android.app.TimePickerDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -67,6 +68,7 @@ public class RouteFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         ViewRouteAdapter viewRouteAdapter = new ViewRouteAdapter(getActivity(), spots, departures, arrivals);
         EditText editText = (EditText) view.findViewById(R.id.editTextTime);
+        AppDatabase db = AppDatabase.getInstance(getContext());
         timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -143,11 +145,32 @@ public class RouteFragment extends Fragment {
                     System.out.println(route.departureTime);
                     System.out.println(route.arrivalTime);
                 }
+                String spName = String.valueOf(spots.get(0).spotName);
+                for(int i=1;i<spots.size();i++){
+                    spName = spName + ",";
+                    spName = spName + String.valueOf(spots.get(i).spotName);
+                }
+                String spX = String.valueOf(spots.get(0).spotX);
+                for(int i=1;i<spots.size();i++){
+                    spX = spX + ",";
+                    spX = spX + String.valueOf(spots.get(i).spotX);
+                }
+                String spY = String.valueOf(spots.get(0).spotY);
+                for(int i=1;i<spots.size();i++){
+                    spX = spY + ",";
+                    spX = spY + String.valueOf(spots.get(i).spotY);
+                }
+                String spA = String.valueOf(spots.get(0).spotAddress);
+                for(int i=1 ; i<spots.size();i++){
+                    spA = spA + ",";
+                    spA = spA + String.valueOf(spots.get(i).spotAddress);
+                }
                 new Thread(){
                     public void run(){
                         writeRoute(routes.get(0));
                     }
                 }.start();
+                new InsertAsyncTask(db.spRepository()).execute(new Sp(spName,spotList,spX,spY,spA));
 
             }
 
@@ -207,6 +230,20 @@ public class RouteFragment extends Fragment {
         }
         return;
 
+    }
+
+    public static class InsertAsyncTask extends AsyncTask<Sp, Void, Void> {
+        private SpRepository mSpRepository;
+
+        public InsertAsyncTask(SpRepository spRepository){
+            this.mSpRepository = spRepository;
+        }
+        @Override
+        protected Void doInBackground(Sp... sps){
+
+            mSpRepository.insert(sps[0]);
+            return null;
+        }
     }
 
 

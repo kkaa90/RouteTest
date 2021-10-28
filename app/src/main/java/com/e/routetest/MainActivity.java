@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Button button = (Button)findViewById(R.id.goLogin);
 
+        AppDatabase db = AppDatabase.getInstance(this);
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
