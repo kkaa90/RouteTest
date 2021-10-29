@@ -20,6 +20,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static com.e.routetest.MainActivity.sv;
 import static com.e.routetest.SearchFragment.allSpotList;
 
 public class ShowBoardActivity extends AppCompatActivity {
@@ -70,7 +71,7 @@ public class ShowBoardActivity extends AppCompatActivity {
 
 
         try {
-            String url = "http://13.125.252.236:8080/teamproject/getBoard.jsp?boardID="+n;
+            String url = sv + "getBoard.jsp?boardID="+n;
             System.out.println(url);
 
 

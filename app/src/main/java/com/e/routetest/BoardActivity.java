@@ -22,6 +22,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static com.e.routetest.MainActivity.sv;
 import static com.e.routetest.SearchFragment.allSpotList;
 
 public class BoardActivity extends AppCompatActivity {
@@ -89,7 +90,7 @@ public class BoardActivity extends AppCompatActivity {
     public void getSpot() {
         ViewBoardAdapter viewBoardAdapter = new ViewBoardAdapter(getApplicationContext(),boards);
         try {
-            String url = "http://13.125.252.236:8080/teamproject/viewBoard.jsp?pageNumber=1";
+            String url = sv + "viewBoard.jsp?pageNumber=1";
             System.out.println(url);
 
 
@@ -150,7 +151,7 @@ public class BoardActivity extends AppCompatActivity {
     public String getRoute(int routeID){
         String rL="";
         try {
-            String url = "http://13.125.252.236:8080/teamproject/getRoute.jsp?routeID="+String.valueOf(routeID);
+            String url = sv + "getRoute.jsp?routeID="+String.valueOf(routeID);
             System.out.println(url);
 
 

@@ -19,6 +19,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static com.e.routetest.MainActivity.sv;
 import static com.e.routetest.RouteActivity.spots;
 import static com.e.routetest.RouteActivity.warning;
 
@@ -63,7 +64,7 @@ public class RecommendActivity extends AppCompatActivity {
         String address;
         int status = 0;
         try {
-            String url = "http://13.125.252.236:8080/teamproject/recommend.jsp?routeID=12&attractionID="+String.valueOf(spot.spotID)+"&mapX="+spot.spotY+"&mapY="+spot.spotX;
+            String url = sv + "recommend.jsp?routeID=12&attractionID="+String.valueOf(spot.spotID)+"&mapX="+spot.spotY+"&mapY="+spot.spotX;
             System.out.println(url);
 
 

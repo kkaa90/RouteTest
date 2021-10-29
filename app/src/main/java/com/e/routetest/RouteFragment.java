@@ -32,6 +32,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static com.e.routetest.MainActivity.sv;
 import static com.e.routetest.RouteActivity.arrivals;
 import static com.e.routetest.RouteActivity.departures;
 import static com.e.routetest.RouteActivity.noticeTime;
@@ -207,7 +208,7 @@ public class RouteFragment extends Fragment {
 
 
         try {
-            String url = "http://13.125.252.236:8080/teamproject/writeRoute.jsp?userID=" + route.userId
+            String url = sv + "writeRoute.jsp?userID=" + route.userId
                     + "&routeTitle=테스트&routeList=" + route.spots + "&Thema=" + route.theme + "&arriveTime=" + route.arrivalTime;
             System.out.println(url);
 

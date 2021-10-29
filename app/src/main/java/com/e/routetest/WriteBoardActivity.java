@@ -20,6 +20,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static com.e.routetest.MainActivity.sv;
+
 public class WriteBoardActivity extends AppCompatActivity {
 
     @Override
@@ -66,7 +68,7 @@ public class WriteBoardActivity extends AppCompatActivity {
     }
     private void writeBoard(String t, String w, String r, String c, String l){
         try {
-            String url = "http://13.125.252.236:8080/teamproject/writeBoard.jsp?routeID="+r+"&userID="+w
+            String url = sv + "writeBoard.jsp?routeID="+r+"&userID="+w
                     +"&maxP=4&appliT=2021-10-20&boardTitle="+t+"&boardContent="+c+"&kakaoLink="+l;
             System.out.println(url);
 

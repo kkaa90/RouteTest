@@ -13,7 +13,7 @@ import static com.e.routetest.SearchFragment.allSpotList;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    static String sv = "http://13.209.21.35:8080/teamproject/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

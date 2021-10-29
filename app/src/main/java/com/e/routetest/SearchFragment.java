@@ -28,6 +28,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static com.e.routetest.MainActivity.sv;
+
 public class SearchFragment extends Fragment {
     public static ArrayList<Spot> allSpotList = new ArrayList<Spot>();
     ArrayList<String> allSpotName = new ArrayList<String>();
@@ -97,7 +99,7 @@ public class SearchFragment extends Fragment {
         String address;
         int status = 0;
         try {
-            String url = "http://13.125.252.236:8080/teamproject/viewAttraction.jsp";
+            String url = sv + "viewAttraction.jsp";
             System.out.println(url);
 
 
