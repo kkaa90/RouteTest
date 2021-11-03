@@ -1,24 +1,20 @@
 package com.e.routetest;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 
-import static com.e.routetest.SearchFragment.allSpotList;
 
-
-public class MainActivity extends AppCompatActivity {
+public class StartActivity extends AppCompatActivity {
     static String sv = "http://13.209.21.35:8080/teamproject/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_start);
         Button button = (Button)findViewById(R.id.goLogin);
 
         AppDatabase db = AppDatabase.getInstance(this);
@@ -45,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),TestActivity.class);
+                Intent intent = new Intent(getApplicationContext(),RouteActivity.class);
                 startActivity(intent);
             }
         });

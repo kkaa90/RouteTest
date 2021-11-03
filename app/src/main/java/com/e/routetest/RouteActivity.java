@@ -78,25 +78,10 @@ public class RouteActivity extends AppCompatActivity {
         arrivals.add(-1);
         arrivals.add(-1);*/
         String id = getIntent().getStringExtra("2");
-        TextView idView = (TextView)findViewById(R.id.idView);
-        idView.setText(id);
+
+
         //routes.add(new Route(0,0,"2019-03-31","0,1,2", 0, "10:00,13:00,-","09:00,12:00,15:00"));
-        Button goMain = (Button)findViewById(R.id.goBoard);
-        Button goRoute = (Button)findViewById(R.id.goRoute);
-        goMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),BoardActivity.class);
-                startActivity(intent);
-            }
-        });
-        goRoute.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),RouteActivity.class);
-                startActivity(intent);
-            }
-        });
+
         createNotificationChannel(DEFAULT,"default channel",NotificationManager.IMPORTANCE_HIGH);
 
         Intent intent = new Intent(this,RecommendActivity.class);

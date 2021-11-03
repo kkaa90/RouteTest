@@ -132,7 +132,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginBottom="20dp"
             android:text="수정"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/showBoard_navigation"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
@@ -151,8 +151,10 @@
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
             android:text="참가신청"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

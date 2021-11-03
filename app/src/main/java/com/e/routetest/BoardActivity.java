@@ -22,7 +22,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static com.e.routetest.MainActivity.sv;
+import static com.e.routetest.StartActivity.sv;
 import static com.e.routetest.SearchFragment.allSpotList;
 
 public class BoardActivity extends AppCompatActivity {
@@ -31,24 +31,8 @@ public class BoardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
-        Button goMain = (Button)findViewById(R.id.goBoard);
-        Button goRoute = (Button)findViewById(R.id.goRoute);
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.boardView);
         ViewBoardAdapter viewBoardAdapter = new ViewBoardAdapter(getApplicationContext(),boards);
-        goMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),BoardActivity.class);
-                startActivity(intent);
-            }
-        });
-        goRoute.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),RouteActivity.class);
-                startActivity(intent);
-            }
-        });
         Button goWriteBoard = (Button)findViewById(R.id.writeBoardButton);
         goWriteBoard.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -28,7 +28,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static com.e.routetest.MainActivity.sv;
+import static com.e.routetest.StartActivity.sv;
 
 public class SearchFragment extends Fragment {
     public static ArrayList<Spot> allSpotList = new ArrayList<Spot>();

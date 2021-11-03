@@ -2,7 +2,6 @@ package com.e.routetest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,13 +13,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static com.e.routetest.MainActivity.sv;
+import static com.e.routetest.StartActivity.sv;
 import static com.e.routetest.SearchFragment.allSpotList;
 
 public class ShowBoardActivity extends AppCompatActivity {

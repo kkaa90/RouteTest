@@ -11,18 +11,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".WriteBoardActivity">
-        <include
-            android:id="@+id/writer_toolbar"
-            layout="@layout/tool_bar" />
+
 
         <LinearLayout
             android:layout_width="411dp"
             android:layout_height="546dp"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/writer_toolbar">
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -160,6 +158,8 @@
         </LinearLayout>
 
 
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <include layout="@layout/activity_drawer"/>
+
 </androidx.drawerlayout.widget.DrawerLayout>

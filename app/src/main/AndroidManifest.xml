@@ -16,7 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RouteTest"
         android:usesCleartextTraffic="true">
-        <activity android:name=".TestActivity"></activity>
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".TestActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoadingActivity">
@@ -33,7 +34,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAn-Tk1TUWDZWTHbdshVkc9z2uQG4dULNQ" />
 
-        <activity android:name=".MainActivity" />
+        <activity android:name=".StartActivity" />
         <activity android:name=".WriteBoardActivity" />
         <activity android:name=".BoardActivity" />
         <!--

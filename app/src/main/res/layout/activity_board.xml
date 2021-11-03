@@ -22,17 +22,14 @@
             app:layout_constraintStart_toEndOf="@+id/btnSelectDate"
             app:layout_constraintTop_toTopOf="@+id/btnSelectDate" />
 
-        <include
-            android:id="@+id/toolbar_board"
-            layout="@layout/tool_bar" />
 
         <HorizontalScrollView
             android:id="@+id/horizontalScrollView"
             android:layout_width="381dp"
             android:layout_height="49dp"
-            app:layout_constraintEnd_toEndOf="@+id/toolbar_board"
-            app:layout_constraintStart_toStartOf="@+id/toolbar_board"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_board">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -121,8 +118,8 @@
             android:layout_height="0dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="40dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextDate2">
@@ -153,9 +150,8 @@
             app:layout_constraintEnd_toEndOf="@+id/swipeBoard" />
 
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <include
-        android:id="@+id/board_drawer"
-        layout="@layout/activity_drawer" />
+
 </androidx.drawerlayout.widget.DrawerLayout>

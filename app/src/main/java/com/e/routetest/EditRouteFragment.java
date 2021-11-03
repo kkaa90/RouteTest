@@ -1,7 +1,6 @@
 package com.e.routetest;
 
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -11,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,26 +19,24 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static com.e.routetest.MainActivity.sv;
+import static com.e.routetest.StartActivity.sv;
 import static com.e.routetest.RouteActivity.arrivals;
 import static com.e.routetest.RouteActivity.departures;
 import static com.e.routetest.RouteActivity.noticeTime;
 import static com.e.routetest.RouteActivity.routes;
 import static com.e.routetest.RouteActivity.spots;
 
-public class RouteFragment extends Fragment {
+public class EditRouteFragment extends Fragment {
 
     int hour = 0;
     int min = 0;
@@ -63,7 +59,7 @@ public class RouteFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_route, container, false);
+        View view = inflater.inflate(R.layout.fragment_edit_route, container, false);
         Button timeButton = (Button) view.findViewById(R.id.getTimeButton);
         Button showButton = (Button) view.findViewById(R.id.showTimeButton);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.viewRoute);

@@ -24,7 +24,7 @@ public class ViewPageAdapter extends FragmentPagerAdapter {
                 MapsFragment f2=new MapsFragment();
                 return f2;
             case 2:
-                RouteFragment f3 = new RouteFragment();
+                EditRouteFragment f3 = new EditRouteFragment();
                 return f3;
 
             default:

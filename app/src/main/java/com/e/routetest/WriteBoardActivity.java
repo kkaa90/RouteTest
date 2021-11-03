@@ -1,17 +1,13 @@
 package com.e.routetest;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -20,7 +16,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static com.e.routetest.MainActivity.sv;
+import static com.e.routetest.StartActivity.sv;
 
 public class WriteBoardActivity extends AppCompatActivity {
 
@@ -28,22 +24,6 @@ public class WriteBoardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_board);
-        Button goMain = (Button)findViewById(R.id.goBoard);
-        Button goRoute = (Button)findViewById(R.id.goRoute);
-        goMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),BoardActivity.class);
-                startActivity(intent);
-            }
-        });
-        goRoute.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),RouteActivity.class);
-                startActivity(intent);
-            }
-        });
         TextInputEditText tEdit = (TextInputEditText)findViewById(R.id.titleEdit);
         TextInputEditText wEdit = (TextInputEditText)findViewById(R.id.writerEdit);
         TextInputEditText rEdit = (TextInputEditText)findViewById(R.id.routeNumEdit);

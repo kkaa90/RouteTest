@@ -53,9 +53,10 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),RouteActivity.class);
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 intent.putExtra("2", idTextView.getText());
                 startActivity(intent);
+                finish();
                 //System.out.println(idTextView.getText());
             }
         });
