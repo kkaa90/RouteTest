@@ -14,6 +14,8 @@ import com.google.android.material.navigation.NavigationBarView;
 public class MainActivity extends AppCompatActivity {
     private HomeFragment homeFragment = new HomeFragment();
     private RouteFragment routeFragment = new RouteFragment();
+    private BoardFragment boardFragment = new BoardFragment();
+    private NotificationFragment notificationFragment = new NotificationFragment();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +39,12 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.page_route:
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_frame,routeFragment).commit();
                         return true;
-
+                    case R.id.page_board:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame,boardFragment).commit();
+                        return true;
+                    case R.id.page_notice:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame,notificationFragment).commit();
+                        return true;
                 }
                 return false;
             }

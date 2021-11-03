@@ -1,5 +1,6 @@
 package com.e.routetest;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +11,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -26,23 +28,38 @@ import okhttp3.Response;
 import static com.e.routetest.SearchFragment.allSpotList;
 import static com.e.routetest.StartActivity.sv;
 
-
-public class HomeFragment extends Fragment {
-
+public class BoardFragment extends Fragment {
     ArrayList<Board> boards = new ArrayList<Board>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_home, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.home_board);
+        View view = inflater.inflate(R.layout.fragment_board, container, false);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.boardView);
         ViewBoardAdapter viewBoardAdapter = new ViewBoardAdapter(getActivity().getApplicationContext(),boards);
-
-
-
+        Button goWriteBoard = (Button) view.findViewById(R.id.writeBoardButton);
+        goWriteBoard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity().getApplicationContext(),WriteBoardActivity.class);
+                startActivity(intent);
+            }
+        });
         new Thread(){
             public void run(){
                 getSpot();
             }
         }.start();
+        Button refresh = (Button)view.findViewById(R.id.btnApply);
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewBoardAdapter.notifyDataSetChanged();
+                for(int i=0;i<boards.size();i++){
+                    System.out.println(boards.get(i).boardTitle);
+
+                }
+            }
+        });
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -52,8 +69,10 @@ public class HomeFragment extends Fragment {
         },2000);
 
         recyclerView.setHasFixedSize(true);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         recyclerView.setAdapter(viewBoardAdapter);
+
         return view;
     }
     public void getSpot() {

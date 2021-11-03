@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BoardFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".BoardActivity">
+
+        <Button
+            android:id="@+id/btnApply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="적용"
+            app:layout_constraintBottom_toBottomOf="@+id/btnSelectDate"
+            app:layout_constraintStart_toEndOf="@+id/btnSelectDate"
+            app:layout_constraintTop_toTopOf="@+id/btnSelectDate" />
+
+
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
+            android:layout_width="381dp"
+            android:layout_height="49dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <ToggleButton
+                    android:id="@+id/toggleTheme1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textOff="테마OFF"
+                    android:textOn="테마ON" />
+
+                <ToggleButton
+                    android:id="@+id/toggleTheme2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textOff="테마OFF"
+                    android:textOn="테마ON" />
+
+                <ToggleButton
+                    android:id="@+id/toggleTheme3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textOff="테마OFF"
+                    android:textOn="테마ON" />
+
+                <ToggleButton
+                    android:id="@+id/toggleTheme4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textOff="테마OFF"
+                    android:textOn="테마ON" />
+
+                <ToggleButton
+                    android:id="@+id/toggleTheme5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textOff="테마OFF"
+                    android:textOn="테마ON" />
+
+                <ToggleButton
+                    android:id="@+id/toggleTheme6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textOff="테마OFF"
+                    android:textOn="테마ON" />
+
+                <ToggleButton
+                    android:id="@+id/toggleTheme7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textOff="테마OFF"
+                    android:textOn="테마ON" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <EditText
+            android:id="@+id/editTextDate2"
+            android:layout_width="188dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:inputType="date"
+            android:text="날자 선택"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeBoard"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextDate2">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/boardView"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <Button
+            android:id="@+id/btnSelectDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="날짜선택"
+            app:layout_constraintBottom_toBottomOf="@+id/editTextDate2"
+            app:layout_constraintStart_toEndOf="@+id/editTextDate2"
+            app:layout_constraintTop_toTopOf="@+id/editTextDate2" />
+
+        <Button
+            android:id="@+id/writeBoardButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/circle"
+            android:text="글쓰기"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toBottomOf="@+id/swipeBoard"
+            app:layout_constraintEnd_toEndOf="@+id/swipeBoard" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
