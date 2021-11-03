@@ -26,7 +26,7 @@
         android:layout_marginRight="2dp"
         android:layout_marginBottom="24dp"
         android:ems="10"
-        android:hint="이름"
+        android:hint="닉네임"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/join_email"
         app:layout_constraintEnd_toEndOf="@+id/check_button" />
@@ -61,7 +61,7 @@
         android:layout_marginRight="6dp"
         android:layout_marginBottom="24dp"
         android:ems="10"
-        android:hint="이메일"
+        android:hint="아이디"
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toTopOf="@+id/join_password"
         app:layout_constraintEnd_toStartOf="@+id/check_button"

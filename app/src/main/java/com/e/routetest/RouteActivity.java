@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
@@ -39,8 +40,11 @@ public class RouteActivity extends AppCompatActivity {
     public static Context context_main;
     public int var;
     public static int warning =0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route);
         context_main=this;
@@ -73,7 +77,9 @@ public class RouteActivity extends AppCompatActivity {
         arrivals.add(-1);
         arrivals.add(-1);
         arrivals.add(-1);*/
-
+        String id = getIntent().getStringExtra("2");
+        TextView idView = (TextView)findViewById(R.id.idView);
+        idView.setText(id);
         //routes.add(new Route(0,0,"2019-03-31","0,1,2", 0, "10:00,13:00,-","09:00,12:00,15:00"));
         Button goMain = (Button)findViewById(R.id.goBoard);
         Button goRoute = (Button)findViewById(R.id.goRoute);
