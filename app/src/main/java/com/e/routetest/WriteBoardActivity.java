@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
@@ -25,7 +26,7 @@ public class WriteBoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_board);
         TextInputEditText tEdit = (TextInputEditText)findViewById(R.id.titleEdit);
-        TextInputEditText wEdit = (TextInputEditText)findViewById(R.id.writerEdit);
+        TextView wEdit = (TextView) findViewById(R.id.writerEdit);
         TextInputEditText rEdit = (TextInputEditText)findViewById(R.id.routeNumEdit);
         TextInputEditText cEdit = (TextInputEditText)findViewById(R.id.contentEdit);
         TextInputEditText lEdit = (TextInputEditText)findViewById(R.id.linkEdit);

@@ -17,7 +17,7 @@
             android:layout_width="411dp"
             android:layout_height="546dp"
             android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -60,17 +60,12 @@
                     android:text="글쓴이"
                     android:textSize="24sp" />
 
-                <com.google.android.material.textfield.TextInputEditText
+                <TextView
                     android:id="@+id/writerEdit"
                     android:layout_width="285dp"
                     android:layout_height="match_parent"
-                    android:hint="글쓴이 입력" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="302dp"
-                    android:layout_height="31dp">
-
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:hint="글쓴이"
+                    android:textSize="24sp"/>
 
             </LinearLayout>
 
@@ -120,7 +115,8 @@
                         android:id="@+id/contentEdit"
                         android:layout_width="315dp"
                         android:layout_height="186dp"
-                        android:hint="내용 입력" />
+                        android:hint="내용 입력"
+                        android:inputType="textMultiLine"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -134,7 +130,8 @@
                     android:layout_width="204dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="카카오톡 링크" />
+                    android:text="카카오톡 링크"
+                    android:scrollbars="vertical"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -156,8 +153,6 @@
                 android:text="게시글 작성" />
 
         </LinearLayout>
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

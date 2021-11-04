@@ -145,9 +145,8 @@
             android:background="@drawable/circle"
             android:text="글쓰기"
             android:textSize="15dp"
-            app:layout_constraintBottom_toBottomOf="@+id/swipeBoard"
-            app:layout_constraintEnd_toEndOf="@+id/swipeBoard" />
-
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
