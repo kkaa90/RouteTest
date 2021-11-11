@@ -73,7 +73,7 @@ public class RouteFragment extends Fragment {
         return view;
     }
 
-    public int getTime(Spot A, Spot B){
+    public static int getTime(Spot A, Spot B){
         int arrtime=-1;
         double ax=A.spotX;
         double ay=A.spotY;

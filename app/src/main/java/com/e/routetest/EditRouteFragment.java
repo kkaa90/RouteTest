@@ -29,7 +29,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static com.e.routetest.StartActivity.sv;
+import static com.e.routetest.LoadingActivity.sv;
 import static com.e.routetest.RouteActivity.arrivals;
 import static com.e.routetest.RouteActivity.departures;
 import static com.e.routetest.RouteActivity.noticeTime;
@@ -72,11 +72,12 @@ public class EditRouteFragment extends Fragment {
             public void onClick(View view) {
                 new Thread() {
                     public void run() {
+
                         departures.clear();
                         arrivals.clear();
                         arrivals.add(hour * 3600 + min * 60);
                         for (int i = 1; i < spots.size(); i++) {
-                            int a = ((RouteActivity) RouteActivity.context_main).getTime(spots.get(i - 1), spots.get(i));
+                            int a = RouteFragment.getTime(spots.get(i - 1), spots.get(i));
                             departures.add(arrivals.get(i - 1) + 3600);
                             arrivals.add(departures.get(i - 1) + a);
                             noticeTime.add(a);

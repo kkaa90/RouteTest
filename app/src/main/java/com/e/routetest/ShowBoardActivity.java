@@ -18,8 +18,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static com.e.routetest.StartActivity.sv;
-import static com.e.routetest.StartActivity.allSpotList;
+import static com.e.routetest.LoadingActivity.sv;
+import static com.e.routetest.LoadingActivity.allSpotList;
 
 public class ShowBoardActivity extends AppCompatActivity {
 
