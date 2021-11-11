@@ -53,6 +53,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/home_route"/>
+
+                <!-- 여행지 알림 테스트 버튼 -->
+                <Button
+                    android:id="@+id/show_trip_alarm_button"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="bottom|end"/>
+
             </LinearLayout>
 
             <LinearLayout

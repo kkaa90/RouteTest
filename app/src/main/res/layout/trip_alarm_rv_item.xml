@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/trip_alarm_rv_item_contents"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    android:layout_marginHorizontal="5dp"
+    android:layout_marginVertical="5dp">
+
+    <LinearLayout
+        android:id="@+id/trip_alarm_rv_item_infoList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            >
+            <TextView
+                android:id="@+id/trip_alarm_rv_item_placeName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="장소이름 : "
+                android:textSize="16dp"/>
+            <TextView
+                android:id="@+id/trip_alarm_rv_item_spendTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="소요시간 : "
+                android:textSize="16dp"
+                android:layout_margin="5dp"/>
+        </LinearLayout>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/trip_alarm_rv_item_weatherIcon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@mipmap/ic_launcher"/>
+            <ImageView
+                android:id="@+id/trip_alarm_rv_item_timeIcon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@mipmap/ic_launcher"
+                android:layout_marginLeft="20dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/trip_alarm_rv_item_detail"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:orientation="horizontal"
+        android:layout_marginVertical="5dp"
+        android:layout_marginHorizontal="5dp"
+        android:background="@color/colorGray">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:text="날씨정보"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/trip_alarm_rv_item_temperauterInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="온도 : "/>
+            <TextView
+                android:id="@+id/trip_alarm_rv_item_HumidityInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="습도 : "/>
+            <TextView
+                android:id="@+id/trip_alarm_rv_item_rainfallProbablityInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="강수확률 : "/>
+            <TextView
+                android:id="@+id/trip_alarm_rv_item_rainfallInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="강수량 : "/>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:text="시간정보"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/trip_alarm_rv_item_LT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이동소요시간 : "/>
+            <TextView
+                android:id="@+id/trip_alarm_rv_item_ETA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="도착예정시간 : "/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="정보1 : "/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="정보2 : "/>
+            <Button
+                android:id="@+id/trip_alarm_rv_item_changeButton"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="5dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

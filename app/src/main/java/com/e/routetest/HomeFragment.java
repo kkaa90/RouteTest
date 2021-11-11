@@ -1,5 +1,6 @@
 package com.e.routetest;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +11,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -36,7 +38,17 @@ public class HomeFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.home_board);
         ViewBoardAdapter viewBoardAdapter = new ViewBoardAdapter(getActivity().getApplicationContext(),boards);
 
+        //------------------------------ 여행지 알림 버튼 연결부 (시작) ------------------------------
+        Button test_button = (Button)view.findViewById(R.id.show_trip_alarm_button);
+        test_button.setOnClickListener(new View.OnClickListener(){
 
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(),TripAlarmListActivity.class);
+                startActivity(intent);
+            }
+        });
+        //------------------------------ 여행지 알림 버튼 연결부 (종료) ------------------------------
 
         new Thread(){
             public void run(){
