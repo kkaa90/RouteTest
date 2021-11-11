@@ -30,42 +30,44 @@ public class ShowBoardActivity extends AppCompatActivity {
         int boardId = boardintent.getIntExtra("1",0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_board);
+        TextView titleView1 = (TextView)findViewById(R.id.titleView);
+        TextView userView1 = (TextView)findViewById(R.id.userView);
+        TextView dateView1 = (TextView)findViewById(R.id.showDate);
+        TextView contentView1 = (TextView)findViewById(R.id.viewContent);
+        TextView firstSpot1 = (TextView)findViewById(R.id.firstSpot);
+        TextView finalSpot1 = (TextView)findViewById(R.id.finalSpot);
         new Thread(){
             public void run(){
-                getBoard(boardId);
+                if(getBoard(boardId)){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String[] spotArr = board.get(4).split(",");
+                            for(Spot obj : allSpotList){
+                                if(obj.spotID==Integer.parseInt(spotArr[0])){
+                                    firstSpot1.setText(obj.spotName);
+                                }
+                                if(obj.spotID==Integer.parseInt(spotArr[spotArr.length-1])){
+                                    finalSpot1.setText(obj.spotName);
+                                }
+                            }
+                            titleView1.setText(board.get(0));
+                            userView1.setText(board.get(1));
+                            dateView1.setText(board.get(2));
+                            contentView1.setText(board.get(3));
+
+                        }
+                    });
+                }
             }
         }.start();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                TextView titleView1 = (TextView)findViewById(R.id.titleView);
-                TextView userView1 = (TextView)findViewById(R.id.userView);
-                TextView dateView1 = (TextView)findViewById(R.id.showDate);
-                TextView contentView1 = (TextView)findViewById(R.id.viewContent);
-                TextView firstSpot1 = (TextView)findViewById(R.id.firstSpot);
-                TextView finalSpot1 = (TextView)findViewById(R.id.finalSpot);
-                String[] spotArr = board.get(4).split(",");
-                for(Spot obj : allSpotList){
-                    if(obj.spotID==Integer.parseInt(spotArr[0])){
-                        firstSpot1.setText(obj.spotName);
-                    }
-                    if(obj.spotID==Integer.parseInt(spotArr[spotArr.length-1])){
-                        finalSpot1.setText(obj.spotName);
-                    }
-                }
-                titleView1.setText(board.get(0));
-                userView1.setText(board.get(1));
-                dateView1.setText(board.get(2));
-                contentView1.setText(board.get(3));
-            }
-        }, 2000);
 
     }
 
 
 
 
-    public void getBoard(int n){
+    public boolean getBoard(int n){
 
 
         try {
@@ -92,7 +94,7 @@ public class ShowBoardActivity extends AppCompatActivity {
             board.add(content);
             String routeID = jsonObject.get("routeID").getAsString();
 
-            String url2 = "http://13.125.252.236:8080/teamproject/getRoute.jsp?routeID="+routeID;
+            String url2 = sv+"getRoute.jsp?routeID="+routeID;
             System.out.println(url2);
 
             OkHttpClient client2 = new OkHttpClient();
@@ -106,10 +108,13 @@ public class ShowBoardActivity extends AppCompatActivity {
             JsonObject jsonObject2 = jsonElement2.getAsJsonObject();
             String routeList = jsonObject2.get("routeList").getAsString();
             board.add(routeList);
+            return true;
 
         }catch (Exception e){
             e.printStackTrace();
         }
+
+        return false;
 
     }
 }

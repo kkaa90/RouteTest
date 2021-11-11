@@ -113,14 +113,13 @@
 
         <TextView
             android:id="@+id/viewContent"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="17dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
             android:text="TextView"
-            app:layout_constraintBottom_toTopOf="@+id/deleteButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/finalSpot" />
@@ -132,7 +131,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginBottom="20dp"
             android:text="수정"
-            app:layout_constraintBottom_toTopOf="@+id/showBoard_navigation"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
@@ -151,10 +150,8 @@
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
             android:text="참가신청"
-            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

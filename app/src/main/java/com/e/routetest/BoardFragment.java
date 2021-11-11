@@ -44,9 +44,17 @@ public class BoardFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
         new Thread(){
             public void run(){
-                getSpot();
+                if(getSpot()){
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            viewBoardAdapter.notifyDataSetChanged();
+                        }
+                    });
+                }
             }
         }.start();
         Button refresh = (Button)view.findViewById(R.id.btnApply);
@@ -60,22 +68,14 @@ public class BoardFragment extends Fragment {
                 }
             }
         });
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                viewBoardAdapter.notifyDataSetChanged();
-            }
-        },2000);
 
         recyclerView.setHasFixedSize(true);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         recyclerView.setAdapter(viewBoardAdapter);
 
         return view;
     }
-    public void getSpot() {
+    public boolean getSpot() {
         ViewBoardAdapter viewBoardAdapter = new ViewBoardAdapter(getActivity().getApplicationContext(),boards);
         try {
             String url = sv + "viewBoard.jsp?pageNumber=1";
@@ -130,11 +130,12 @@ public class BoardFragment extends Fragment {
                 String appliT=jsonObject1.get("appliT").getAsString();
                 boards.add(new Board(boardID,temp,userID,nickName,destiny,arrival,themeID,routeID,boardDate,currentP,maxP,appliT));
             }
+            return true;
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return;
+        return false;
     }
     public String getRoute(int routeID){
         String rL="";

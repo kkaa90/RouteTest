@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
             System.out.println(msg);
             String nickName = jsonObject.get("nickName").getAsString();
             String gender = jsonObject.get("gender").getAsString();
-            //int age = jsonObject.get("age").getAsInt();
+            int age = jsonObject.get("age").getAsInt();
             System.out.println("nickName : "+nickName+", gender : "+gender);
         } catch (Exception e) {
             e.printStackTrace();
