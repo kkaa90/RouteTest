@@ -72,7 +72,6 @@ public class EditRouteFragment extends Fragment {
             public void onClick(View view) {
                 new Thread() {
                     public void run() {
-
                         departures.clear();
                         arrivals.clear();
                         arrivals.add(hour * 3600 + min * 60);
@@ -156,8 +155,8 @@ public class EditRouteFragment extends Fragment {
                 }
                 String spY = String.valueOf(spots.get(0).spotY);
                 for(int i=1;i<spots.size();i++){
-                    spX = spY + ",";
-                    spX = spY + String.valueOf(spots.get(i).spotY);
+                    spY = spY + ",";
+                    spY = spY + String.valueOf(spots.get(i).spotY);
                 }
                 String spA = String.valueOf(spots.get(0).spotAddress);
                 for(int i=1 ; i<spots.size();i++){

@@ -23,7 +23,10 @@ import okhttp3.Response;
 import static com.e.routetest.LoadingActivity.sv;
 
 public class LoginActivity extends AppCompatActivity {
-
+    public static String nN = "temp";
+    public static String gender = "성별";
+    public static int age =0;
+    public static String userId = "temp";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +39,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 new Thread(){
                     public void run(){
-                        String s = signIn(iEditText.getText().toString(),pEditText.getText().toString());
+                        userId=iEditText.getText().toString();
+                        String s = signIn(userId,pEditText.getText().toString());
                         if(s.equals("true")){
                             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);
@@ -80,10 +84,16 @@ public class LoginActivity extends AppCompatActivity {
             System.out.println(success);
             String msg = jsonObject.get("msg").getAsString();
             System.out.println(msg);
-            String nickName = jsonObject.get("nickName").getAsString();
-            String gender = jsonObject.get("gender").getAsString();
-            int age = jsonObject.get("age").getAsInt();
-            System.out.println("nickName : "+nickName+", gender : "+gender);
+            nN = jsonObject.get("nickName").getAsString();
+            if(jsonObject.get("gender").getAsString().equals("0")) {
+                gender = "남자";
+            }
+            else
+            {
+                gender = "여자";
+            }
+            age = jsonObject.get("age").getAsInt();
+            System.out.println("nickName : "+nN+", gender : "+gender+", age : "+age);
         } catch (Exception e) {
             e.printStackTrace();
         }

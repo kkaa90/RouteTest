@@ -6,12 +6,20 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
+    public static String token = "";
+    private static final String TAG = "MainActivity";
     private HomeFragment homeFragment = new HomeFragment();
     private RouteFragment routeFragment = new RouteFragment();
     private BoardFragment boardFragment = new BoardFragment();
@@ -49,6 +57,25 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+        FirebaseApp.initializeApp(this);
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if(!task.isSuccessful()){
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+                        token = task.getResult();
+
+                        String msg = getString(R.string.msg_token_fmt, token);
+                        Log.d(TAG, msg);
+                        Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
+                    }
+
+                });
 
     }
+
+
 }

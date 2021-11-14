@@ -8,7 +8,7 @@
     tools:context=".HomeFragment" >
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/testButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button"
@@ -22,7 +22,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2">
+        app:layout_constraintTop_toBottomOf="@+id/testButton">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/home_view"

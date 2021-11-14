@@ -2,6 +2,7 @@ package com.e.routetest;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,7 +11,12 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -25,11 +31,18 @@ import okhttp3.Response;
 
 import static com.e.routetest.LoadingActivity.allSpotList;
 import static com.e.routetest.LoadingActivity.sv;
+import static com.e.routetest.LoginActivity.age;
+import static com.e.routetest.LoginActivity.gender;
+import static com.e.routetest.LoginActivity.nN;
+import static com.e.routetest.LoginActivity.userId;
+import static com.e.routetest.MainActivity.token;
 
 
 public class HomeFragment extends Fragment {
-
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://route-f81c2-default-rtdb.asia-southeast1.firebasedatabase.app/");
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
     ArrayList<Board> boards = new ArrayList<Board>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_home, container, false);
@@ -54,6 +67,19 @@ public class HomeFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         recyclerView.setAdapter(viewBoardAdapter);
+        Button testButton = (Button)view.findViewById(R.id.testButton);
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                databaseReference.child("users").child(userId).child("nickName").setValue(nN);
+                databaseReference.child("users").child(userId).child("gender").setValue(gender);
+                databaseReference.child("users").child(userId).child("age").setValue(age);
+                databaseReference.child("users").child(userId).child("token").setValue(token);
+                System.out.println("nickName : "+nN+" gender : "+gender+" age : " +age );
+            }
+        });
+
+
         return view;
     }
     public void getSpot() {

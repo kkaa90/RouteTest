@@ -72,7 +72,6 @@ public class BoardFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         recyclerView.setAdapter(viewBoardAdapter);
-
         return view;
     }
     public boolean getSpot() {
@@ -80,7 +79,6 @@ public class BoardFragment extends Fragment {
         try {
             String url = sv + "viewBoard.jsp?pageNumber=1";
             System.out.println(url);
-
 
             OkHttpClient client = new OkHttpClient();
             Request.Builder builder = new Request.Builder().url(url).get();
