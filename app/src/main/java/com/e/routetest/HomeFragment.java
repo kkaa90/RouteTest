@@ -40,8 +40,7 @@ import static com.e.routetest.MainActivity.token;
 
 
 public class HomeFragment extends Fragment {
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://route-f81c2-default-rtdb.asia-southeast1.firebasedatabase.app/");
-    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+
     ArrayList<Board> boards = new ArrayList<Board>();
 
     @Override
@@ -82,11 +81,9 @@ public class HomeFragment extends Fragment {
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                databaseReference.child("users").child(userId).child("nickName").setValue(nN);
-                databaseReference.child("users").child(userId).child("gender").setValue(gender);
-                databaseReference.child("users").child(userId).child("age").setValue(age);
-                databaseReference.child("users").child(userId).child("token").setValue(token);
-                System.out.println("nickName : "+nN+" gender : "+gender+" age : " +age );
+                Intent intent = new Intent(getContext(),MyMenuActivity.class);
+                startActivity(intent);
+
             }
         });
 
