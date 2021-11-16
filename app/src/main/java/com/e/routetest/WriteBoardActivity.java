@@ -72,7 +72,7 @@ public class WriteBoardActivity extends AppCompatActivity {
             String success = jsonObject.get("success").getAsString();
             System.out.println(success);
 
-            if(success=="true"){ return true;}
+            if(success.equals("true")){ return true;}
             else {
                 //new AlertDialog.Builder(WriteBoardActivity.this).setMessage("작성 실패").show();
             }
