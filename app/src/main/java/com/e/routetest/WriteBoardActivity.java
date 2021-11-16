@@ -18,6 +18,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import static com.e.routetest.LoadingActivity.sv;
+import static com.e.routetest.LoginActivity.userId;
 
 public class WriteBoardActivity extends AppCompatActivity {
 
@@ -30,14 +31,19 @@ public class WriteBoardActivity extends AppCompatActivity {
         TextInputEditText rEdit = (TextInputEditText)findViewById(R.id.routeNumEdit);
         TextInputEditText cEdit = (TextInputEditText)findViewById(R.id.contentEdit);
         TextInputEditText lEdit = (TextInputEditText)findViewById(R.id.linkEdit);
-
+        wEdit.setText(userId);
         Button writeB = (Button)findViewById(R.id.participation);
         writeB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new Thread(){
                     public void run(){
-                        writeBoard(tEdit.getText().toString(),wEdit.getText().toString(),rEdit.getText().toString(),cEdit.getText().toString(),lEdit.getText().toString());
+                        if(writeBoard(tEdit.getText().toString(),wEdit.getText().toString(),rEdit.getText().toString(),cEdit.getText().toString(),lEdit.getText().toString())){
+                            finish();
+                        }
+                        else{
+
+                        }
                     }
                 }.start();
             }
@@ -47,7 +53,7 @@ public class WriteBoardActivity extends AppCompatActivity {
 
 
     }
-    private void writeBoard(String t, String w, String r, String c, String l){
+    private boolean writeBoard(String t, String w, String r, String c, String l){
         try {
             String url = sv + "writeBoard.jsp?routeID="+r+"&userID="+w
                     +"&maxP=4&appliT=2021-10-20&boardTitle="+t+"&boardContent="+c+"&kakaoLink="+l;
@@ -66,7 +72,7 @@ public class WriteBoardActivity extends AppCompatActivity {
             String success = jsonObject.get("success").getAsString();
             System.out.println(success);
 
-            if(success=="true"){ finish();}
+            if(success=="true"){ return true;}
             else {
                 //new AlertDialog.Builder(WriteBoardActivity.this).setMessage("작성 실패").show();
             }
@@ -75,7 +81,7 @@ public class WriteBoardActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return;
+        return false;
     }
 
 }
