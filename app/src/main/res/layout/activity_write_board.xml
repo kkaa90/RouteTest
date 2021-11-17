@@ -81,11 +81,13 @@
                     android:text="경로"
                     android:textSize="24sp" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/routeNumEdit"
+                <TextView
+                    android:id="@+id/routeNum"
                     android:layout_width="309dp"
                     android:layout_height="match_parent"
-                    android:hint="경로 작성" />
+                    android:hint="경로 작성"
+                    android:textSize="24sp"
+                    android:gravity="center_vertical"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="286dp"

@@ -14,9 +14,9 @@ import java.util.List;
 
 public class TestActivity extends AppCompatActivity {
 
+    private int i=0;
     private SpRepository spRepository;
     AppDatabase db = AppDatabase.getInstance(this);
-    private int i=0;
     public ArrayList<Spot> spots2=new ArrayList<Spot>();
     public ArrayList<Integer> departures2=new ArrayList<Integer>();
     public ArrayList<Integer> arrivals2=new ArrayList<Integer>();
