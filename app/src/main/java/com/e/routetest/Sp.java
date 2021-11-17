@@ -63,7 +63,7 @@ public class Sp {
     }
 
     @PrimaryKey(autoGenerate = true)
-    private int routeId;
+    private int routeId=0;
     private String spotsName;
     private String spotsId;
     private String spotsX;

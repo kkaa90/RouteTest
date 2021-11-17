@@ -15,7 +15,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import static com.e.routetest.LoginActivity.age;
+import static com.e.routetest.LoginActivity.gender;
+import static com.e.routetest.LoginActivity.nN;
+import static com.e.routetest.LoginActivity.userId;
 
 public class MainActivity extends AppCompatActivity {
     public static String token = "";
@@ -24,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private RouteFragment routeFragment = new RouteFragment();
     private BoardFragment boardFragment = new BoardFragment();
     private NotificationFragment notificationFragment = new NotificationFragment();
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://route-f81c2-default-rtdb.asia-southeast1.firebasedatabase.app/");
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,8 +78,14 @@ public class MainActivity extends AppCompatActivity {
                         token = task.getResult();
 
                         String msg = getString(R.string.msg_token_fmt, token);
+                        String msg2 = "환영합니다. "+nN+"님";
                         Log.d(TAG, msg);
-                        Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this,msg2,Toast.LENGTH_SHORT).show();
+                        databaseReference.child("users").child(userId).child("nickName").setValue(nN);
+                        databaseReference.child("users").child(userId).child("gender").setValue(gender);
+                        databaseReference.child("users").child(userId).child("age").setValue(age);
+                        databaseReference.child("users").child(userId).child("token").setValue(token);
+                        System.out.println("nickName : "+nN+" gender : "+gender+" age : " +age );
                     }
 
                 });
