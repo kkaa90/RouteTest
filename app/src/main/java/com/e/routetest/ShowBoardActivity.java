@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -51,6 +52,9 @@ public class ShowBoardActivity extends AppCompatActivity {
         TextView contentView1 = (TextView)findViewById(R.id.viewContent);
         TextView firstSpot1 = (TextView)findViewById(R.id.firstSpot);
         TextView finalSpot1 = (TextView)findViewById(R.id.finalSpot);
+        Button uButton = (Button)findViewById(R.id.updateButton);
+        Button dButton = (Button)findViewById(R.id.deleteButton);
+        Button jButton = (Button)findViewById(R.id.joinButton);
         new Thread(){
             public void run(){
                 if(getBoard(boardId)){
@@ -70,20 +74,28 @@ public class ShowBoardActivity extends AppCompatActivity {
                             userView1.setText(board.get(1));
                             dateView1.setText(board.get(2));
                             contentView1.setText(board.get(3));
+                            if(userId.equals(userView1.getText().toString())){
+                                jButton.setVisibility(View.INVISIBLE);
+                            }
+                            else {
+                                uButton.setVisibility(View.INVISIBLE);
+                                dButton.setVisibility(View.INVISIBLE);
+                            }
 
                         }
                     });
                 }
             }
         }.start();
-        Button uButton = (Button)findViewById(R.id.updateButton);
+
+
         uButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
         });
-        Button dButton = (Button)findViewById(R.id.deleteButton);
+
         dButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,7 +107,7 @@ public class ShowBoardActivity extends AppCompatActivity {
                 }.start();
             }
         });
-        Button jButton = (Button)findViewById(R.id.joinButton);
+
         jButton.setOnClickListener(new View.OnClickListener() {
 
 
@@ -104,6 +116,7 @@ public class ShowBoardActivity extends AppCompatActivity {
                 new Thread(){
                     public void run(){
                         if(joinAttempt(titleView1.getText().toString(),userView1.getText().toString())){
+                            System.out.println("신청완료");
                             AlertDialog.Builder builder = new AlertDialog.Builder(ShowBoardActivity.this);
                             builder.setTitle("신청완료");
                             builder.setMessage("신청이 완료되었습니다.");
@@ -113,8 +126,17 @@ public class ShowBoardActivity extends AppCompatActivity {
                                     finish();
                                 }
                             });
+                            Handler handler = new Handler(Looper.getMainLooper());
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    builder.create().show();
+                                }
+                            });
+
                         }
                         else {
+                            System.out.println("신청실패");
                             AlertDialog.Builder builder = new AlertDialog.Builder(ShowBoardActivity.this);
                             builder.setTitle("오류발생");
                             builder.setMessage("오류가 발생했습니다.");
@@ -124,11 +146,19 @@ public class ShowBoardActivity extends AppCompatActivity {
 
                                 }
                             });
+                            Handler handler = new Handler(Looper.getMainLooper());
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    builder.create().show();
+                                }
+                            });
                         }
                     }
                 }.start();
             }
         });
+
 
     }
     public boolean getBoard(int n){
@@ -252,6 +282,7 @@ public class ShowBoardActivity extends AppCompatActivity {
 
             String res = response.toString();
             System.out.println(res);
+
             return true;
         } catch (IOException e){
             System.out.println(e);
