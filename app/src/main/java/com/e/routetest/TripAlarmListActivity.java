@@ -1,13 +1,22 @@
 package com.e.routetest;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.TextView;
 
+import com.e.routetest.Workers.APIWorker;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -15,6 +24,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,16 +38,16 @@ public class TripAlarmListActivity extends AppCompatActivity {
     //기상청API Key
     private static final String API_KEY = "HEyK4no6dIj6pEs6Qw3Q%2FXnwiyH8MNJcMtcNplODjukvU1f8xdPMo7K2pVcATuJgx1%2BhD8aPCUofv617XqtqOw%3D%3D";
 
-    /*
-    //PlaceWeatherTimeBasedata로 통합
-    private static ArrayList<String> placeNames = new ArrayList<>();        // 장소 이름 리스트
-    private static ArrayList<String> placeAddresses = new ArrayList<>();    // 장소 주소 리스트
-    private static ArrayList<Double> placeMapXList = new ArrayList<>();     // 장소 x좌표 리스트
-    private static ArrayList<Double> placeMapYList = new ArrayList<>();     // 장소 y좌표 리스트
-    */
     private static ArrayList<PlaceWeatherTimeBasedata> placeWeatherTimeBasedataList = new ArrayList<>();    //기본 정보
-
     private static ArrayList<TripAlarm_rv_item_info> tripAlarmItems = new ArrayList<>(); //여행 알람 정보 리스트
+    private static ArrayList<Boolean> isVisitList = new ArrayList<>();  //여행지 도착확인용
+
+    private int total_index;    //전체 여행지 인덱스
+    private int now_index;  //지금까지 도착한 여행지 인덱스
+
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private TextView refreshTime;
+    private RecyclerView recyclerView;
 
     //미사용 목록
     private static ArrayList<String> ArrivalTimeList = new ArrayList<>();   // 도착시간 리스트
@@ -48,38 +58,70 @@ public class TripAlarmListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_alarm_list);
 
-        /*
-        //임시정보 넣기 시작(PlaceWeatherTimeBasedata로 통합
-        placeNames.clear(); placeAddresses.clear(); placeMapXList.clear(); placeMapYList.clear();
-        placeNames.add("동아대"); placeAddresses.add("사하구"); placeMapXList.add(35.11637001672873); placeMapYList.add(128.9682497981559);
-        placeNames.add("하단역"); placeAddresses.add("사하구"); placeMapXList.add(35.10630701217876); placeMapYList.add(128.96670639796537);
-        placeNames.add("구포시장"); placeAddresses.add("북구"); placeMapXList.add(35.20956456649422); placeMapYList.add(129.00355907077622);
-        //임시정보 넣기 끝
-         */
+        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.trip_alarm_activity_swipe_layout);   //***
+        refreshTime = (TextView)findViewById(R.id.trip_alarm_activity_refreshTime);
+        recyclerView = (RecyclerView)findViewById(R.id.weatherList);
+
+        TripAlarmListAdapter tripAlarmListAdapter = new TripAlarmListAdapter(getApplicationContext(),tripAlarmItems,isVisitList);
+
+        //여행지 목록 불러온뒤 인덱스 초기화
+        total_index = placeWeatherTimeBasedataList.size();
+        now_index = 0;
+
+
+        //임시데이터
         placeWeatherTimeBasedataList.clear();
         placeWeatherTimeBasedataList.add(new PlaceWeatherTimeBasedata("동아대","사하구",35.11637001672873,128.9682497981559,"없음"));
         placeWeatherTimeBasedataList.add(new PlaceWeatherTimeBasedata("하단역","사하구",35.10630701217876,128.96670639796537,"없음"));
         placeWeatherTimeBasedataList.add(new PlaceWeatherTimeBasedata("구포시장","북구",35.20956456649422,129.00355907077622,"없음"));
 
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.weatherList);
-        TripAlarmListAdapter tripAlarmListAdapter = new TripAlarmListAdapter(getApplicationContext(),tripAlarmItems);
+        //임시데이터 방문정보
+        isVisitList.clear();
+        for(int i=0;i<placeWeatherTimeBasedataList.size();i++){
+            isVisitList.add(false);
+        }
 
+        //새로고침
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //새로고침시 실행할 코드
+                new Thread() {
+                    public void run() {
+                        tripAlarmItems.clear();
+                        double nextLatitude, nextLongitude;    //경도, 위도
+                        for (int i = 0; i < placeWeatherTimeBasedataList.size(); i++) {
+                            if((i+1) < placeWeatherTimeBasedataList.size()) { //다음 행선지가 있는 경우
+                                nextLatitude = placeWeatherTimeBasedataList.get(i + 1).getLatitude();
+                                nextLongitude = placeWeatherTimeBasedataList.get(i+1).getLongitude();
+                            }else{  //마지막 행선지인 경우
+                                nextLatitude = 1000; nextLongitude = 1000;
+                            }
+                            TripAlarm_rv_item_info tripAlarm_rv_item_info = getItemInfo(
+                                    placeWeatherTimeBasedataList.get(i).getPlaceName(),
+                                    placeWeatherTimeBasedataList.get(i).getPlaceAddress(),
+                                    placeWeatherTimeBasedataList.get(i).getLatitude(),
+                                    placeWeatherTimeBasedataList.get(i).getLongitude(),
+                                    nextLatitude, nextLongitude);
+                            tripAlarmItems.add(tripAlarm_rv_item_info);
+                        }
+                    }
+                }.start();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        tripAlarmListAdapter.notifyDataSetChanged();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 1000);
+
+                //갱신일자 넣기
+                refreshTime.setText("갱신시간 : "+getNowTime());
+            }
+        });
+        /*
         new Thread() {
             public void run() {
-                /*
-                //PlaceWeatherTimeBasedata통합이전
-                weatherItems.clear();
-                double tmpMapX, tmpMapY;
-                for (int i = 0; i < placeNames.size(); i++) {
-                    if((i+1) < placeNames.size()) { //다음 행선지가 있는 경우
-                        tmpMapX = placeMapXList.get(i + 1); tmpMapY = placeMapYList.get(i+1);
-                    }else{  //마지막 행선지인 경우
-                        tmpMapX = 1000; tmpMapY = 1000;
-                    }
-                    Weather_rv_itemInfo weather_rv_itemInfo = getWeatherInfo(placeNames.get(i), placeAddresses.get(i), placeMapXList.get(i), placeMapYList.get(i), tmpMapX, tmpMapY);
-                    weatherItems.add(weather_rv_itemInfo);
-                 */
-                //통합이후
                 tripAlarmItems.clear();
                 double nextLatitude, nextLongitude;    //경도, 위도
                 for (int i = 0; i < placeWeatherTimeBasedataList.size(); i++) {
@@ -99,18 +141,39 @@ public class TripAlarmListActivity extends AppCompatActivity {
                 }
             }
         }.start();
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 tripAlarmListAdapter.notifyDataSetChanged();
             }
-        }, 3000);
+        }, 1000);
+        */
+        //============================== Worker작동 시작 ==============================
+        String encoding_data = convert_placeInfo(placeWeatherTimeBasedataList);
+        Log.d("APIWORKER_INPUTDATA",encoding_data);
+        //Data객체를 생성해서 worker에 전달할 값 생성
+        Data APIWorker_inputData = new Data.Builder().putString("APIWORKER_INPUTDATA",encoding_data).build();
+        //WorkRequest를 통해서 작업요청 생성
+        WorkRequest APIWorker_request = new OneTimeWorkRequest.Builder(APIWorker.class).setInputData(APIWorker_inputData).build();
+        //WorkManger를 통해서 작업요청을 큐에 올리기
+        WorkManager.getInstance(getApplicationContext()).enqueue(APIWorker_request);
+
+        //반환값 가져오기
+        //============================== Worker작동 종료 ==============================
+
+
+        //갱신일자 넣기
+        refreshTime.setText("갱신시간 : "+getNowTime());
+
+        Log.d("ITEMSIZE",""+tripAlarmListAdapter.getItemCount());
+
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(tripAlarmListAdapter);
     }
-
+    //======================================== 내부용 함수 시작 ========================================
     //API에서 정보를 받아오는 메서드
     @NotNull
     private TripAlarm_rv_item_info getItemInfo(String placeName, String address, double placeLatitude, double placeLongitude, double nextLatitude, double nextLongitude){
@@ -302,7 +365,90 @@ public class TripAlarmListActivity extends AppCompatActivity {
 
         return tempItem;
     }
-    //======================================== 내부용 함수 시작 ========================================
+
+    //APIWorker결과를 ArrayList<TripAlarm_rv_item_info>로 변환시키는 매서드
+    private ArrayList<TripAlarm_rv_item_info> convert_result(String data){
+        String[] split_data = data.split(",",2);
+        String arraySize = split_data[0];
+        int arraySize_i = Integer.parseInt(arraySize);
+        String sourcedata = split_data[1];
+
+        ArrayList<TripAlarm_rv_item_info> result = new ArrayList<>();
+        String[] items = sourcedata.split(",");
+
+        //TripAlarm_rv_item_info에 필요한 변수들
+        String placeName = "";
+        String placeAddress = "";
+        String placeTmp = "";
+        String placeHum = "";
+        String placeRainfallProb = "";
+        String placeRainSnowInfo = "";
+        int placeWeatherIconType = 1;
+        String spendTime_text = "";
+
+        result.clear();
+        for(int i=0;i<items.length;i++){
+            int index = i%8;
+            switch(index){    //장소별 정보가 8개씩
+                case 0: placeName = items[index]; break;
+                case 1: placeAddress = items[index]; break;
+                case 2: placeTmp = items[index]; break;
+                case 3: placeHum = items[index]; break;
+                case 4: placeRainfallProb = items[index]; break;
+                case 5: placeRainSnowInfo = items[index]; break;
+                case 6: placeWeatherIconType = Integer.parseInt(items[index]); break;
+                case 7:
+                    spendTime_text = items[index];
+                    result.add(new TripAlarm_rv_item_info(placeName, placeAddress, placeTmp, placeHum, placeRainfallProb, placeRainSnowInfo, placeWeatherIconType, spendTime_text));
+            }
+        }
+
+        return result;
+    }
+
+    //경로 정보를 문자열로 바꿔주는 메서드(배열size, 장소이름, 주소, yyyyMMdd, HHmm, xpos, ypos, 현재경도, 현재위도, 다음경도, 다음위도,....")
+    private String convert_placeInfo(ArrayList<PlaceWeatherTimeBasedata> basedata){
+        //시간 관련 변수
+        long mNow = System.currentTimeMillis();
+        Date mReDate = new Date(mNow);
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
+        SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
+        SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH");
+        SimpleDateFormat minuteFormat = new SimpleDateFormat("mm");
+        String year_ = yearFormat.format(mReDate);
+        String month_ = monthFormat.format(mReDate);
+        String day_ = dayFormat.format(mReDate);
+        String hour_ = hourFormat.format(mReDate);
+        String minute_ = minuteFormat.format(mReDate);
+
+        String arraySize = Integer.toString(basedata.size());
+        String basedate = getBaseDate(year_, month_, day_, hour_, minute_);
+        String basetime = getBaseTime(hour_,minute_);
+        String bLatitude = null;
+        String bLongitude = null;
+
+        String result = arraySize;
+        for(int i=0;i<basedata.size();i++){
+            if((i+1)>=basedata.size()){
+                bLatitude = "null"; bLongitude = "null";
+            }
+            else{
+                bLatitude = Double.toString(basedata.get(i+1).getLatitude());
+                bLongitude = Double.toString(basedata.get(i+1).getLongitude());
+            }
+            result = result + "," + basedata.get(i).getPlaceName() + "," + basedata.get(i).getPlaceAddress()
+                    + "," + basedate  + "," + basetime
+                    + "," + conv_xpos(basedata.get(i).getPlaceAddress())
+                    + "," + conv_ypos(basedata.get(i).getPlaceAddress())
+                    + "," + basedata.get(i).getLatitude()
+                    + "," + basedata.get(i).getLongitude()
+                    + "," + bLatitude + "," + bLongitude;
+
+        }
+        return result;
+    }
+
     //주소 -> 자체 격자 좌표 변환
     private String conv_xpos(String address){
         switch(address){
@@ -365,9 +511,8 @@ public class TripAlarmListActivity extends AppCompatActivity {
         int minute = Integer.parseInt(minute_);
 
         String tempY,tempM,tempD;
-
         //00:00~2:09 -> day-1
-        if(hour>=0&&(hour<=2&&minute<=9)){
+        if(hour==0||hour==1||(hour==2&&minute<=9)){
             day = day-1;
         }
         if(day<=0){
@@ -448,4 +593,27 @@ public class TripAlarmListActivity extends AppCompatActivity {
         }
         return -1;
     }
+
+    //현재시간(YYYY.MM.DD hh:mm) 반환하는 매서드
+    private String getNowTime(){
+        //시간 관련 변수
+        long mNow = System.currentTimeMillis();
+        Date mReDate = new Date(mNow);
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
+        SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
+        SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH");
+        SimpleDateFormat minuteFormat = new SimpleDateFormat("mm");
+        String year_ = yearFormat.format(mReDate);
+        String month_ = monthFormat.format(mReDate);
+        String day_ = dayFormat.format(mReDate);
+        String hour_ = hourFormat.format(mReDate);
+        String minute_ = minuteFormat.format(mReDate);
+
+        String timedata = ""+year_+"."+month_+"."+day_+" "+hour_+":"+minute_;
+        //Log.d("NOW",timedata);
+
+        return timedata;
+    }
+    //======================================== 내부용 함수 종료 ========================================
 }

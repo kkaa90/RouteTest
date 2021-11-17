@@ -124,13 +124,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="정보2 : "/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="5dp">
+            <Button
+                android:id="@+id/trip_alarm_rv_item_visitButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="A"/>
+
             <Button
                 android:id="@+id/trip_alarm_rv_item_changeButton"
                 android:layout_width="40dp"
-                android:layout_height="30dp"
-                android:layout_gravity="bottom|end"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginVertical="5dp"/>
+                android:layout_height="40dp"
+                android:text="C"/>
+
+            <Button
+                android:id="@+id/trip_alarm_rv_item_testButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="T"/>
         </LinearLayout>
     </LinearLayout>
 
