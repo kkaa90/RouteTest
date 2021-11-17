@@ -12,7 +12,7 @@ import java.util.List;
 public interface SpRepository {
 
     @Query("SELECT * FROM sp")
-    LiveData<Sp> findAll();
+    List<Sp> findAll();
 
     @Query("SELECT * FROM sp where routeid=:routeId")
     Sp findById(int routeId);

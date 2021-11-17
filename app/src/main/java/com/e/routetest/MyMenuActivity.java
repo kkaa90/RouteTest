@@ -44,35 +44,42 @@ public class MyMenuActivity extends AppCompatActivity {
                 finish();
             }
         });
-        Button test = (Button)findViewById(R.id.test);
-        test.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                databaseReference.child("users").child(userId).child("nickName").setValue(nN);
-                databaseReference.child("users").child(userId).child("gender").setValue(gender);
-                databaseReference.child("users").child(userId).child("age").setValue(age);
-                databaseReference.child("users").child(userId).child("token").setValue(token);
-                System.out.println("nickName : "+nN+" gender : "+gender+" age : " +age );
-            }
-        });
-        Button test2 = (Button)findViewById(R.id.test2);
-        test2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new Thread(){
-                    public void run(){
-                        testF();
-                    }
-                }.start();
-            }
-        });
+
         TextView iTextView = (TextView)findViewById(R.id.idView);
         iTextView.setText(userId);
         TextView nTextView = (TextView)findViewById(R.id.nNView);
         nTextView.setText(nN);
+        TextView mTextView1 = (TextView)findViewById(R.id.myProfileEdit);
+        TextView mTextView2 = (TextView)findViewById(R.id.myRouteEdit);
+        TextView mTextView3 = (TextView)findViewById(R.id.meToOtherJoin);
+        TextView mTextView4 = (TextView)findViewById(R.id.otherToMeJoin);
+        mTextView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        mTextView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        mTextView3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        mTextView4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
     }
-    public void testF(){
+    /*public void testF(){
         String FCM_MESSAGE_URL = "https://fcm.googleapis.com/fcm/send";
         String st = "AAAALpTg_A4:APA91bE_gvdBf4BT6Hm4r2oeGaJgdrbeLt_-j8tSiXrsh8kfH6ooigsCbaKqOo6GxrR0be6VyYsAS3vyzY5YSwgVcdj3RZEjwP5fKryDFbAMxdtXp_vazwHYlSzBuAYNALGuuqKsyJsX";
         String tt = "ftpt0KtYRM6y8hNvUzmHDl:APA91bGRrOGYkW0KwsuvwDOcAPbjQQV8x5sv1wBLqbNiK1A3a__9wIujAqCG-oHDkx6ah9yzH-y5OrmfHkPRlj9wxfg3cBc-SWdPBght5ah9BpPecpvH9LAhCvWH7XkOKSIeXn7dfXnn";
@@ -103,5 +110,5 @@ public class MyMenuActivity extends AppCompatActivity {
             System.out.println(e);
         }
         return;
-    }
+    }*/
 }

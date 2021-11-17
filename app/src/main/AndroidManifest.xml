@@ -16,7 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RouteTest"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MyMenuActivity"></activity>
+        <activity
+            android:name=".TestActivity2"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity android:name=".MyMenuActivity" />
         <activity android:name=".TripAlarmListActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".TestActivity" />

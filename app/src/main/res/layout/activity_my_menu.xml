@@ -6,15 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MyMenuActivity">
 
-    <Button
-        android:id="@+id/test2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="테스트"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/test" />
 
     <Button
         android:id="@+id/backButton"
@@ -25,16 +16,6 @@
         android:text="뒤로가기"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="테스트"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backButton" />
 
     <TextView
         android:id="@+id/idView"
@@ -55,4 +36,59 @@
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/idView" />
+
+    <TextView
+        android:id="@+id/myProfileEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+        android:text="개인정보 수정"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nNView"
+        android:background="@drawable/border_layout"/>
+
+    <TextView
+        android:id="@+id/myRouteEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="작성한 경로 확인"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/myProfileEdit"
+        app:layout_constraintStart_toStartOf="@+id/myProfileEdit"
+        app:layout_constraintTop_toBottomOf="@+id/myProfileEdit"
+        android:background="@drawable/border_layout"/>
+
+    <TextView
+        android:id="@+id/meToOtherJoin"
+        android:layout_width="371dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="내가 보낸 동행신청 내역"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/myRouteEdit"
+        app:layout_constraintStart_toStartOf="@+id/myRouteEdit"
+        app:layout_constraintTop_toBottomOf="@+id/myRouteEdit"
+        android:background="@drawable/border_layout"/>
+
+    <TextView
+        android:id="@+id/otherToMeJoin"
+        android:layout_width="371dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="나에게 온 동행신청 내역"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/meToOtherJoin"
+        app:layout_constraintStart_toStartOf="@+id/meToOtherJoin"
+        app:layout_constraintTop_toBottomOf="@+id/meToOtherJoin"
+        android:background="@drawable/border_layout"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

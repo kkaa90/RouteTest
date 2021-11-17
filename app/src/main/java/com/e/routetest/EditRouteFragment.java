@@ -163,11 +163,11 @@ public class EditRouteFragment extends Fragment {
                     spA = spA + ",";
                     spA = spA + String.valueOf(spots.get(i).spotAddress);
                 }
-                new Thread(){
-                    public void run(){
-                        writeRoute(routes.get(0));
-                    }
-                }.start();
+//                new Thread(){
+//                    public void run(){
+//                        writeRoute(routes.get(0));
+//                    }
+//                }.start();
                 new InsertAsyncTask(db.spRepository()).execute(new Sp(spName,spotList,spX,spY,spA));
 
             }
