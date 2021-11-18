@@ -10,24 +10,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.e.routetest.MapsFragment.mMap;
-import static com.e.routetest.RouteActivity.arrivals;
-import static com.e.routetest.RouteActivity.departures;
-import static com.e.routetest.RouteActivity.spots;
-
-public class ViewRouteAdapter extends RecyclerView.Adapter<ViewRouteAdapter.Holder> {
+public class RouteAdapter2 extends RecyclerView.Adapter<RouteAdapter2.Holder> {
     private Context context;
     private List<Spot> list =new ArrayList<>();
     private List<Integer> depList = new ArrayList<>();
     private List<Integer> arrList = new ArrayList<>();
 
-    public ViewRouteAdapter(Context context,List<Spot> list, List<Integer> depList, List<Integer> arrList){
+    public RouteAdapter2(Context context, List<Spot> list, List<Integer> depList, List<Integer> arrList){
         this.context=context;
         this.list=list;
         this.depList=depList;
@@ -79,20 +71,7 @@ public class ViewRouteAdapter extends RecyclerView.Adapter<ViewRouteAdapter.Hold
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int pos = getAdapterPosition();
-                    if(pos!= RecyclerView.NO_POSITION){
-                        spots.remove(pos);
-                        arrivals.remove(pos);
-                        departures.remove(pos);
-                        mMap.clear();
-                        for(int i=0; i<spots.size();i++) {
-                            MarkerOptions markerOptions = new MarkerOptions();
-                            Spot spotNow = spots.get(i);
-                            markerOptions.position(new LatLng(spotNow.getSpotX(), spotNow.getSpotY())).title(i + 1 + " : " + spotNow.spotName);
-                            mMap.addMarker(markerOptions);
-                        }
-                        notifyDataSetChanged();
-                    }
+
                 }
             });
 

@@ -22,7 +22,7 @@ public class TestActivity extends AppCompatActivity {
     public ArrayList<Integer> arrivals2=new ArrayList<Integer>();
     private int num=0;
     RecyclerView recyclerView;
-    ViewRouteAdapter2 viewRouteAdapter;
+    RouteAdapter2 viewRouteAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +52,7 @@ public class TestActivity extends AppCompatActivity {
             }
         });
         recyclerView = (RecyclerView)findViewById(R.id.testRV);
-        viewRouteAdapter = new ViewRouteAdapter2(getApplicationContext(),spots2,departures2,arrivals2);
+        viewRouteAdapter = new RouteAdapter2(getApplicationContext(),spots2,departures2,arrivals2);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(viewRouteAdapter);

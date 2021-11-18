@@ -14,15 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.e.routetest.RouteActivity.arrivals;
-import static com.e.routetest.RouteActivity.departures;
-import static com.e.routetest.RouteActivity.spots;
-
-public class ViewBoardAdapter extends RecyclerView.Adapter<ViewBoardAdapter.Holder>{
+public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.Holder>{
     private Context context;
     private List<Board> boardList = new ArrayList<>();
 
-    public ViewBoardAdapter(Context context, List<Board> boardList) {
+    public BoardAdapter(Context context, List<Board> boardList) {
         this.context = context;
         this.boardList = boardList;
     }

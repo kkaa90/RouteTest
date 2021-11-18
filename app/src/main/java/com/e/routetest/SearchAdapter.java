@@ -13,7 +13,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -25,26 +24,26 @@ import static com.e.routetest.RouteActivity.arrivals;
 import static com.e.routetest.RouteActivity.departures;
 import static com.e.routetest.RouteActivity.spots;
 
-public class ViewSpotAdapter extends RecyclerView.Adapter<ViewSpotAdapter.Holder> implements Filterable {
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> implements Filterable {
     private Context context;
     private List<Spot> allSpotList=new ArrayList<>();
     private List<Spot> filteredList = new ArrayList<>();
 
-    public ViewSpotAdapter(Context context, List<Spot> allSpotList){
+    public SearchAdapter(Context context, List<Spot> allSpotList){
         this.context=context;
         this.allSpotList=allSpotList;
         this.filteredList=filteredList;
     }
     @NonNull
     @Override
-    public ViewSpotAdapter.Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SearchAdapter.Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.spot_rv_item,parent,false);
         Holder holder = new Holder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewSpotAdapter.Holder holder, int position) {
+    public void onBindViewHolder(@NonNull SearchAdapter.Holder holder, int position) {
         int itemPosition = position;
         holder.imageView2.setImageResource(R.drawable.photo1);
         holder.textSpotName.setText(filteredList.get(itemPosition).spotName);

@@ -64,7 +64,7 @@ public class EditRouteFragment extends Fragment {
         Button showButton = (Button) view.findViewById(R.id.showTimeButton);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.viewRoute);
         recyclerView.setHasFixedSize(true);
-        ViewRouteAdapter viewRouteAdapter = new ViewRouteAdapter(getActivity(), spots, departures, arrivals);
+        EditRouteAdapter editRouteAdapter = new EditRouteAdapter(getActivity(), spots, departures, arrivals);
         EditText editText = (EditText) view.findViewById(R.id.editTextTime);
         AppDatabase db = AppDatabase.getInstance(getContext());
         timeButton.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +88,7 @@ public class EditRouteFragment extends Fragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        viewRouteAdapter.notifyDataSetChanged();
+                        editRouteAdapter.notifyDataSetChanged();
                     }
                 }, 2000);
             }
@@ -101,7 +101,7 @@ public class EditRouteFragment extends Fragment {
                     System.out.println("departure : " + departures.get(i) / 3600 + ":" + (departures.get(i) % 3600) / 60);
 
                 }
-                viewRouteAdapter.notifyDataSetChanged();
+                editRouteAdapter.notifyDataSetChanged();
                 for (int i = 0; i < spots.size(); i++) {
                     Spot now = spots.get(i);
                     System.out.println(now.spotID + "," + now.spotName + "," + String.valueOf(now.spotX) + "," + String.valueOf(now.spotY) + "," + now.spotAddress);
@@ -197,7 +197,7 @@ public class EditRouteFragment extends Fragment {
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(viewRouteAdapter);
+        recyclerView.setAdapter(editRouteAdapter);
         return view;
     }
 

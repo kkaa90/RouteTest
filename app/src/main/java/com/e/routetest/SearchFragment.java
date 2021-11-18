@@ -16,21 +16,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import java.util.ArrayList;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
 import static com.e.routetest.LoadingActivity.allSpotList;
 import static com.e.routetest.LoadingActivity.allSpotName;
-import static com.e.routetest.LoadingActivity.sv;
 
 public class SearchFragment extends Fragment {
 
@@ -61,9 +48,9 @@ public class SearchFragment extends Fragment {
         RecyclerView recyclerView2 = view.findViewById(R.id.viewAllSpot);
         AutoCompleteTextView searchText = (AutoCompleteTextView)view.findViewById(R.id.editTextSearch);
         recyclerView2.setHasFixedSize(true);
-        ViewSpotAdapter viewSpotAdapter = new ViewSpotAdapter(getActivity(), allSpotList);
+        SearchAdapter searchAdapter = new SearchAdapter(getActivity(), allSpotList);
         recyclerView2.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView2.setAdapter(viewSpotAdapter);
+        recyclerView2.setAdapter(searchAdapter);
         Button button = (Button) view.findViewById(R.id.buttonSearch);
 
         ArrayAdapter<String> autoAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, allSpotName);
@@ -72,7 +59,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
-                viewSpotAdapter.getFilter().filter(searchText.getText());
+                searchAdapter.getFilter().filter(searchText.getText());
             }
 
         });
@@ -84,7 +71,7 @@ public class SearchFragment extends Fragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                viewSpotAdapter.getFilter().filter(searchText.getText());
+                searchAdapter.getFilter().filter(searchText.getText());
             }
         }, 2000);
         return view;

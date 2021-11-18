@@ -35,12 +35,12 @@ public class RecommendActivity extends AppCompatActivity {
         RecyclerView viewRecommend = findViewById(R.id.viewRecommend);
         viewChange.setHasFixedSize(true);
         viewRecommend.setHasFixedSize(true);
-        ViewRecommendAdapter viewSpotAdapter = new ViewRecommendAdapter(getApplicationContext(),wSpot);
-        ViewRecommendAdapter viewRecommendAdapter = new ViewRecommendAdapter(getApplicationContext(),rSpot);
+        RecommendAdapter viewSpotAdapter = new RecommendAdapter(getApplicationContext(),wSpot);
+        RecommendAdapter recommendAdapter = new RecommendAdapter(getApplicationContext(),rSpot);
         viewChange.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         viewRecommend.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         viewChange.setAdapter(viewSpotAdapter);
-        viewRecommend.setAdapter(viewRecommendAdapter);
+        viewRecommend.setAdapter(recommendAdapter);
         new Thread(){
             public void run(){
                 getSpot(wSpot.get(0));
@@ -50,7 +50,7 @@ public class RecommendActivity extends AppCompatActivity {
             @Override
             public void run() {
                 viewSpotAdapter.notifyDataSetChanged();
-                viewRecommendAdapter.notifyDataSetChanged();
+                recommendAdapter.notifyDataSetChanged();
             }
         }, 1000);
 
