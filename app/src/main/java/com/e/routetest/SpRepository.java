@@ -14,7 +14,7 @@ public interface SpRepository {
     @Query("SELECT * FROM sp")
     List<Sp> findAll();
 
-    @Query("SELECT * FROM sp where routeid=:routeId")
+    @Query("SELECT * FROM sp where routeid= (:routeId)")
     Sp findById(int routeId);
 
     @Insert

@@ -54,12 +54,39 @@ public class Sp {
         this.spotsId = spotsId;
     }
 
-    public Sp(String spotsName, String spotsId, String spotsX, String spotsY, String spotsAddress) {
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getArrTime() {
+        return arrTime;
+    }
+
+    public void setArrTime(String arrTime) {
+        this.arrTime = arrTime;
+    }
+
+    public String getDesTime() {
+        return desTime;
+    }
+
+    public void setDesTime(String desTime) {
+        this.desTime = desTime;
+    }
+
+    public Sp(String spotsName, String spotsId, String spotsX, String spotsY, String spotsAddress, String date, String arrTime, String desTime) {
         this.spotsName = spotsName;
         this.spotsId = spotsId;
         this.spotsX = spotsX;
         this.spotsY = spotsY;
         this.spotsAddress = spotsAddress;
+        this.date = date;
+        this.arrTime = arrTime;
+        this.desTime = desTime;
     }
 
     @PrimaryKey(autoGenerate = true)
@@ -69,4 +96,7 @@ public class Sp {
     private String spotsX;
     private String spotsY;
     private String spotsAddress;
+    private String date;
+    private String arrTime;
+    private String desTime;
 }

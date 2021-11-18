@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {Sp.class}, version = 2)
+@Database(entities = {Sp.class}, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase INSTANCE = null;
     public abstract SpRepository spRepository();
@@ -14,7 +14,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public static AppDatabase getInstance(Context context){
         if(INSTANCE==null){
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                    AppDatabase.class,"sp.db").build();
+                    AppDatabase.class,"sp.db").fallbackToDestructiveMigration().build();
         }
         return INSTANCE;
     }

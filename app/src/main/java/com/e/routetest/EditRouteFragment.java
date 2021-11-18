@@ -168,7 +168,7 @@ public class EditRouteFragment extends Fragment {
 //                        writeRoute(routes.get(0));
 //                    }
 //                }.start();
-                new InsertAsyncTask(db.spRepository()).execute(new Sp(spName,spotList,spX,spY,spA));
+                new InsertAsyncTask(db.spRepository()).execute(new Sp(spName,spotList,spX,spY,spA,"-1",depList,arrList));
 
             }
 
