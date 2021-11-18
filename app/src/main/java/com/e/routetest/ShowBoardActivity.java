@@ -19,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -115,7 +116,7 @@ public class ShowBoardActivity extends AppCompatActivity {
             public void onClick(View view) {
                 new Thread(){
                     public void run(){
-                        if(joinAttempt(titleView1.getText().toString(),userView1.getText().toString())){
+                        if(joinAttempt(titleView1.getText().toString(),userView1.getText().toString(),boardId)){
                             System.out.println("신청완료");
                             AlertDialog.Builder builder = new AlertDialog.Builder(ShowBoardActivity.this);
                             builder.setTitle("신청완료");
@@ -234,7 +235,7 @@ public class ShowBoardActivity extends AppCompatActivity {
 
         return false;
     }
-    public boolean joinAttempt(String title, String writer){
+    public boolean joinAttempt(String title, String writer,int n){
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://route-f81c2-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference databaseReference = firebaseDatabase.getReference();
         String FCM_MESSAGE_URL = "https://fcm.googleapis.com/fcm/send";
@@ -257,6 +258,9 @@ public class ShowBoardActivity extends AppCompatActivity {
             System.out.println("토큰 수신중");
         }
         System.out.println(tt[0]);
+        if(!joinRequest(n)){
+            return false;
+        }
 
 
         JsonObject jsonObject = new JsonObject();
@@ -288,6 +292,35 @@ public class ShowBoardActivity extends AppCompatActivity {
             System.out.println(e);
         }
         return false;
+    }
+    public boolean joinRequest(int j) {
+
+        boolean status = false;
+        try {
+            String url = sv + "joinReqest.jsp?boardID="+j+"&userID="+userId;
+            System.out.println(url);
+
+
+            OkHttpClient client = new OkHttpClient();
+            Request.Builder builder = new Request.Builder().url(url).get();
+            Request request = builder.build();
+
+            Response response = client.newCall(request).execute();
+            Gson gson = new Gson();
+            JsonParser jsonParser = new JsonParser();
+            JsonElement jsonElement = jsonParser.parse(response.body().string());
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            String success = jsonObject.get("success").getAsString();
+            System.out.println(success);
+            String msg = jsonObject.get("msg").getAsString();
+            System.out.println(msg);
+            if(success.equals("true")) {
+                status = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
     }
 
 }

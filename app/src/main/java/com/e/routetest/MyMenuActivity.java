@@ -2,6 +2,7 @@ package com.e.routetest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -56,25 +57,29 @@ public class MyMenuActivity extends AppCompatActivity {
         mTextView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getApplicationContext(),PfEditActivity.class);
+                startActivity(intent);
             }
         });
         mTextView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getApplicationContext(),TestActivity.class);
+                startActivity(intent);
             }
         });
         mTextView3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getApplicationContext(),M2OActivity.class);
+                startActivity(intent);
             }
         });
         mTextView4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getApplicationContext(),O2MActivity.class);
+                startActivity(intent);
             }
         });
 

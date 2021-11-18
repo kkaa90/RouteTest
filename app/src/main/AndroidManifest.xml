@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RouteTest"
         android:usesCleartextTraffic="true">
+        <activity android:name=".O2MActivity"></activity>
+        <activity android:name=".M2OActivity" />
+        <activity android:name=".PfEditActivity" />
         <activity
             android:name=".TestActivity2"
             android:theme="@android:style/Theme.Dialog" />
