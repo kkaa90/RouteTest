@@ -2,14 +2,15 @@ package com.e.routetest;
 
 public class TripAlarm_rv_item_info {
     //날씨정보용 변수
-    private String placeName;
-    private String address;
-    private String placeTmp;
-    private String placeHum;
-    private String placeRainfallProb;
-    private String placeRainfallInfo;
-    private String placeSnowInfo;
-    private int placeWeatherIconType;
+    private String placeName;   //여행지이름
+    private String address;     //주소
+    private String placeTmp;    //온도
+    private String placeHum;    //습도
+    private String placeRainfallProb;   //강수확률
+    private String placeRainfallInfo;   //강수량
+    private String placeSnowInfo;       //적설량
+    private int placeWeatherIconType;   //날씨아이콘 표시용
+    //private boolean isVisit;    //도착했는지확인용
 
     //여행시간 관련 정보 변수
     private String ArrivalTime;
@@ -17,7 +18,15 @@ public class TripAlarm_rv_item_info {
     private String spendingTime_text; //소요시간 분단위 텍스트
 
     //생성자
-    public TripAlarm_rv_item_info(String placeName, String address, String placeTmp,String placeHum,String placeRainfallProb, String placeRainfallInfo, int placeWeatherIconType, String spendingTime_text){
+    public TripAlarm_rv_item_info(
+            String placeName,
+            String address,
+            String placeTmp,
+            String placeHum,
+            String placeRainfallProb,
+            String placeRainfallInfo,
+            int placeWeatherIconType,
+            String spendingTime_text){
         this.placeName = placeName;
         this.address = address;
         this.placeTmp = placeTmp;
@@ -26,6 +35,7 @@ public class TripAlarm_rv_item_info {
         this.placeRainfallInfo = placeRainfallInfo;
         this.placeWeatherIconType = placeWeatherIconType;
         this.spendingTime_text = spendingTime_text;
+        //this.isVisit = false;
     }
 
     //======================================== getter, setter 시작 ========================================
@@ -58,5 +68,8 @@ public class TripAlarm_rv_item_info {
 
     public String getSpendingTime_text(){return spendingTime_text;}
     public void setSpendingTime_text(String spendingTime_text){this.spendingTime_text = spendingTime_text;}
+
+    //public boolean getIsVisit(){return isVisit;}
+    //public void setIsVisit(boolean isVisit){this.isVisit = isVisit;}
     //======================================== getter, setter 끝 ========================================
 }

@@ -3,6 +3,8 @@ package com.e.routetest;
 import android.animation.ValueAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,15 +21,18 @@ import java.util.ArrayList;
 
 public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdapter.Holder>{
     private Context context;
-    private ArrayList<TripAlarm_rv_item_info> tripAlarmDataList;
+    private ArrayList<TripAlarm_rv_item_info> tripAlarmDataList;    //여행경로 데이터
+    private ArrayList<Boolean> isVisitList; //여행지 방문 정보
     //item의 클릭 상태를 저장할 array 객체
     private SparseBooleanArray selectedItems = new SparseBooleanArray();
     //직전에 클릭됐던 item의 position
     private int prePosition = -1;
 
-    public TripAlarmListAdapter(Context context, ArrayList<TripAlarm_rv_item_info> tripAlarmDataList){
+    public TripAlarmListAdapter(Context context, ArrayList<TripAlarm_rv_item_info> tripAlarmDataList, ArrayList<Boolean> isVisitList){
         this.context = context;
         this.tripAlarmDataList = tripAlarmDataList;
+        //***
+        this.isVisitList = isVisitList;
     }
 
     @NonNull
@@ -59,6 +64,9 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
 
         public TextView placeSpendTime;
 
+        public Button visitButton;
+        public Button testButton;
+
         public Button changeButton;
         public LinearLayout item_detail;
         public LinearLayout item_info;
@@ -66,6 +74,7 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
         private TripAlarm_rv_item_info tripAlarm_rv_item_info;
         private int position;
 
+        //Holder 생성자
         public Holder(@NonNull View view) {
             super(view);
             weatherIcon = (ImageView)view.findViewById(R.id.trip_alarm_rv_item_weatherIcon);
@@ -77,11 +86,14 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
 
             placeSpendTime = (TextView)view.findViewById(R.id.trip_alarm_rv_item_spendTime);
 
+            visitButton = (Button)view.findViewById(R.id.trip_alarm_rv_item_visitButton);
+            testButton = (Button)view.findViewById(R.id.trip_alarm_rv_item_testButton);
+
             item_detail = (LinearLayout)view.findViewById(R.id.trip_alarm_rv_item_detail);
             item_info = (LinearLayout)view.findViewById(R.id.trip_alarm_rv_item_infoList);
             changeButton = (Button)view.findViewById(R.id.trip_alarm_rv_item_changeButton);
         }
-        //위의 부분에서 holder.을 삭제
+
         //onBindViewHolder에서 bind시켜주는 함수
         void onBind(TripAlarm_rv_item_info tripAlarm_rv_item_info, int position){
             this.tripAlarm_rv_item_info = tripAlarm_rv_item_info;
@@ -113,6 +125,8 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
 
             item_info.setOnClickListener(this);
             changeButton.setOnClickListener(this);
+            visitButton.setOnClickListener(this);
+            testButton.setOnClickListener(this);
         }
         @Override
         public void onClick(View v) {
@@ -142,9 +156,22 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
                     builder.setNegativeButton("아니오",null);
                     AlertDialog dialog = builder.create();
                     dialog.show();
+                    break;
+
+                case R.id.trip_alarm_rv_item_visitButton:
+                    isVisitList.set(position,true);
+                    //item_detail.setBackgroundColor(Color.RED);
+                    Log.d("VISITBUTTONACTIVE","OK");
+                    Log.d("ISVISITLISTSIZE",""+isVisitList.size());
+                    break;
+
+                case R.id.trip_alarm_rv_item_testButton:
+                    Log.d("ISVISIT?",isVisitList.get(position)?"T":"F");
+                    break;
             }
         }
 
+        //view 확장을 위한 메소드
         private void changeVisibility(final boolean isExpanded){
             //height 값을 dp로 지정해서 넣고싶으면 아래 소스를 이용
             int dpValue = 130;
