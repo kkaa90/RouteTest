@@ -175,7 +175,6 @@ public class WriteBoardActivity extends AppCompatActivity {
                         });
                     }
                 }.start();
-
             }
             else{
                 num=-1;
