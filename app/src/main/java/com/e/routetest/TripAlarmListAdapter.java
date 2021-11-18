@@ -21,18 +21,18 @@ import java.util.ArrayList;
 
 public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdapter.Holder>{
     private Context context;
-    private ArrayList<TripAlarm_rv_item_info> tripAlarmDataList;    //여행경로 데이터
+    private ArrayList<TripAlarm_rv_item_info> tripAlarmDataList = new ArrayList<TripAlarm_rv_item_info>();;    //여행경로 데이터
     private ArrayList<Boolean> isVisitList; //여행지 방문 정보
     //item의 클릭 상태를 저장할 array 객체
     private SparseBooleanArray selectedItems = new SparseBooleanArray();
     //직전에 클릭됐던 item의 position
     private int prePosition = -1;
 
-    public TripAlarmListAdapter(Context context, ArrayList<TripAlarm_rv_item_info> tripAlarmDataList, ArrayList<Boolean> isVisitList){
-        this.context = context;
+    //public TripAlarmListAdapter(Context context, ArrayList<TripAlarm_rv_item_info> tripAlarmDataList, ArrayList<Boolean> isVisitList){
+    public TripAlarmListAdapter(ArrayList<TripAlarm_rv_item_info> tripAlarmDataList){
+        //this.context = context;
         this.tripAlarmDataList = tripAlarmDataList;
-        //***
-        this.isVisitList = isVisitList;
+        //this.isVisitList = isVisitList;
     }
 
     @NonNull
@@ -52,6 +52,12 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
 
     @Override
     public int getItemCount() {return tripAlarmDataList.size();}
+
+    //기존리스트 삭제후 새로운 리스트로 업데이트. 이후 변경알림
+    public void updateItemList(final ArrayList<TripAlarm_rv_item_info> newDataList){
+       this.tripAlarmDataList = newDataList;
+        notifyDataSetChanged();
+    }
 
     //Holder : recyclerview의 subView를 setting해주는 곳
     public class Holder extends RecyclerView.ViewHolder implements View.OnClickListener{

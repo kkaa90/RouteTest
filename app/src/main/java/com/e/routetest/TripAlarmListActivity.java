@@ -1,7 +1,12 @@
 package com.e.routetest;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -14,9 +19,12 @@ import androidx.work.WorkRequest;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.e.routetest.Workers.APIWorker;
+import com.e.routetest.databinding.ActivityTripAlarmListBinding;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -24,7 +32,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,7 +46,7 @@ public class TripAlarmListActivity extends AppCompatActivity {
     private static final String API_KEY = "HEyK4no6dIj6pEs6Qw3Q%2FXnwiyH8MNJcMtcNplODjukvU1f8xdPMo7K2pVcATuJgx1%2BhD8aPCUofv617XqtqOw%3D%3D";
 
     private static ArrayList<PlaceWeatherTimeBasedata> placeWeatherTimeBasedataList = new ArrayList<>();    //기본 정보
-    private static ArrayList<TripAlarm_rv_item_info> tripAlarmItems = new ArrayList<>(); //여행 알람 정보 리스트
+    private static ArrayList<TripAlarm_rv_item_info> tripAlarmItems = new ArrayList<TripAlarm_rv_item_info>(); //여행 알람 정보 리스트 (LiveData)
     private static ArrayList<Boolean> isVisitList = new ArrayList<>();  //여행지 도착확인용
 
     private int total_index;    //전체 여행지 인덱스
@@ -48,6 +55,12 @@ public class TripAlarmListActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextView refreshTime;
     private RecyclerView recyclerView;
+    private TripAlarmListAdapter tripAlarmListAdapter;
+
+    //***
+    private TripAlarmViewModel viewModel;
+    private ActivityTripAlarmListBinding binding;
+    //***
 
     //미사용 목록
     private static ArrayList<String> ArrivalTimeList = new ArrayList<>();   // 도착시간 리스트
@@ -58,14 +71,42 @@ public class TripAlarmListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_alarm_list);
 
+
         swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.trip_alarm_activity_swipe_layout);   //***
         refreshTime = (TextView)findViewById(R.id.trip_alarm_activity_refreshTime);
         recyclerView = (RecyclerView)findViewById(R.id.weatherList);
+        tripAlarmListAdapter = new TripAlarmListAdapter(tripAlarmItems);
 
-        TripAlarmListAdapter tripAlarmListAdapter = new TripAlarmListAdapter(getApplicationContext(),tripAlarmItems,isVisitList);
+        //***
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_trip_alarm_list);
+        viewModel = ViewModelProviders.of(this).get(TripAlarmViewModel.class);
+        Button test = (Button)findViewById(R.id.trip_item_test);
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<TripAlarm_rv_item_info> testArray = new ArrayList<>();
+                testArray.clear();
+                testArray.add(new TripAlarm_rv_item_info("1","1","1","1","1","1",1,"1"));
+                viewModel.itemLiveData.postValue(testArray);
+                Log.d("TESTBUTTON","ACTIVE");
+            }
+        });
+
+        Observer<ArrayList<TripAlarm_rv_item_info>> itemObserver = new Observer<ArrayList<TripAlarm_rv_item_info>>(){
+            @Override
+            public void onChanged(ArrayList<TripAlarm_rv_item_info> tripAlarm_rv_item_infos) {
+                tripAlarmListAdapter.updateItemList(tripAlarmItems);
+            }
+        };
+
+        viewModel.itemLiveData.observe(this,itemObserver);
+
+        //***
+
+        //tripAlarmListAdapter = new TripAlarmListAdapter(getApplicationContext(),tripAlarmItems,isVisitList);
 
         //여행지 목록 불러온뒤 인덱스 초기화
-        total_index = placeWeatherTimeBasedataList.size();
+        int total_index = placeWeatherTimeBasedataList.size();
         now_index = 0;
 
 
@@ -86,69 +127,13 @@ public class TripAlarmListActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 //새로고침시 실행할 코드
-                new Thread() {
-                    public void run() {
-                        tripAlarmItems.clear();
-                        double nextLatitude, nextLongitude;    //경도, 위도
-                        for (int i = 0; i < placeWeatherTimeBasedataList.size(); i++) {
-                            if((i+1) < placeWeatherTimeBasedataList.size()) { //다음 행선지가 있는 경우
-                                nextLatitude = placeWeatherTimeBasedataList.get(i + 1).getLatitude();
-                                nextLongitude = placeWeatherTimeBasedataList.get(i+1).getLongitude();
-                            }else{  //마지막 행선지인 경우
-                                nextLatitude = 1000; nextLongitude = 1000;
-                            }
-                            TripAlarm_rv_item_info tripAlarm_rv_item_info = getItemInfo(
-                                    placeWeatherTimeBasedataList.get(i).getPlaceName(),
-                                    placeWeatherTimeBasedataList.get(i).getPlaceAddress(),
-                                    placeWeatherTimeBasedataList.get(i).getLatitude(),
-                                    placeWeatherTimeBasedataList.get(i).getLongitude(),
-                                    nextLatitude, nextLongitude);
-                            tripAlarmItems.add(tripAlarm_rv_item_info);
-                        }
-                    }
-                }.start();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        tripAlarmListAdapter.notifyDataSetChanged();
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                }, 1000);
+
 
                 //갱신일자 넣기
                 refreshTime.setText("갱신시간 : "+getNowTime());
             }
         });
-        /*
-        new Thread() {
-            public void run() {
-                tripAlarmItems.clear();
-                double nextLatitude, nextLongitude;    //경도, 위도
-                for (int i = 0; i < placeWeatherTimeBasedataList.size(); i++) {
-                    if((i+1) < placeWeatherTimeBasedataList.size()) { //다음 행선지가 있는 경우
-                        nextLatitude = placeWeatherTimeBasedataList.get(i + 1).getLatitude();
-                        nextLongitude = placeWeatherTimeBasedataList.get(i+1).getLongitude();
-                    }else{  //마지막 행선지인 경우
-                        nextLatitude = 1000; nextLongitude = 1000;
-                    }
-                    TripAlarm_rv_item_info tripAlarm_rv_item_info = getItemInfo(
-                            placeWeatherTimeBasedataList.get(i).getPlaceName(),
-                            placeWeatherTimeBasedataList.get(i).getPlaceAddress(),
-                            placeWeatherTimeBasedataList.get(i).getLatitude(),
-                            placeWeatherTimeBasedataList.get(i).getLongitude(),
-                            nextLatitude, nextLongitude);
-                    tripAlarmItems.add(tripAlarm_rv_item_info);
-                }
-            }
-        }.start();
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                tripAlarmListAdapter.notifyDataSetChanged();
-            }
-        }, 1000);
-        */
         //============================== Worker작동 시작 ==============================
         String encoding_data = convert_placeInfo(placeWeatherTimeBasedataList);
         Log.d("APIWORKER_INPUTDATA",encoding_data);
@@ -157,22 +142,20 @@ public class TripAlarmListActivity extends AppCompatActivity {
         //WorkRequest를 통해서 작업요청 생성
         WorkRequest APIWorker_request = new OneTimeWorkRequest.Builder(APIWorker.class).setInputData(APIWorker_inputData).build();
         //WorkManger를 통해서 작업요청을 큐에 올리기
-        WorkManager.getInstance(getApplicationContext()).enqueue(APIWorker_request);
-
-        //반환값 가져오기
+        WorkManager workManager = WorkManager.getInstance(getApplicationContext());
+       workManager.enqueue(APIWorker_request);
         //============================== Worker작동 종료 ==============================
-
 
         //갱신일자 넣기
         refreshTime.setText("갱신시간 : "+getNowTime());
-
-        Log.d("ITEMSIZE",""+tripAlarmListAdapter.getItemCount());
-
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(tripAlarmListAdapter);
     }
+
+
+
     //======================================== 내부용 함수 시작 ========================================
     //API에서 정보를 받아오는 메서드
     @NotNull
