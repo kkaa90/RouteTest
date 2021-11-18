@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdapter.Holder>{
     private Context context;
-    private ArrayList<TripAlarm_rv_item_info> tripAlarmDataList = new ArrayList<TripAlarm_rv_item_info>();;    //여행경로 데이터
+    private ArrayList<TripAlarm_rv_item_info> tripAlarmDataList = new ArrayList<TripAlarm_rv_item_info>();    //여행경로 데이터
     private ArrayList<Boolean> isVisitList; //여행지 방문 정보
     //item의 클릭 상태를 저장할 array 객체
     private SparseBooleanArray selectedItems = new SparseBooleanArray();

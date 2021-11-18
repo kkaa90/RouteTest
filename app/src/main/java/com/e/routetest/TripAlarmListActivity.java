@@ -75,10 +75,11 @@ public class TripAlarmListActivity extends AppCompatActivity {
         swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.trip_alarm_activity_swipe_layout);   //***
         refreshTime = (TextView)findViewById(R.id.trip_alarm_activity_refreshTime);
         recyclerView = (RecyclerView)findViewById(R.id.weatherList);
+        tripAlarmItems.add(new TripAlarm_rv_item_info("1","1","1","1","1","1",1,"1"));
         tripAlarmListAdapter = new TripAlarmListAdapter(getApplicationContext(),tripAlarmItems);
 
-        tripAlarmItems.add(new TripAlarm_rv_item_info("1","1","1","1","1","1",1,"1"));
 
+        System.out.println("테스트 : "+tripAlarmItems.get(0).getPlaceName());
         //***
         binding = DataBindingUtil.setContentView(this,R.layout.activity_trip_alarm_list);
         viewModel = ViewModelProviders.of(this).get(TripAlarmViewModel.class);
@@ -146,7 +147,7 @@ public class TripAlarmListActivity extends AppCompatActivity {
         WorkRequest APIWorker_request = new OneTimeWorkRequest.Builder(APIWorker.class).setInputData(APIWorker_inputData).build();
         //WorkManger를 통해서 작업요청을 큐에 올리기
         WorkManager workManager = WorkManager.getInstance(getApplicationContext());
-       workManager.enqueue(APIWorker_request);
+        workManager.enqueue(APIWorker_request);
         //============================== Worker작동 종료 ==============================
 
         //갱신일자 넣기

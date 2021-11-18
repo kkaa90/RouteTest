@@ -17,4 +17,6 @@
     <style name="urgentButton" parent="Widget.AppCompat.Button.Colored">
         <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
+
+
 </resources>
