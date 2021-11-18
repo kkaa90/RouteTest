@@ -29,8 +29,8 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
     private int prePosition = -1;
 
     //public TripAlarmListAdapter(Context context, ArrayList<TripAlarm_rv_item_info> tripAlarmDataList, ArrayList<Boolean> isVisitList){
-    public TripAlarmListAdapter(ArrayList<TripAlarm_rv_item_info> tripAlarmDataList){
-        //this.context = context;
+    public TripAlarmListAdapter(Context context, ArrayList<TripAlarm_rv_item_info> tripAlarmDataList){
+        this.context = context;
         this.tripAlarmDataList = tripAlarmDataList;
         //this.isVisitList = isVisitList;
     }

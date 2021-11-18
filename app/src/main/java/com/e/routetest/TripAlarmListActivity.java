@@ -75,7 +75,9 @@ public class TripAlarmListActivity extends AppCompatActivity {
         swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.trip_alarm_activity_swipe_layout);   //***
         refreshTime = (TextView)findViewById(R.id.trip_alarm_activity_refreshTime);
         recyclerView = (RecyclerView)findViewById(R.id.weatherList);
-        tripAlarmListAdapter = new TripAlarmListAdapter(tripAlarmItems);
+        tripAlarmListAdapter = new TripAlarmListAdapter(getApplicationContext(),tripAlarmItems);
+
+        tripAlarmItems.add(new TripAlarm_rv_item_info("1","1","1","1","1","1",1,"1"));
 
         //***
         binding = DataBindingUtil.setContentView(this,R.layout.activity_trip_alarm_list);
@@ -96,6 +98,7 @@ public class TripAlarmListActivity extends AppCompatActivity {
             @Override
             public void onChanged(ArrayList<TripAlarm_rv_item_info> tripAlarm_rv_item_infos) {
                 tripAlarmListAdapter.updateItemList(tripAlarmItems);
+                tripAlarmListAdapter.notifyDataSetChanged();
             }
         };
 
