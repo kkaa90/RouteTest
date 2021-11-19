@@ -23,16 +23,17 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
     private Context context;
     private ArrayList<TripAlarm_rv_item_info> tripAlarmDataList = new ArrayList<TripAlarm_rv_item_info>();    //여행경로 데이터
     private ArrayList<Boolean> isVisitList; //여행지 방문 정보
+
+    //아이템 확대 축소에 사용되는 변수들
     //item의 클릭 상태를 저장할 array 객체
     private SparseBooleanArray selectedItems = new SparseBooleanArray();
     //직전에 클릭됐던 item의 position
     private int prePosition = -1;
 
-    //public TripAlarmListAdapter(Context context, ArrayList<TripAlarm_rv_item_info> tripAlarmDataList, ArrayList<Boolean> isVisitList){
-    public TripAlarmListAdapter(Context context, ArrayList<TripAlarm_rv_item_info> tripAlarmDataList){
+    public TripAlarmListAdapter(Context context, ArrayList<TripAlarm_rv_item_info> tripAlarmDataList, ArrayList<Boolean> isVisitList){
         this.context = context;
         this.tripAlarmDataList = tripAlarmDataList;
-        //this.isVisitList = isVisitList;
+        this.isVisitList = isVisitList;
     }
 
     @NonNull
