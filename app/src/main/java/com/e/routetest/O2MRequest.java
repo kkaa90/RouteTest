@@ -8,9 +8,10 @@ public class O2MRequest {
     String userID;
     String nickName;
     String gender;
+    String date;
     int age;
 
-    public O2MRequest(int boardID, String boardTitle, String spot1, String spot2, String userID, String nickName, String gender, int age) {
+    public O2MRequest(int boardID, String boardTitle, String spot1, String spot2, String userID, String nickName, String gender, String date, int age) {
         this.boardID = boardID;
         this.boardTitle = boardTitle;
         this.spot1 = spot1;
@@ -18,6 +19,7 @@ public class O2MRequest {
         this.userID = userID;
         this.nickName = nickName;
         this.gender = gender;
+        this.date = date;
         this.age = age;
     }
 
@@ -75,6 +77,14 @@ public class O2MRequest {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public int getAge() {
