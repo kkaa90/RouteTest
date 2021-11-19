@@ -14,8 +14,8 @@ public interface NotifyRepository {
     @Query("SELECT * FROM notify")
     List<Notify> findAll();
 
-    @Query("SELECT * FROM sp where routeid= (:num)")
-    Sp findById(int num);
+    @Query("SELECT * FROM notify where num= :num")
+    Notify findById(int num);
 
     @Insert
     void insert(Notify notify);

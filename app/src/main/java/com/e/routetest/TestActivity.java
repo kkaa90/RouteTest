@@ -9,8 +9,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class TestActivity extends AppCompatActivity {
 
@@ -56,6 +67,17 @@ public class TestActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(viewRouteAdapter);
+        Button nButton = (Button)findViewById(R.id.notifyTest);
+        nButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Thread(){
+                    public void run(){
+                        testF();
+                    }
+                }.start();
+            }
+        });
     }
     @Override
     protected void onActivityResult(int requestCode, int result, Intent data){
@@ -96,5 +118,37 @@ public class TestActivity extends AppCompatActivity {
             }
         }
 
+    }
+    public void testF(){
+        String FCM_MESSAGE_URL = "https://fcm.googleapis.com/fcm/send";
+        String st = "AAAALpTg_A4:APA91bE_gvdBf4BT6Hm4r2oeGaJgdrbeLt_-j8tSiXrsh8kfH6ooigsCbaKqOo6GxrR0be6VyYsAS3vyzY5YSwgVcdj3RZEjwP5fKryDFbAMxdtXp_vazwHYlSzBuAYNALGuuqKsyJsX";
+        String tt = "fUi0q8JPRf-YK_pviPH62d:APA91bFLx49ZfSzP4axtrhtsH8sMNcsVxff1Juu0iOplxa3QRIFgENztS_L-ttWB9dCMHaz4q9TQf8BxuaCaev0rQ3BEmDUWYdzukVkk-1FBFmNH5drS2AR7LCavDMfxWEvIsn3MbiFz";
+        JsonObject jsonObject = new JsonObject();
+        JsonObject tJsonObject = new JsonObject();
+        Gson gson = new Gson();
+        JsonElement jsonElement = gson.toJsonTree(tt);
+        JsonObject nJsonObject = new JsonObject();
+        jsonObject.add("to",jsonElement);
+        nJsonObject.addProperty("title","title");
+        nJsonObject.addProperty("content", "content");
+        jsonObject.add("data",nJsonObject);
+
+        System.out.println(jsonObject.toString());
+        final MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+        OkHttpClient okHttpClient = new OkHttpClient();
+        try {
+            Request request = new Request.Builder().url(FCM_MESSAGE_URL)
+                    .addHeader("Content-Type","application/json; UTF-8")
+                    .addHeader("Authorization","key="+st)
+                    .post(RequestBody.create(mediaType, jsonObject.toString())).build();
+            Response response = okHttpClient.newCall(request).execute();
+
+
+            String res = response.toString();
+            System.out.println(res);
+        } catch (IOException e){
+            System.out.println(e);
+        }
+        return;
     }
 }

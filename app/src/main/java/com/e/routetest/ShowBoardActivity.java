@@ -270,8 +270,8 @@ public class ShowBoardActivity extends AppCompatActivity {
         JsonObject nJsonObject = new JsonObject();
         jsonObject.add("to",jsonElement);
         nJsonObject.addProperty("title","여행 참가신청");
-        nJsonObject.addProperty("body", "회원님이 작성하신 ["+title+"] 게시물에 ["+ userId+"] 회원님이 참가 신청 하셨습니다.");
-        jsonObject.add("notification",nJsonObject);
+        nJsonObject.addProperty("content", "회원님이 작성하신 ["+title+"] 게시물에 ["+ userId+"] 회원님이 참가 신청 하셨습니다.");
+        jsonObject.add("data",nJsonObject);
 
         System.out.println(jsonObject.toString());
         final MediaType mediaType = MediaType.parse("application/json; charset=utf-8");

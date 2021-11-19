@@ -10,7 +10,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
-@Database(entities = Notify.class, version = 1)
+@Database(entities = {Notify.class}, version = 2)
 public abstract class NotifyAppDatabase extends RoomDatabase {
     private static NotifyAppDatabase INSTANCE2 = null;
     public abstract NotifyRepository notifyRepository();
