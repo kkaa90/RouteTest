@@ -22,7 +22,7 @@ public class TestActivity2 extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_test2);
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.testRV2);
-        ViewTestAdapter viewTestAdapter=new ViewTestAdapter(getApplicationContext(),s);
+        TestAdapter testAdapter =new TestAdapter(getApplicationContext(),s);
         mContext=this;
         AppDatabase db = AppDatabase.getInstance(this);
 
@@ -34,14 +34,14 @@ public class TestActivity2 extends Activity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        viewTestAdapter.notifyDataSetChanged();
+                        testAdapter.notifyDataSetChanged();
                     }
                 });
             }
         }.start();
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        recyclerView.setAdapter(viewTestAdapter);
+        recyclerView.setAdapter(testAdapter);
 
     }
     @Override

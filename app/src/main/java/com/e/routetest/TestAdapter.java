@@ -8,31 +8,23 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import android.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
-import static com.e.routetest.MapsFragment.mMap;
-import static com.e.routetest.RouteActivity.arrivals;
-import static com.e.routetest.RouteActivity.departures;
-import static com.e.routetest.RouteActivity.spots;
 import static com.e.routetest.TestActivity2.mContext;
 
-public class ViewTestAdapter extends RecyclerView.Adapter<ViewTestAdapter.Holder> {
+public class TestAdapter extends RecyclerView.Adapter<TestAdapter.Holder> {
     private Context context;
     private List<Sp> list =new ArrayList<>();
 
-    public ViewTestAdapter(Context context,List<Sp> list){
+    public TestAdapter(Context context, List<Sp> list){
         this.context=context;
         this.list=list;
     }
@@ -41,7 +33,7 @@ public class ViewTestAdapter extends RecyclerView.Adapter<ViewTestAdapter.Holder
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.test_rv_item,parent,false);
-        ViewTestAdapter.Holder holder = new ViewTestAdapter.Holder(view);
+        TestAdapter.Holder holder = new TestAdapter.Holder(view);
         return holder;
     }
 

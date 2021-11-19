@@ -5,10 +5,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-public class ViewPageAdapter extends FragmentPagerAdapter {
+public class RoutePageAdapter extends FragmentPagerAdapter {
     int num;
 
-    public ViewPageAdapter(FragmentManager fm, int num){
+    public RoutePageAdapter(FragmentManager fm, int num){
         super(fm);
         this.num=num;
     }

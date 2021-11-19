@@ -21,13 +21,13 @@ import static com.e.routetest.RouteActivity.arrivals;
 import static com.e.routetest.RouteActivity.departures;
 import static com.e.routetest.RouteActivity.spots;
 
-public class ViewRouteAdapter2 extends RecyclerView.Adapter<ViewRouteAdapter2.Holder> {
+public class EditRouteAdapter extends RecyclerView.Adapter<EditRouteAdapter.Holder> {
     private Context context;
     private List<Spot> list =new ArrayList<>();
     private List<Integer> depList = new ArrayList<>();
     private List<Integer> arrList = new ArrayList<>();
 
-    public ViewRouteAdapter2(Context context,List<Spot> list, List<Integer> depList, List<Integer> arrList){
+    public EditRouteAdapter(Context context, List<Spot> list, List<Integer> depList, List<Integer> arrList){
         this.context=context;
         this.list=list;
         this.depList=depList;
@@ -79,7 +79,20 @@ public class ViewRouteAdapter2 extends RecyclerView.Adapter<ViewRouteAdapter2.Ho
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    int pos = getAdapterPosition();
+                    if(pos!= RecyclerView.NO_POSITION){
+                        spots.remove(pos);
+                        arrivals.remove(pos);
+                        departures.remove(pos);
+                        mMap.clear();
+                        for(int i=0; i<spots.size();i++) {
+                            MarkerOptions markerOptions = new MarkerOptions();
+                            Spot spotNow = spots.get(i);
+                            markerOptions.position(new LatLng(spotNow.getSpotX(), spotNow.getSpotY())).title(i + 1 + " : " + spotNow.spotName);
+                            mMap.addMarker(markerOptions);
+                        }
+                        notifyDataSetChanged();
+                    }
                 }
             });
 

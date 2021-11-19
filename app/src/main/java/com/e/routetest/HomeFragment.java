@@ -3,7 +3,6 @@ package com.e.routetest;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,10 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -32,11 +27,6 @@ import okhttp3.Response;
 
 import static com.e.routetest.LoadingActivity.allSpotList;
 import static com.e.routetest.LoadingActivity.sv;
-import static com.e.routetest.LoginActivity.age;
-import static com.e.routetest.LoginActivity.gender;
-import static com.e.routetest.LoginActivity.nN;
-import static com.e.routetest.LoginActivity.userId;
-import static com.e.routetest.MainActivity.token;
 
 
 public class HomeFragment extends Fragment {
@@ -47,7 +37,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_home, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.home_board);
-        ViewBoardAdapter viewBoardAdapter = new ViewBoardAdapter(getActivity().getApplicationContext(),boards);
+        BoardAdapter boardAdapter = new BoardAdapter(getActivity().getApplicationContext(),boards);
 
         //------------------------------ 여행지 알림 버튼 연결부 (시작) ------------------------------
         Button test_button = (Button)view.findViewById(R.id.show_trip_alarm_button);
@@ -70,13 +60,13 @@ public class HomeFragment extends Fragment {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                viewBoardAdapter.notifyDataSetChanged();
+                boardAdapter.notifyDataSetChanged();
             }
         },2000);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
-        recyclerView.setAdapter(viewBoardAdapter);
+        recyclerView.setAdapter(boardAdapter);
         Button testButton = (Button)view.findViewById(R.id.testButton);
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +81,7 @@ public class HomeFragment extends Fragment {
         return view;
     }
     public void getSpot() {
-        ViewBoardAdapter viewBoardAdapter = new ViewBoardAdapter(getActivity().getApplicationContext(),boards);
+        BoardAdapter boardAdapter = new BoardAdapter(getActivity().getApplicationContext(),boards);
         try {
             String url = sv + "viewBoard.jsp?pageNumber=1";
             System.out.println(url);

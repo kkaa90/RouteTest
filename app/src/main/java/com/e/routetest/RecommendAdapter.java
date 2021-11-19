@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,31 +13,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.e.routetest.RouteActivity.arrivals;
-import static com.e.routetest.RouteActivity.departures;
-import static com.e.routetest.RouteActivity.spots;
-
-public class ViewRecommendAdapter extends RecyclerView.Adapter<ViewRecommendAdapter.Holder> {
+public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Holder> {
 
 
     private Context context;
     private List<Spot> allSpotList=new ArrayList<>();
 
-    public ViewRecommendAdapter(Context context, List<Spot> allSpotList) {
+    public RecommendAdapter(Context context, List<Spot> allSpotList) {
         this.context = context;
         this.allSpotList = allSpotList;
     }
 
     @NonNull
     @Override
-    public ViewRecommendAdapter.Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecommendAdapter.Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.spot_rv_item,parent,false);
-        ViewRecommendAdapter.Holder holder = new Holder(view);
+        RecommendAdapter.Holder holder = new Holder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewRecommendAdapter.Holder holder, int position) {
+    public void onBindViewHolder(@NonNull RecommendAdapter.Holder holder, int position) {
         int itemPosition = position;
         holder.imageView2.setImageResource(R.drawable.photo1);
         holder.textSpotName.setText(allSpotList.get(itemPosition).spotName);

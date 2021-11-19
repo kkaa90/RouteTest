@@ -15,7 +15,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
@@ -50,7 +49,7 @@ public class RouteActivity extends AppCompatActivity {
         context_main=this;
         ViewPager vf = findViewById(R.id.viewPager);
         TabLayout tl = findViewById(R.id.tabLayout);
-        PagerAdapter adapter=new ViewPageAdapter(getSupportFragmentManager(), tl.getTabCount());
+        PagerAdapter adapter=new RoutePageAdapter(getSupportFragmentManager(), tl.getTabCount());
         vf.setAdapter(adapter);
         vf.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tl));
         tl.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){

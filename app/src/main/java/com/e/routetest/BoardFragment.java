@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +34,7 @@ public class BoardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_board, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.boardView);
-        ViewBoardAdapter viewBoardAdapter = new ViewBoardAdapter(getActivity().getApplicationContext(),boards);
+        BoardAdapter boardAdapter = new BoardAdapter(getActivity().getApplicationContext(),boards);
         Button goWriteBoard = (Button) view.findViewById(R.id.writeBoardButton);
         goWriteBoard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +50,7 @@ public class BoardFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            viewBoardAdapter.notifyDataSetChanged();
+                            boardAdapter.notifyDataSetChanged();
                         }
                     });
                 }
@@ -61,7 +60,7 @@ public class BoardFragment extends Fragment {
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewBoardAdapter.notifyDataSetChanged();
+                boardAdapter.notifyDataSetChanged();
                 for(int i=0;i<boards.size();i++){
                     System.out.println(boards.get(i).boardTitle);
 
@@ -71,11 +70,11 @@ public class BoardFragment extends Fragment {
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
-        recyclerView.setAdapter(viewBoardAdapter);
+        recyclerView.setAdapter(boardAdapter);
         return view;
     }
     public boolean getSpot() {
-        ViewBoardAdapter viewBoardAdapter = new ViewBoardAdapter(getActivity().getApplicationContext(),boards);
+        BoardAdapter boardAdapter = new BoardAdapter(getActivity().getApplicationContext(),boards);
         try {
             String url = sv + "viewBoard.jsp?pageNumber=1";
             System.out.println(url);
