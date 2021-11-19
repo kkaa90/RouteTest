@@ -39,7 +39,7 @@
 
     <TextView
         android:id="@+id/myProfileEdit"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
@@ -54,7 +54,7 @@
 
     <TextView
         android:id="@+id/myRouteEdit"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
@@ -67,7 +67,7 @@
 
     <TextView
         android:id="@+id/meToOtherJoin"
-        android:layout_width="371dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
@@ -80,7 +80,7 @@
 
     <TextView
         android:id="@+id/otherToMeJoin"
-        android:layout_width="371dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
