@@ -2,6 +2,7 @@ package com.e.routetest;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -28,6 +29,8 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         NotifyAppDatabase notifyDb = NotifyAppDatabase.getInstance(this);
         new InsertAsyncTask(notifyDb.notifyRepository()).execute(new Notify(1,msgTitle,msgContent));
         Intent intent = new Intent(this,LoadingActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_ONE_SHOT);
 
         NotificationCompat.Builder notificationBuilder;
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -52,7 +55,8 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         notificationBuilder.setSmallIcon(R.drawable.ic_notifications_black_24dp)
                 .setContentTitle(msgTitle)
                 .setAutoCancel(true)
-                .setContentText(msgContent);
+                .setContentText(msgContent)
+                .setContentIntent(pendingIntent);
         int localTime = LocalTime.now().getSecond();
         notificationManager.notify(localTime,notificationBuilder.build());
 
