@@ -79,6 +79,7 @@ public class TripAlarmListActivity extends AppCompatActivity {
 
         //실행시 데이터 받기 + 화면에 띄우기
         showItems();
+        //
 
         //새로고침
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
