@@ -1,32 +1,38 @@
 package com.e.routetest;
 
 public class ReviewData {
+    private int spotId;
+    private String spotName;
+    private float score = 0.0f;
 
-    private String title;
-    private String content;
-    private int resId;
 
-    public String getTitle() {
-        return title;
+    public ReviewData(int spotId, String spotName, float score) {
+        this.spotId = spotId;
+        this.spotName = spotName;
+        this.score = score;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public int getSpotId() {
+        return spotId;
     }
 
-    public String getContent() {
-        return content;
+    public void setSpotId(int spotId) {
+        this.spotId = spotId;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public String getSpotName() {
+        return spotName;
     }
 
-    public int getResId() {
-        return resId;
+    public void setSpotName(String spotName) {
+        this.spotName = spotName;
     }
 
-    public void setResId(int resId) {
-        this.resId = resId;
+    public float getScore() {
+        return score;
+    }
+
+    public void setScore(float score) {
+        this.score = score;
     }
 }

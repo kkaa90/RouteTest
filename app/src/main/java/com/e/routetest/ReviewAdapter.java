@@ -1,62 +1,72 @@
 package com.e.routetest;
 
 
+import android.content.Context;
+import android.media.Rating;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.util.ArrayList;
+import java.util.List;
 
-public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ItemViewHolder> {
+import static com.e.routetest.MapsFragment.mMap;
+import static com.e.routetest.RouteActivity.arrivals;
+import static com.e.routetest.RouteActivity.departures;
+import static com.e.routetest.RouteActivity.spots;
 
-    private ArrayList<ReviewData> listData = new ArrayList<>();
+public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.Holder> {
+    Context context;
+    private List<ReviewData> reviewData = new ArrayList<>();
+
+    public ReviewAdapter(Context context, List<ReviewData> reviewData){
+        this.context=context;
+        this.reviewData=reviewData;
+    }
 
     @NonNull
     @Override
-    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.review_rv_item, parent, false);
-        return new ItemViewHolder(view);
+    public ReviewAdapter.Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.review_rv_item,parent,false);
+        ReviewAdapter.Holder holder = new ReviewAdapter.Holder(view);
+        return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        holder.onBind(listData.get(position));
+    public void onBindViewHolder(@NonNull ReviewAdapter.Holder holder, int position) {
+        holder.textView.setText(reviewData.get(position).getSpotName());
+        holder.ratingBar.setRating(reviewData.get(position).getScore());
+        holder.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                reviewData.get(position).setScore(holder.ratingBar.getRating());
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return listData.size();
+        return reviewData.size();
     }
 
-    void addItem(ReviewData data) {
-        listData.add(data);
-    }
+    public class Holder extends RecyclerView.ViewHolder{
+        TextView textView;
+        RatingBar ratingBar;
 
-    class ItemViewHolder extends RecyclerView.ViewHolder {
-
-        private TextView textView1;
-        private TextView textView2;
-        private ImageView imageView;
-
-        ItemViewHolder(View itemView) {
-            super(itemView);
-
-            textView1 = itemView.findViewById(R.id.textView1);
-            textView2 = itemView.findViewById(R.id.textView2);
-            imageView = itemView.findViewById(R.id.imageView);
-
-        }
-
-        void onBind(ReviewData data) {
-            textView1.setText(data.getTitle());
-            textView2.setText(data.getContent());
-            imageView.setImageResource(data.getResId());
+        public Holder(View view){
+            super(view);
+            textView = view.findViewById(R.id.rvSpotName);
+            ratingBar = view.findViewById(R.id.rvRatingBar);
         }
     }
-
 }
