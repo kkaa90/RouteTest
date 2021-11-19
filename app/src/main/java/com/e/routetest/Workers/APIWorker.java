@@ -37,7 +37,7 @@ public class APIWorker extends Worker {
 
         String sourceData = getInputData().getString("APIWORKER_INPUTDATA");
         String[] split_data = sourceData.split(",",2);
-        Log.d("SOURCEDATA",sourceData);
+        //Log.d("SOURCEDATA",sourceData);
 
         String sizeOfArray = split_data[0];      //장소 개수
         int sizeOfArray_i = Integer.parseInt(sizeOfArray);
@@ -107,11 +107,18 @@ public class APIWorker extends Worker {
             }
         }
 
+        //결과를 TripAlarmViewModel로 넘겨서 갱신
+
+
+        /*
         //결과를 Data객체에 넣은 뒤 반환
         String result = convert_result(API_info_list);
         Log.d("APIWORKER_RESULT",result);
         Data resultData = new Data.Builder().putString("APIWORKER_RESULT",result).build();
         return Result.success(resultData);
+         */
+        Log.d("APIWORKER_STATE","FINISH");
+        return Result.success();
     }
 
     //결과를 String으로 만드는 매서드  (장소이름,주소,온도,습도,강수확률,강수/적설량,기상상태아이콘,소요시간(text))
@@ -136,7 +143,7 @@ public class APIWorker extends Worker {
                 + "&base_time=" + data.getBasetime()
                 + "&nx=" + data.getXpos()
                 + "&ny=" + data.getYpos();
-        Log.d("w_URL",w_URL);
+        //Log.d("w_URL",w_URL);
 
         String[] w_values = new String[14]; //날씨정보 보관 배열
 
@@ -173,7 +180,7 @@ public class APIWorker extends Worker {
 
                 w_values[index_num] = tempStr;
 
-                Log.d("API_INFO",w_values[index_num] +","+ index_num);
+                //Log.d("API_INFO",w_values[index_num] +","+ index_num);
             }
         }
         catch(Exception e){
@@ -234,7 +241,7 @@ public class APIWorker extends Worker {
         //소요시간 API URL
         String t_URL = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&mode=transit&origins="
                 +data.getaLatitude()+","+data.getaLongitude()+"&destinations="+data.getbLatitude()+","+data.getbLongitude()+"&region=KR&key=AIzaSyAn-Tk1TUWDZWTHbdshVkc9z2uQG4dULNQ";
-        Log.d("TIME_URL",t_URL);
+        //Log.d("TIME_URL",t_URL);
         int spendTime;  //소요시간(int)
         String spendTime_text;  //소요시간(String)
 
@@ -244,7 +251,7 @@ public class APIWorker extends Worker {
             spendTime_text = "null";
         }else{
             try{
-                Log.d("TIMEURL",t_URL);
+                //Log.d("TIMEURL",t_URL);
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder().url(t_URL).get();
@@ -265,8 +272,8 @@ public class APIWorker extends Worker {
                 spendTime = jsonObject3.get("value").getAsInt();
                 spendTime_text = jsonObject3.get("text").getAsString();
 
-                Log.d("API_SPENDTIME","0"+spendTime);
-                Log.d("SPI_SPENDTIMEDETAIL",spendTime_text);
+                //Log.d("API_SPENDTIME","0"+spendTime);
+                //Log.d("SPI_SPENDTIMEDETAIL",spendTime_text);
             }catch(Exception e){
                 spendTime = -1;
                 spendTime_text = "error";
