@@ -16,7 +16,9 @@
         app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/main_navigation"
         app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_navigation_menu"/>
+        app:menu="@menu/bottom_navigation_menu"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextColor="@color/bottom_nav_color"/>
 
     <FrameLayout
         android:layout_width="match_parent"

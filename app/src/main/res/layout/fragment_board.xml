@@ -9,13 +9,16 @@
 
     <Button
         android:id="@+id/btnApply"
+        style="?attr/materialButtonOutlinedStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginEnd="5dp"
+        android:minWidth="0dp"
         android:text="적용"
-        app:layout_constraintBottom_toBottomOf="@+id/btnSelectDate"
-        app:layout_constraintStart_toEndOf="@+id/btnSelectDate"
-        app:layout_constraintTop_toTopOf="@+id/btnSelectDate" />
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextDate2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editTextDate2" />
 
 
     <HorizontalScrollView
@@ -25,59 +28,67 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/toggleTheme"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/toggleTheme">
+            android:layout_height="wrap_content">
+
             <com.google.android.material.button.MaterialButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/toggle1"
-                android:text="테마1"
-                android:gravity="center"
-                style="?attr/materialButtonOutlinedStyle"/>
-            <com.google.android.material.button.MaterialButton
+                style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="테마1" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle2"
-                android:text="테마2"
-                android:gravity="center"
-                style="?attr/materialButtonOutlinedStyle"/>
-            <com.google.android.material.button.MaterialButton
+                style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="테마2" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle3"
-                android:text="테마3"
-                android:gravity="center"
-                style="?attr/materialButtonOutlinedStyle"/>
-            <com.google.android.material.button.MaterialButton
+                style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="테마3" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle4"
-                android:text="테마4"
-                android:gravity="center"
-                style="?attr/materialButtonOutlinedStyle"/>
-            <com.google.android.material.button.MaterialButton
+                style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="테마4" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle5"
-                android:text="테마5"
-                android:gravity="center"
-                style="?attr/materialButtonOutlinedStyle"/>
-            <com.google.android.material.button.MaterialButton
+                style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="테마5" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle6"
-                android:text="테마6"
-                android:gravity="center"
-                style="?attr/materialButtonOutlinedStyle"/>
-            <com.google.android.material.button.MaterialButton
+                style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/toggle7"
-                android:text="테마7"
                 android:gravity="center"
-                style="?attr/materialButtonOutlinedStyle"/>
+                android:text="테마6" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/toggle7"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="테마7" />
 
 
         </com.google.android.material.button.MaterialButtonToggleGroup>
@@ -85,18 +96,28 @@
 
     </HorizontalScrollView>
 
+
     <EditText
-        android:id="@+id/editTextDate2"
-        android:layout_width="188dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="12dp"
+        android:id="@+id/editTextDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
-        android:ems="10"
         android:inputType="date"
-        android:text="날자 선택"
+        android:text="2021-11-20"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
 
+    <EditText
+        android:id="@+id/editTextDate2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:inputType="date"
+        android:text="2021-12-31"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextDate"
+        app:layout_constraintStart_toEndOf="@+id/textView9"
+        app:layout_constraintTop_toTopOf="@+id/editTextDate" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/boardView"
@@ -112,15 +133,6 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextDate2" />
 
     <Button
-        android:id="@+id/btnSelectDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="날짜선택"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextDate2"
-        app:layout_constraintStart_toEndOf="@+id/editTextDate2"
-        app:layout_constraintTop_toTopOf="@+id/editTextDate2" />
-
-    <Button
         android:id="@+id/writeBoardButton"
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -129,6 +141,16 @@
         android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="~"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextDate"
+        app:layout_constraintStart_toEndOf="@+id/editTextDate"
+        app:layout_constraintTop_toTopOf="@+id/editTextDate" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
