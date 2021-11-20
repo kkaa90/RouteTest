@@ -2,10 +2,13 @@ package com.e.routetest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -15,6 +18,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -34,13 +38,16 @@ public class WriteBoardActivity extends AppCompatActivity {
     public ArrayList<Route> routes2= new ArrayList<Route>();
     private int num=0;
     TextView rEdit;
+    TextView dEdit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_write_board);
         TextInputEditText tEdit = (TextInputEditText)findViewById(R.id.titleEdit);
         TextView wEdit = (TextView) findViewById(R.id.writerEdit);
         rEdit = (TextView)findViewById(R.id.routeNum);
+        dEdit = (TextView)findViewById(R.id.datePick);
         TextInputEditText cEdit = (TextInputEditText)findViewById(R.id.contentEdit);
         TextInputEditText lEdit = (TextInputEditText)findViewById(R.id.linkEdit);
         wEdit.setText(userId);
@@ -52,12 +59,30 @@ public class WriteBoardActivity extends AppCompatActivity {
                 startActivityForResult(intent,100);
             }
         });
+        dEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar cal = Calendar.getInstance();
+                int mYear = cal.get(Calendar.YEAR);
+                int mMonth = cal.get(Calendar.MONTH);
+                int mDay = cal.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(WriteBoardActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int dom) {
+                        dEdit.setText(year+"-"+(month+1)+"-"+dom);
+                    }
+                },mYear,mMonth,mDay);
+                datePickerDialog.getDatePicker().setMinDate(cal.getTimeInMillis());
+                datePickerDialog.show();
+            }
+        });
         writeB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new Thread(){
                     public void run(){
-                        if(writeBoard(tEdit.getText().toString(),wEdit.getText().toString(),routes2.get(0),cEdit.getText().toString(),lEdit.getText().toString())){
+                        if(writeBoard(tEdit.getText().toString(),wEdit.getText().toString(),routes2.get(0),cEdit.getText().toString().replaceAll("\\n", "<br />"),
+                                lEdit.getText().toString(),dEdit.getText().toString())){
                             finish();
                         }
                         else{
@@ -72,14 +97,14 @@ public class WriteBoardActivity extends AppCompatActivity {
 
 
     }
-    private boolean writeBoard(String t, String w, Route route , String c, String l){
+    private boolean writeBoard(String t, String w, Route route, String c, String l, String d){
         try {
 
             int r = writeRoute(route);
             if(r==-1) return false;
 
             String url = sv + "writeBoard.jsp?routeID="+r+"&userID="+w
-                    +"&maxP=4&appliT=2021-10-20&boardTitle="+t+"&boardContent="+c+"&kakaoLink="+l;
+                    +"&maxP=4&appliT="+d+"&boardTitle="+t+"&boardContent="+c+"&kakaoLink="+l;
             System.out.println(url);
 
 
@@ -182,5 +207,6 @@ public class WriteBoardActivity extends AppCompatActivity {
         }
 
     }
+
 
 }

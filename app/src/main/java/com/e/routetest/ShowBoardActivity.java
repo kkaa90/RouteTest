@@ -71,7 +71,7 @@ public class ShowBoardActivity extends AppCompatActivity {
                             titleView1.setText(board.get(0));
                             userView1.setText(board.get(1));
                             dateView1.setText(board.get(2));
-                            contentView1.setText(board.get(3));
+                            contentView1.setText(board.get(3).replaceAll( "<br />","\n"));
                             if(userId.equals(userView1.getText().toString())){
                                 uButton.setVisibility(View.VISIBLE);
                                 dButton.setVisibility(View.VISIBLE);
