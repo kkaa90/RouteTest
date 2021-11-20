@@ -54,6 +54,7 @@ public class MyMenuActivity extends AppCompatActivity {
         TextView mTextView2 = (TextView)findViewById(R.id.myRouteEdit);
         TextView mTextView3 = (TextView)findViewById(R.id.meToOtherJoin);
         TextView mTextView4 = (TextView)findViewById(R.id.otherToMeJoin);
+        TextView mTextView5 = (TextView)findViewById(R.id.goReview);
         mTextView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,6 +80,13 @@ public class MyMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),O2MActivity.class);
+                startActivity(intent);
+            }
+        });
+        mTextView5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),ReviewActivity.class);
                 startActivity(intent);
             }
         });
