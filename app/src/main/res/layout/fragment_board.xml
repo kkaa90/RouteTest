@@ -20,79 +20,69 @@
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
-        android:layout_width="381dp"
-        android:layout_height="49dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
+        <com.google.android.material.button.MaterialButtonToggleGroup
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <ToggleButton
-                android:id="@+id/toggleTheme1"
+            android:layout_height="wrap_content"
+            android:id="@+id/toggleTheme">
+            <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text=""
-                android:textOff="테마OFF"
-                android:textOn="테마ON" />
-
-            <ToggleButton
-                android:id="@+id/toggleTheme2"
+                android:id="@+id/toggle1"
+                android:text="테마1"
+                android:gravity="center"
+                style="?attr/materialButtonOutlinedStyle"/>
+            <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text=""
-                android:textOff="테마OFF"
-                android:textOn="테마ON" />
-
-            <ToggleButton
-                android:id="@+id/toggleTheme3"
+                android:id="@+id/toggle2"
+                android:text="테마2"
+                android:gravity="center"
+                style="?attr/materialButtonOutlinedStyle"/>
+            <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text=""
-                android:textOff="테마OFF"
-                android:textOn="테마ON" />
-
-            <ToggleButton
-                android:id="@+id/toggleTheme4"
+                android:id="@+id/toggle3"
+                android:text="테마3"
+                android:gravity="center"
+                style="?attr/materialButtonOutlinedStyle"/>
+            <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text=""
-                android:textOff="테마OFF"
-                android:textOn="테마ON" />
-
-            <ToggleButton
-                android:id="@+id/toggleTheme5"
+                android:id="@+id/toggle4"
+                android:text="테마4"
+                android:gravity="center"
+                style="?attr/materialButtonOutlinedStyle"/>
+            <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text=""
-                android:textOff="테마OFF"
-                android:textOn="테마ON" />
-
-            <ToggleButton
-                android:id="@+id/toggleTheme6"
+                android:id="@+id/toggle5"
+                android:text="테마5"
+                android:gravity="center"
+                style="?attr/materialButtonOutlinedStyle"/>
+            <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text=""
-                android:textOff="테마OFF"
-                android:textOn="테마ON" />
-
-            <ToggleButton
-                android:id="@+id/toggleTheme7"
+                android:id="@+id/toggle6"
+                android:text="테마6"
+                android:gravity="center"
+                style="?attr/materialButtonOutlinedStyle"/>
+            <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text=""
-                android:textOff="테마OFF"
-                android:textOn="테마ON" />
-        </LinearLayout>
+                android:id="@+id/toggle7"
+                android:text="테마7"
+                android:gravity="center"
+                style="?attr/materialButtonOutlinedStyle"/>
+
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
     </HorizontalScrollView>
 
     <EditText

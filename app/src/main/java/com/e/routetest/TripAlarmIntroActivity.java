@@ -33,7 +33,7 @@ public class TripAlarmIntroActivity extends AppCompatActivity {
 
         //
         ArrayList<TempPlace>temp_route = new ArrayList<>();
-        String[] temp = sourceData.split(",",2)
+        String[] temp = sourceData.split(",",2);
         int arraySize = Integer.parseInt(temp[0]);
 
         String placeName = null;
@@ -62,7 +62,7 @@ public class TripAlarmIntroActivity extends AppCompatActivity {
 
         TempPlaceDatabase tDb = TempPlaceDatabase.getInstance(this);
         for(int i=0;i<arraySize;i++){
-            new MyFireBaseMessagingService.InsertAsyncTask(tDb.tempPlaceRepository()).execute()
+            //new MyFireBaseMessagingService.InsertAsyncTask(tDb.tempPlaceRepository()).execute()
         }
 
 

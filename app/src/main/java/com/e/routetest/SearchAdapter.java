@@ -61,7 +61,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> im
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String string = charSequence.toString();
-                if(string == ""){
+                if(string.equals("")){
                     filteredList=allSpotList;
                 }
                 else{
