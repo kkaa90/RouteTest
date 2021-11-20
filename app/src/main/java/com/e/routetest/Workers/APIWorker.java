@@ -1,13 +1,20 @@
 package com.e.routetest.Workers;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.work.Data;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.e.routetest.MyFireBaseMessagingService;
+import com.e.routetest.Notify;
+import com.e.routetest.NotifyAppDatabase;
+import com.e.routetest.NotifyRepository;
+import com.e.routetest.TripAlarmComponent;
 import com.e.routetest.TripAlarm_rv_item_info;
 import com.e.routetest.trip_alarm_info;
 import com.google.gson.Gson;
@@ -30,85 +37,85 @@ public class APIWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
+        int TOTAL_ELEMENTS = 8;
 
+        NotifyAppDatabase notifyDb = NotifyAppDatabase.getInstance(getApplicationContext());
+
+        TripAlarmComponent component = new TripAlarmComponent();
         Log.d("APIWORKER_STATE","ACTIVATE");
         //현재는 임시데이터 사용중....
-        //String sourceData = "3,동아대,사하구,20211117,0500,96,74,35.11637001672873,128.9682497981559,35.10630701217876,128.96670639796537,하단역,사하구,20211117,0500,96,74,35.10630701217876,128.96670639796537,35.20956456649422,129.00355907077622,구포시장,북구,20211117,0500,96,76,35.20956456649422,129.00355907077622,null,null";
+        //String sourceData = "3,동아대,사하구,35.11637001672873,128.9682497981559,35.10630701217876,128.96670639796537,0900,1300,하단역,사하구,35.10630701217876,128.96670639796537,35.20956456649422,129.00355907077622,1300,1715,구포시장,북구,35.20956456649422,129.00355907077622,null,null,1715,null";
 
         String sourceData = getInputData().getString("APIWORKER_INPUTDATA");
         String[] split_data = sourceData.split(",",2);
-        //Log.d("SOURCEDATA",sourceData);
+        Log.d("SOURCEDATA",sourceData);
 
         String sizeOfArray = split_data[0];      //장소 개수
         int sizeOfArray_i = Integer.parseInt(sizeOfArray);
 
         String[] items = split_data[1].split(",");
 
-        String placeName = "";
-        String placeAddress = "";
-        String basedate = "";
-        String basetime = "";
-        String xpos = "";
-        String ypos = "";
-        String aLatitude = "";
-        String aLongitude = "";
-        String bLatitude = "";
-        String bLongitude = "";
+        String placeName = null;
+        String placeAddress = null;
+        double aLatitude = 0;
+        double aLongitude = 0;
+        double bLatitude = 0;
+        double bLongitude = 0;
+        String arrivalTime = null;
+        String nextArrivalTime = null;
 
-        ArrayList<trip_alarm_info> placeInfos = new ArrayList<>();
-
+        //API에서 자료받기
+        ArrayList<TripAlarm_rv_item_info> API_info_list = new ArrayList<>();
         for(int i=0;i<items.length;i++){
-            int j = (i%10);     //장소당 정보 10개
+            int j = (i%TOTAL_ELEMENTS);     //장소당 정보 8개
             switch(j){
                 case 0: placeName = items[i]; break;
                 case 1: placeAddress = items[i]; break;
-                case 2: basedate = items[i]; break;
-                case 3: basetime = items[i]; break;
-                case 4: xpos = items[i]; break;
-                case 5: ypos = items[i]; break;
-                case 6: aLatitude = items[i]; break;
-                case 7: aLongitude = items[i]; break;
-                case 8: bLatitude = items[i]; break;
-                case 9:
-                    bLongitude = items[i];
-                    placeInfos.add(new trip_alarm_info(placeName, placeAddress, basedate, basetime, xpos, ypos, aLatitude, aLongitude, bLatitude, bLongitude));
+                case 2: aLatitude = Double.parseDouble(items[i]); break;
+                case 3: aLongitude = Double.parseDouble(items[i]); break;
+                case 4: bLatitude = (items[i].equals("null"))?1000:Double.parseDouble(items[i]); break;
+                case 5: bLongitude = (items[i].equals("null"))?1000:Double.parseDouble(items[i]); break;
+                case 6: arrivalTime = items[i]; break;
+                case 7:
+                    nextArrivalTime = items[i];
+                    Log.d("API_ITEMS_TEST",placeName+","+placeAddress+","+aLatitude+","+aLongitude+","+bLatitude+","+bLongitude+","+arrivalTime+","+nextArrivalTime);
+                    API_info_list.add(component.getItemInfo(placeName,placeAddress,aLatitude,aLongitude,bLatitude,bLongitude,arrivalTime,nextArrivalTime));
                     break;
             }
         }
-
-        //자료받기
-        ArrayList<TripAlarm_rv_item_info> API_info_list = new ArrayList<>();
-        for(int i=0;i<sizeOfArray_i;i++){
-            API_info_list.add(getAPI(placeInfos.get(i)));
-        }
-
         //특이사항 발생체크
         for(int i=0;i<sizeOfArray_i;i++){
-            boolean hasError = false;
-            if(API_info_list.get(i).getPlaceWeatherIconType()>=3) {//현재 기상 문제(비,눈) error_alarm_code : 1
-                Data error_info = new Data.Builder().putString("error_info","1,"+API_info_list.get(i).getPlaceName() + "," + API_info_list.get(i).getPlaceWeatherIconType()).build();
-                hasError = true;
-            }
-            else if(Double.parseDouble(API_info_list.get(i).getPlaceHum())>=70) {//강수확률 70%이상 error_alarm_code : 2
-                Data error_info = new Data.Builder().putString("error_info","2,"+API_info_list.get(i).getPlaceName() + "," + API_info_list.get(i).getPlaceHum()).build();
-                hasError = true;
-            }
-            else if(Double.parseDouble(API_info_list.get(i).getPlaceTmp())>=32
-                    || Double.parseDouble(API_info_list.get(i).getPlaceTmp())<= -5) {//온도 32도 이상 or -5도 이하 error_alarm_code : 3
-                Data error_info = new Data.Builder().putString("error_info","3,"+API_info_list.get(i).getPlaceName() + "," + API_info_list.get(i).getPlaceTmp()).build();
-                hasError = true;
-            }
-
-            //시간문제 error_alarm_code : 4
-
-            //특이사항 있을시 푸시
-            if(hasError){
-
-            }
+            component.tripAlarmPush(API_info_list.get(i),getApplicationContext());
         }
-
-        //결과를 TripAlarmViewModel로 넘겨서 갱신
-
+        /*
+        String errorTitle = null;
+        String errorBody = null;
+        for(int i=0;i<sizeOfArray_i;i++){
+            if(API_info_list.get(i).getPlaceWeatherIconType()>=3) {//현재 기상 문제(비,눈) error_alarm_code : 1
+                errorTitle = API_info_list.get(i).getPlaceName()+"에 기상 경고";
+                errorBody = "현재 "+API_info_list.get(i).getPlaceName()+"에 ";
+                if(API_info_list.get(i).getPlaceWeatherIconType()==3){
+                    errorBody = errorBody + "비가 오고 있습니다.";
+                }
+                else{
+                    errorBody = errorBody + "눈이 오고 있습니다.";
+                }
+                NotifyAppDatabase.getInstance(getApplicationContext()).notifyRepository().insert(new Notify(2,errorTitle,errorBody));
+            }
+            else if(Double.parseDouble(API_info_list.get(i).getPlaceHum())>=STANDARD_HUMIDITY) {//강수확률 70%이상 error_alarm_code : 2
+                errorTitle = API_info_list.get(i).getPlaceName()+"에 강수 확률 경고";
+                errorBody = "현재 "+API_info_list.get(i).getPlaceName()+"에 강수확률이 " + API_info_list.get(i).getPlaceRainfallProb()+"% 입니다.";
+                NotifyAppDatabase.getInstance(getApplicationContext()).notifyRepository().insert(new Notify(2,errorTitle,errorBody));
+            }
+            else if(Double.parseDouble(API_info_list.get(i).getPlaceTmp())>=STANDARD_MAX_TEMPERUATURE
+                    || Double.parseDouble(API_info_list.get(i).getPlaceTmp())<= STANDARD_MIN_TEMPERTATURE) {//온도 32도 이상 or -5도 이하 error_alarm_code : 3
+                errorTitle = API_info_list.get(i).getPlaceName()+"에 기온 경고";
+                errorBody = "현재 "+API_info_list.get(i).getPlaceName()+"에 기온이 "+ API_info_list.get(i).getPlaceTmp()+"°C입니다.";
+                NotifyAppDatabase.getInstance(getApplicationContext()).notifyRepository().insert(new Notify(2,errorTitle,errorBody));
+            }
+            //시간문제 error_alarm_code : 4
+        }
+         */
 
         /*
         //결과를 Data객체에 넣은 뒤 반환
@@ -121,6 +128,7 @@ public class APIWorker extends Worker {
         return Result.success();
     }
 
+/*
     //결과를 String으로 만드는 매서드  (장소이름,주소,온도,습도,강수확률,강수/적설량,기상상태아이콘,소요시간(text))
     private String convert_result(ArrayList<TripAlarm_rv_item_info>data){
         String result = Integer.toString(data.size());
@@ -132,7 +140,8 @@ public class APIWorker extends Worker {
         }
         return result;
     }
-
+ */
+/*
     //API로 정보 받아오는 매서드
     private TripAlarm_rv_item_info getAPI(trip_alarm_info data){
         // ============================== 날씨정보 받기 시작 ==============================
@@ -221,20 +230,20 @@ public class APIWorker extends Worker {
             default: iconType = 1;
         }
         rainSnowInfo = (isRain)?w_values[2]:w_values[4];    //강수랑or적설량
-        /*
-        if(isRain){ //비
-            if(w_values[2]!=null)
-                rainSnowInfo = "강수량 : " + w_values[2];
-            else
-                rainSnowInfo = "강수량 : 0mm";
-        }
-        else{
-            if(w_values[4]!=null)
-                rainSnowInfo = "적설량 : " + w_values[4];
-            else
-                rainSnowInfo = "적설량 : 0cm";
-        }
-         */
+
+//        if(isRain){ //비
+//            if(w_values[2]!=null)
+//                rainSnowInfo = "강수량 : " + w_values[2];
+//            else
+//                rainSnowInfo = "강수량 : 0mm";
+//        }
+//        else{
+//            if(w_values[4]!=null)
+//                rainSnowInfo = "적설량 : " + w_values[4];
+//            else
+//                rainSnowInfo = "적설량 : 0cm";
+//        }
+
         // ============================== 날씨정보 받기 종료 ==============================
 
         // ============================== 시간정보 받기 시작 ==============================
@@ -305,4 +314,5 @@ public class APIWorker extends Worker {
         }
         return -1;
     }
+ */
 }

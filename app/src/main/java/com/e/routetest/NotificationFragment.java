@@ -23,11 +23,11 @@ public class NotificationFragment extends Fragment {
         notifyList = new ArrayList<>();
         recyclerView = (RecyclerView)view.findViewById(R.id.nRV);
         notificationAdapter = new NotificationAdapter(view.getContext(),notifyList);
-        NotifyAppDatabase nDb = NotifyAppDatabase.getInstance(getContext());
+        NotifyAppDatabase nDb = NotifyAppDatabase.getInstance(getContext());    //DB객체생성
 
         new Thread(){
             public void run(){
-                notifyList.addAll(nDb.notifyRepository().findAll());
+                notifyList.addAll(nDb.notifyRepository().findAll());        //찾기
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

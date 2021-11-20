@@ -27,7 +27,7 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
 
     public void showDataMessage(String msgTitle, String msgContent) {
         NotifyAppDatabase notifyDb = NotifyAppDatabase.getInstance(this);
-        new InsertAsyncTask(notifyDb.notifyRepository()).execute(new Notify(1,msgTitle,msgContent));
+        new InsertAsyncTask(notifyDb.notifyRepository()).execute(new Notify(2,msgTitle,msgContent));
         Intent intent = new Intent(this,LoadingActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_ONE_SHOT);
