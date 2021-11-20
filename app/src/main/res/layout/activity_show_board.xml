@@ -14,38 +14,6 @@
         tools:context=".ShowBoardActivity">
 
         <TextView
-            android:id="@+id/finalSpot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="흑두루미의성지"
-            android:textSize="18dp"
-            app:layout_constraintBottom_toBottomOf="@+id/temptemp"
-            app:layout_constraintStart_toEndOf="@+id/temptemp"
-            app:layout_constraintTop_toTopOf="@+id/temptemp" />
-
-        <TextView
-            android:id="@+id/temptemp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="->"
-            android:textSize="18dp"
-            app:layout_constraintBottom_toBottomOf="@+id/firstSpot"
-            app:layout_constraintStart_toEndOf="@+id/firstSpot"
-            app:layout_constraintTop_toTopOf="@+id/firstSpot" />
-
-        <TextView
-            android:id="@+id/firstSpot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="동아대학교"
-            android:textSize="18dp"
-            app:layout_constraintStart_toStartOf="@+id/textView4"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-        <TextView
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -111,19 +79,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-        <TextView
-            android:id="@+id/viewContent"
-            android:layout_width="match_parent"
-            android:layout_height="17dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
-            android:text="TextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/finalSpot" />
-
         <Button
             android:id="@+id/updateButton"
             android:layout_width="wrap_content"
@@ -132,7 +87,8 @@
             android:layout_marginBottom="20dp"
             android:text="수정"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/deleteButton"
@@ -141,7 +97,8 @@
             android:layout_marginStart="10dp"
             android:text="삭제"
             app:layout_constraintBottom_toBottomOf="@+id/updateButton"
-            app:layout_constraintStart_toEndOf="@+id/updateButton" />
+            app:layout_constraintStart_toEndOf="@+id/updateButton"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/joinButton"
@@ -151,7 +108,55 @@
             android:layout_marginBottom="20dp"
             android:text="참가신청"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userView">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/viewContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/sBRV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/viewContent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="Button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="invisible"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

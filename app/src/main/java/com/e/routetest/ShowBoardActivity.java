@@ -3,6 +3,8 @@ package com.e.routetest;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -41,6 +43,9 @@ import static com.e.routetest.LoginActivity.userId;
 public class ShowBoardActivity extends AppCompatActivity {
 
     ArrayList<String> board =new ArrayList<String>();
+    public ArrayList<Spot> spots2=new ArrayList<Spot>();
+    public ArrayList<Integer> departures2=new ArrayList<Integer>();
+    public ArrayList<Integer> arrivals2=new ArrayList<Integer>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent boardintent = getIntent();
@@ -51,11 +56,11 @@ public class ShowBoardActivity extends AppCompatActivity {
         TextView userView1 = (TextView)findViewById(R.id.userView);
         TextView dateView1 = (TextView)findViewById(R.id.showDate);
         TextView contentView1 = (TextView)findViewById(R.id.viewContent);
-        TextView firstSpot1 = (TextView)findViewById(R.id.firstSpot);
-        TextView finalSpot1 = (TextView)findViewById(R.id.finalSpot);
         Button uButton = (Button)findViewById(R.id.updateButton);
         Button dButton = (Button)findViewById(R.id.deleteButton);
         Button jButton = (Button)findViewById(R.id.joinButton);
+        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.sBRV);
+        RouteAdapter2 routeAdapter2 = new RouteAdapter2(getApplicationContext(),spots2,departures2,arrivals2);
         new Thread(){
             public void run(){
                 if(getBoard(boardId)){
@@ -63,26 +68,19 @@ public class ShowBoardActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             String[] spotArr = board.get(4).split(",");
-                            for(Spot obj : allSpotList){
-                                if(obj.spotID==Integer.parseInt(spotArr[0])){
-                                    firstSpot1.setText(obj.spotName);
-                                }
-                                if(obj.spotID==Integer.parseInt(spotArr[spotArr.length-1])){
-                                    finalSpot1.setText(obj.spotName);
-                                }
-                            }
                             titleView1.setText(board.get(0));
                             userView1.setText(board.get(1));
                             dateView1.setText(board.get(2));
                             contentView1.setText(board.get(3));
                             if(userId.equals(userView1.getText().toString())){
-                                jButton.setVisibility(View.INVISIBLE);
+                                uButton.setVisibility(View.VISIBLE);
+                                dButton.setVisibility(View.VISIBLE);
+
                             }
                             else {
-                                uButton.setVisibility(View.INVISIBLE);
-                                dButton.setVisibility(View.INVISIBLE);
+                                jButton.setVisibility(View.VISIBLE);
                             }
-
+                            routeAdapter2.notifyDataSetChanged();
                         }
                     });
                 }
@@ -159,7 +157,9 @@ public class ShowBoardActivity extends AppCompatActivity {
                 }.start();
             }
         });
-
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setAdapter(routeAdapter2);
 
     }
     public boolean getBoard(int n){
@@ -200,6 +200,19 @@ public class ShowBoardActivity extends AppCompatActivity {
             JsonElement jsonElement2 = jsonParser2.parse(response2.body().string());
             JsonObject jsonObject2 = jsonElement2.getAsJsonObject();
             String routeList = jsonObject2.get("routeList").getAsString();
+            String rArr[] = routeList.split(",");
+            String arrTimeList = jsonObject2.get("arriveTime").getAsString();
+            String aArr[] = arrTimeList.split(",");
+            for(int i=0;i<rArr.length;i++){
+                for(Spot obj : allSpotList){
+                    if(obj.spotID==Integer.parseInt(rArr[i])){
+                        spots2.add(obj);
+                        arrivals2.add(Integer.parseInt(aArr[i]));
+                        departures2.add(-1);
+                    }
+                }
+            }
+
             board.add(routeList);
             return true;
 
