@@ -181,7 +181,7 @@ public class EditRouteFragment extends Fragment {
                                     spA = spA + ",";
                                     spA = spA + String.valueOf(spots.get(i).spotAddress);
                                 }
-                                new InsertAsyncTask(db.spRepository()).execute(new Sp(spName, spotList, spX, spY, spA, "-1", arrList, depList));
+                                new InsertAsyncTask(db.spRepository()).execute(new Sp(spName, spotList, spX, spY, spA, "-1", arrList, depList, -1));
                             }
                         }
                         else{

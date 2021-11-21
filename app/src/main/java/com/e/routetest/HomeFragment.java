@@ -47,9 +47,9 @@ public class HomeFragment extends Fragment {
 
         ArrayList<Sp> test_routeList = new ArrayList<>();
         test_routeList.clear();
-        test_routeList.add(new Sp("다대포해수욕장","126079", "35.0464195263","128.9680332493","부산시 사하구", "20211120","0900","1000"));
-        test_routeList.add(new Sp("송정해수욕장","126080", "35.1787117732","129.1996400523","부산광역시 해운대구", "20211120","1300","1330"));
-        test_routeList.add(new Sp("광안리해수욕장","126078", "35.1537908369","129.1184922375","부산시 수영구", "20211120","1715","2100"));
+//        test_routeList.add(new Sp("다대포해수욕장","126079", "35.0464195263","128.9680332493","부산시 사하구", "20211120","0900","1000"));
+//        test_routeList.add(new Sp("송정해수욕장","126080", "35.1787117732","129.1996400523","부산광역시 해운대구", "20211120","1300","1330"));
+//        test_routeList.add(new Sp("광안리해수욕장","126078", "35.1537908369","129.1184922375","부산시 수영구", "20211120","1715","2100"));
 
         //placeWeatherTimeBasedataList.clear();
         //placeWeatherTimeBasedataList.add(new PlaceWeatherTimeBasedata("동아대","부산시 사하구",35.11637001672873,128.9682497981559,"0900"));

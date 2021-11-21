@@ -78,7 +78,15 @@ public class Sp {
         this.desTime = desTime;
     }
 
-    public Sp(String spotsName, String spotsId, String spotsX, String spotsY, String spotsAddress, String date, String arrTime, String desTime) {
+    public int getSvId() {
+        return svId;
+    }
+
+    public void setSvId(int svId) {
+        this.svId = svId;
+    }
+
+    public Sp(String spotsName, String spotsId, String spotsX, String spotsY, String spotsAddress, String date, String arrTime, String desTime, int svId) {
         this.spotsName = spotsName;
         this.spotsId = spotsId;
         this.spotsX = spotsX;
@@ -87,6 +95,7 @@ public class Sp {
         this.date = date;
         this.arrTime = arrTime;
         this.desTime = desTime;
+        this.svId = svId;
     }
 
     @PrimaryKey(autoGenerate = true)
@@ -99,4 +108,5 @@ public class Sp {
     private String date;
     private String arrTime;
     private String desTime;
+    private int svId;
 }

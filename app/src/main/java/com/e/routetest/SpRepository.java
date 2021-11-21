@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -22,4 +23,8 @@ public interface SpRepository {
 
     @Delete
     void delete(Sp sp);
+
+    @Query("UPDATE sp SET svId=(:sId),date=(:sDate) where routeId=(:routeID)")
+    void update(int sId, String sDate, int routeID);
+
 }

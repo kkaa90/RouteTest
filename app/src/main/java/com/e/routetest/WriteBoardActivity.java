@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,6 +23,7 @@ import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.concurrent.ExecutionException;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -29,10 +31,6 @@ import okhttp3.Response;
 
 import static com.e.routetest.LoadingActivity.sv;
 import static com.e.routetest.LoginActivity.userId;
-import static com.e.routetest.RouteActivity.arrivals;
-import static com.e.routetest.RouteActivity.departures;
-import static com.e.routetest.RouteActivity.routes;
-import static com.e.routetest.RouteActivity.spots;
 
 public class WriteBoardActivity extends AppCompatActivity {
     private SpRepository spRepository;
@@ -42,10 +40,12 @@ public class WriteBoardActivity extends AppCompatActivity {
     public ArrayList<Integer> arrivals2=new ArrayList<Integer>();
     public ArrayList<Route> routes2= new ArrayList<Route>();
     private int num=0;
+    private int r=0;
     TextView rEdit;
     TextView dEdit;
     TextView thEdit;
     int th=0;
+    boolean b;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,7 +108,16 @@ public class WriteBoardActivity extends AppCompatActivity {
                     public void run(){
                         if(writeBoard(tEdit.getText().toString(),wEdit.getText().toString(),routes2.get(0),cEdit.getText().toString().replaceAll("\\n", "<br />"),
                                 lEdit.getText().toString(),dEdit.getText().toString(),th,Integer.parseInt(pEdit.getText().toString()))){
-                            finish();
+
+                            AsyncTask<Sp, Void, Boolean> task = new UpdateAsyncTask(db.spRepository(),r,dEdit.getText().toString(),num);
+                            try {
+                                b = task.execute().get();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            if(b) finish();
                         }
                         else{
 
@@ -117,15 +126,29 @@ public class WriteBoardActivity extends AppCompatActivity {
                 }.start();
             }
         });
+    }
+    public static class UpdateAsyncTask extends AsyncTask<Sp, Void, Boolean> {
+        private SpRepository mSpRepository;
+        private int a;
+        private String d;
+        private int r;
 
-
-
-
+        public UpdateAsyncTask(SpRepository spRepository, int a, String d, int routeId){
+            this.mSpRepository = spRepository;
+            this.a=a;
+            this.d=d;
+            this.r=routeId;
+        }
+        @Override
+        protected Boolean doInBackground(Sp... sps){
+            mSpRepository.update(a,d,r);
+            return true;
+        }
     }
     private boolean writeBoard(String t, String w, Route route, String c, String l, String d, int theme, int p){
         try {
 
-            int r = writeRoute(route, theme);
+            r = writeRoute(route, theme);
             if(r==-1) return false;
 
             String url = sv + "writeBoard.jsp?routeID="+r+"&userID="+w
@@ -145,7 +168,10 @@ public class WriteBoardActivity extends AppCompatActivity {
             String success = jsonObject.get("success").getAsString();
             System.out.println(success);
 
-            if(success.equals("true")){ return true;}
+            if(success.equals("true")){
+
+                return true;
+            }
             else {
                 //new AlertDialog.Builder(WriteBoardActivity.this).setMessage("작성 실패").show();
             }

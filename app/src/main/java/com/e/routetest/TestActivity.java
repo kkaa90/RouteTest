@@ -3,8 +3,10 @@ package com.e.routetest;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Update;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -71,11 +73,15 @@ public class TestActivity extends AppCompatActivity {
         nButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new Thread(){
+                /*new Thread(){
                     public void run(){
                         testF();
                     }
-                }.start();
+                }.start();*/
+                int a =1;
+                String d= "2021-11-21";
+                int routeId = 1;
+                new UpdateAsyncTask(db.spRepository(),a,d,routeId).execute();
             }
         });
     }
@@ -118,6 +124,24 @@ public class TestActivity extends AppCompatActivity {
             }
         }
 
+    }
+    public static class UpdateAsyncTask extends AsyncTask<Sp, Void, Void> {
+        private SpRepository mSpRepository;
+        private int a;
+        private String d;
+        private int r;
+
+        public UpdateAsyncTask(SpRepository spRepository, int a, String d, int routeId){
+            this.mSpRepository = spRepository;
+            this.a=a;
+            this.d=d;
+            this.r=routeId;
+        }
+        @Override
+        protected Void doInBackground(Sp... sps){
+            mSpRepository.update(a,d,r);
+            return null;
+        }
     }
     public void testF(){
         String FCM_MESSAGE_URL = "https://fcm.googleapis.com/fcm/send";
