@@ -9,9 +9,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+import static com.e.routetest.LoadingActivity.sv;
+import static com.e.routetest.LoginActivity.userId;
 
 public class ReviewActivity extends AppCompatActivity {
     public List<ReviewData> reviewData;
@@ -57,10 +69,40 @@ public class ReviewActivity extends AppCompatActivity {
         rButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for(int i=0;i<reviewData.size();i++){
-                    System.out.println(reviewData.get(i).getSpotName()+" : "+Float.toString(reviewData.get(i).getScore()));
-                }
+                new Thread(){
+                    public void run(){
+                        for(int i=0;i<reviewData.size();i++){
+                            if(review(userId,Integer.toString(reviewData.get(i).getSpotId()),(int)reviewData.get(i).getScore())){
+
+                            }
+                        }
+                    }
+                }.start();
             }
         });
+    }
+    public boolean review(String id, String sId, int score) {
+        try {
+            String url = sv + "writeReview.jsp?userID="+id+"&attractionID="+sId+"&score="+score;
+            System.out.println(url);
+
+
+            OkHttpClient client = new OkHttpClient();
+            Request.Builder builder = new Request.Builder().url(url).get();
+            Request request = builder.build();
+
+            Response response = client.newCall(request).execute();
+            Gson gson = new Gson();
+            JsonParser jsonParser = new JsonParser();
+            JsonElement jsonElement = jsonParser.parse(response.body().string());
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            String success = jsonObject.get("success").getAsString();
+            System.out.println(success);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 }

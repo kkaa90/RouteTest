@@ -114,6 +114,7 @@ public class TripAlarmListActivity extends AppCompatActivity {
         new Thread() {
             public void run() {
                 //임시경로DB에서 데이터 받기
+                tripAlarmItems.clear();
                 TripAlarmComponent component = new TripAlarmComponent();
 
                 TempPlaceDatabase tDb = TempPlaceDatabase.getInstance(getApplicationContext());
