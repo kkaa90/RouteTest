@@ -93,6 +93,7 @@ public class BoardFragment extends Fragment {
                         @Override
                         public void run() {
                             boards2.addAll(boards);
+                            bs++;
                             boardAdapter.notifyDataSetChanged();
                         }
                     });
@@ -118,7 +119,7 @@ public class BoardFragment extends Fragment {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(!recyclerView.canScrollVertically(1)&&newState==RecyclerView.SCROLL_STATE_IDLE&&bs!=-1) {
+                if(!recyclerView.canScrollVertically(1)&&newState==RecyclerView.SCROLL_STATE_IDLE&&bs!=0) {
                     new Thread() {
                         public void run() {
                             if (getSpot(bs)) {
@@ -126,6 +127,7 @@ public class BoardFragment extends Fragment {
                                     @Override
                                     public void run() {
                                         boards2.addAll(boards);
+                                        bs++;
                                         boardAdapter.notifyDataSetChanged();
                                     }
                                 });
@@ -154,7 +156,7 @@ public class BoardFragment extends Fragment {
             JsonObject jsonObject = jsonElement.getAsJsonObject();
             int now = jsonObject.get("page").getAsInt();
             if(now == 0) {
-                bs = -1;
+                bs = 0;
                 return false;
             }
 
@@ -197,7 +199,7 @@ public class BoardFragment extends Fragment {
                 String appliT=jsonObject1.get("appliT").getAsString();
                 boards.add(new Board(boardID,temp,userID,nickName,destiny,arrival,themeID,routeID,boardDate,currentP,maxP,appliT));
             }
-            bs++;
+
             if(now!=10) bs = -1;
             return true;
 
