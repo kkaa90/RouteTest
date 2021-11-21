@@ -28,9 +28,13 @@ public class LoadingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_loading);
         new Thread(){
             public void run(){
-                while(getSpot()!=1){
-
-                }
+                /*while(getSpot()!=1){
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }*/
                 Intent intent = new Intent(getApplicationContext(),StartActivity.class);
                 startActivity(intent);
                 finish();

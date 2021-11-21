@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.SparseBooleanArray;
@@ -83,17 +84,21 @@ public class O2MAdapter extends RecyclerView.Adapter<O2MAdapter.Holder> {
                             AlertDialog.Builder builder = new AlertDialog.Builder((oContext));
                             builder.setTitle("수락 완료");
                             builder.setMessage("수락되었습니다.");
+
                             builder.setNeutralButton("확인", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-
+                                    o2MRequests.remove(itemPosition);
+                                    notifyDataSetChanged();
                                 }
                             });
                             android.os.Handler handler = new Handler(Looper.getMainLooper());
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    builder.create().show();
+                                    AlertDialog dialog = builder.create();
+                                    dialog.show();
+                                    dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.BLACK);
                                 }
                             });
                         }
@@ -111,7 +116,9 @@ public class O2MAdapter extends RecyclerView.Adapter<O2MAdapter.Holder> {
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    builder.create().show();
+                                    AlertDialog dialog = builder.create();
+                                    dialog.show();
+                                    dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.BLACK);
                                 }
                             });
                         }
@@ -132,14 +139,17 @@ public class O2MAdapter extends RecyclerView.Adapter<O2MAdapter.Holder> {
                             builder.setNeutralButton("확인", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-
+                                    o2MRequests.remove(itemPosition);
+                                    notifyDataSetChanged();
                                 }
                             });
                             android.os.Handler handler = new Handler(Looper.getMainLooper());
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    builder.create().show();
+                                    AlertDialog dialog = builder.create();
+                                    dialog.show();
+                                    dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.BLACK);
                                 }
                             });
                         }
@@ -153,11 +163,14 @@ public class O2MAdapter extends RecyclerView.Adapter<O2MAdapter.Holder> {
 
                                 }
                             });
+
                             android.os.Handler handler = new Handler(Looper.getMainLooper());
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    builder.create().show();
+                                    AlertDialog dialog = builder.create();
+                                    dialog.show();
+                                    dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.BLACK);
                                 }
                             });
 

@@ -34,14 +34,14 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.Holder>{
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-
+        String items[] = {"임시1","임시2","임시3","임시4","임시5","임시6","임시7"};
         int itemPosition=position;
         holder.pfImg.setImageResource(R.drawable.photo1);
-        System.out.println(boardList.get(itemPosition).boardTitle);
-        System.out.println(itemPosition);
+//        System.out.println(boardList.get(itemPosition).boardTitle);
+//        System.out.println(itemPosition);
         String temp = boardList.get(itemPosition).boardTitle;
         holder.titleView.setText(temp);
-        holder.themeView.setText(String.valueOf(boardList.get(itemPosition).themeID));
+        holder.themeView.setText(items[boardList.get(itemPosition).themeID]);
         holder.dateView.setText(boardList.get(itemPosition).boardDate);
         holder.nickView.setText(boardList.get(itemPosition).nickName);
         holder.desView.setText(boardList.get(itemPosition).destiny);

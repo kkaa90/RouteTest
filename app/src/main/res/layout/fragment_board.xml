@@ -12,12 +12,13 @@
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
         android:minWidth="0dp"
         android:text="적용"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/editTextDate2"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editTextDate2"
         app:layout_constraintTop_toTopOf="@+id/editTextDate2" />
 
 
@@ -40,6 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:tag="0"
                 android:text="테마1" />
 
             <com.google.android.material.button.MaterialButton
@@ -48,6 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:tag="1"
                 android:text="테마2" />
 
             <com.google.android.material.button.MaterialButton
@@ -56,6 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:tag="2"
                 android:text="테마3" />
 
             <com.google.android.material.button.MaterialButton
@@ -64,6 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:tag="3"
                 android:text="테마4" />
 
             <com.google.android.material.button.MaterialButton
@@ -72,6 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:tag="4"
                 android:text="테마5" />
 
             <com.google.android.material.button.MaterialButton
@@ -80,6 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:tag="5"
                 android:text="테마6" />
 
             <com.google.android.material.button.MaterialButton
@@ -88,6 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:tag="6"
                 android:text="테마7" />
 
 
@@ -101,7 +109,7 @@
         android:id="@+id/editTextDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="18dp"
         android:layout_marginTop="8dp"
         android:inputType="date"
         android:text="2021-11-20"
@@ -134,13 +142,16 @@
 
     <Button
         android:id="@+id/writeBoardButton"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:background="@drawable/circle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:text="글쓰기"
         android:textSize="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnApply"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnApply"
+        app:layout_constraintTop_toTopOf="@+id/btnApply" />
 
     <TextView
         android:id="@+id/textView9"

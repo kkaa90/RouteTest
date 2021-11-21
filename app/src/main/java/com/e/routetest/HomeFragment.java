@@ -124,7 +124,7 @@ public class HomeFragment extends Fragment {
                 String nickName=userID;
                 String destiny = " ";
                 String arrival = " ";
-                int themeID=0;
+
                 int routeID = jsonObject1.get("routeID").getAsInt();
                 System.out.println(routeID);
                 if(routeID==0) continue;
@@ -135,11 +135,12 @@ public class HomeFragment extends Fragment {
                         find1=1;
                         destiny=obj.spotName;
                     }
-                    if(obj.spotID==Integer.parseInt(spotArr[spotArr.length-1])){
+                    if(obj.spotID==Integer.parseInt(spotArr[spotArr.length-2])){
                         find2=1;
                         arrival=obj.spotName;
                     }
                 }
+                int themeID=Integer.parseInt(spotArr[spotArr.length-1]);
                 if(find1==0) destiny="-";
                 if(find2==0) arrival="-";
                 String boardDate = jsonObject1.get("boardDate").getAsString();
@@ -171,6 +172,7 @@ public class HomeFragment extends Fragment {
             JsonElement jsonElement = jsonParser.parse(response.body().string());
             JsonObject jsonObject = jsonElement.getAsJsonObject();
             rL=jsonObject.get("routeList").getAsString();
+            rL += ","+jsonObject.get("Thema").getAsString();
 
 
         } catch (Exception e) {

@@ -37,7 +37,11 @@ public class NotificationFragment extends Fragment {
             }
         }.start();
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+        LinearLayoutManager lM = new LinearLayoutManager(getActivity().getApplicationContext());
+        lM.setReverseLayout(true);
+        lM.setStackFromEnd(true);
+        recyclerView.setLayoutManager(lM);
+
         recyclerView.setAdapter(notificationAdapter);
         return view;
     }

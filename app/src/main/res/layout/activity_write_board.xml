@@ -8,19 +8,19 @@
 
 
     <TextView
-        android:id="@+id/datePick"
-        android:layout_width="345dp"
+        android:id="@+id/centerT"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:gravity="center_vertical"
-        android:hint="날짜 선택"
-        android:textSize="18sp"
+        android:text="글쓴이"
+        android:textSize="24sp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/routeNum" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="66dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="제목"
@@ -38,7 +38,9 @@
         android:hint="제목"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/title"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:inputType="text"
+        android:maxLines="1"/>
 
     <TextView
         android:id="@+id/writer"
@@ -61,7 +63,7 @@
 
     <TextView
         android:id="@+id/route"
-        android:layout_width="66dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="경로"
@@ -70,41 +72,6 @@
         app:layout_constraintEnd_toEndOf="@+id/writer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/routeNum" />
-
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="66dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="날짜"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/datePick"
-        app:layout_constraintEnd_toEndOf="@+id/writer"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/datePick" />
-
-    <TextView
-        android:id="@+id/content"
-        android:layout_width="66dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="내용"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/contentEdit"
-        app:layout_constraintEnd_toEndOf="@+id/writer"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/contentEdit" />
-
-    <TextView
-        android:id="@+id/link"
-        android:layout_width="66dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:scrollbars="vertical"
-        android:text="카카오톡\n링크"
-        app:layout_constraintBottom_toBottomOf="@+id/linkEdit"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/linkEdit" />
 
     <TextView
         android:id="@+id/routeNum"
@@ -118,27 +85,114 @@
         app:layout_constraintStart_toEndOf="@+id/route"
         app:layout_constraintTop_toBottomOf="@+id/writerEdit" />
 
-    <Button
-        android:id="@+id/participation"
-        android:layout_width="118dp"
-        android:layout_height="77dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginBottom="50dp"
-        android:text="게시글 작성"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="날짜"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/datePick"
+        app:layout_constraintEnd_toEndOf="@+id/writer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/datePick" />
+
+    <TextView
+        android:id="@+id/datePick"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center_vertical"
+        android:hint="날짜 선택"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/date"
+        app:layout_constraintTop_toBottomOf="@+id/routeNum" />
+
+    <TextView
+        android:id="@+id/max"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="인원수"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/thema"
+        app:layout_constraintEnd_toEndOf="@+id/writer"
+        app:layout_constraintStart_toStartOf="@+id/writer"
+        app:layout_constraintTop_toTopOf="@+id/thema"
+        />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/maxPEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="인원수"
+        android:text="5"
+        app:layout_constraintBottom_toBottomOf="@+id/thema"
+        app:layout_constraintEnd_toStartOf="@+id/thema"
+        app:layout_constraintStart_toEndOf="@+id/max"
+        app:layout_constraintTop_toTopOf="@+id/thema"
+        android:inputType="number"/>
+
+    <TextView
+        android:id="@+id/thema"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="테마"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/themeEdit"
+        app:layout_constraintEnd_toEndOf="@+id/centerT"
+        app:layout_constraintStart_toStartOf="@+id/centerT"
+        app:layout_constraintTop_toTopOf="@+id/themeEdit" />
+
+    <TextView
+        android:id="@+id/themeEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center_vertical"
+        android:hint="테마 선택"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/thema"
+        app:layout_constraintTop_toBottomOf="@+id/datePick" />
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="내용"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/contentEdit"
+        app:layout_constraintEnd_toEndOf="@+id/writer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/contentEdit" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/contentEdit"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:hint="내용 입력"
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toTopOf="@+id/linkEdit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/content"
-        app:layout_constraintTop_toBottomOf="@+id/datePick" />
+        app:layout_constraintTop_toBottomOf="@+id/themeEdit" />
+
+    <TextView
+        android:id="@+id/link"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:scrollbars="vertical"
+        android:text="카카오톡\n링크"
+        app:layout_constraintBottom_toBottomOf="@+id/linkEdit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linkEdit" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/linkEdit"
@@ -148,6 +202,16 @@
         app:layout_constraintBottom_toTopOf="@+id/participation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/link" />
+
+    <Button
+        android:id="@+id/participation"
+        android:layout_width="118dp"
+        android:layout_height="77dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="50dp"
+        android:text="게시글 작성"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,8 +2,11 @@ package com.e.routetest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -28,6 +31,8 @@ import static com.e.routetest.LoadingActivity.sv;
 import static com.e.routetest.LoginActivity.userId;
 import static com.e.routetest.RouteActivity.arrivals;
 import static com.e.routetest.RouteActivity.departures;
+import static com.e.routetest.RouteActivity.routes;
+import static com.e.routetest.RouteActivity.spots;
 
 public class WriteBoardActivity extends AppCompatActivity {
     private SpRepository spRepository;
@@ -39,6 +44,8 @@ public class WriteBoardActivity extends AppCompatActivity {
     private int num=0;
     TextView rEdit;
     TextView dEdit;
+    TextView thEdit;
+    int th=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +59,9 @@ public class WriteBoardActivity extends AppCompatActivity {
         TextInputEditText lEdit = (TextInputEditText)findViewById(R.id.linkEdit);
         wEdit.setText(userId);
         Button writeB = (Button)findViewById(R.id.participation);
+        TextInputEditText pEdit = (TextInputEditText)findViewById(R.id.maxPEdit);
+        thEdit = (TextView)findViewById(R.id.themeEdit);
+
         rEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,6 +84,21 @@ public class WriteBoardActivity extends AppCompatActivity {
                 },mYear,mMonth,mDay);
                 datePickerDialog.getDatePicker().setMinDate(cal.getTimeInMillis());
                 datePickerDialog.show();
+                datePickerDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+            }
+        });
+        thEdit.setOnClickListener(new View.OnClickListener() {
+            String items[] = {"임시1","임시2","임시3","임시4","임시5","임시6","임시7"};
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder sDialog = new AlertDialog.Builder(WriteBoardActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+                sDialog.setTitle("선택").setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int select) {
+                        thEdit.setText(items[select]);
+                        th=select;
+                    }
+                }).show();
             }
         });
         writeB.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +107,7 @@ public class WriteBoardActivity extends AppCompatActivity {
                 new Thread(){
                     public void run(){
                         if(writeBoard(tEdit.getText().toString(),wEdit.getText().toString(),routes2.get(0),cEdit.getText().toString().replaceAll("\\n", "<br />"),
-                                lEdit.getText().toString(),dEdit.getText().toString())){
+                                lEdit.getText().toString(),dEdit.getText().toString(),th,Integer.parseInt(pEdit.getText().toString()))){
                             finish();
                         }
                         else{
@@ -97,14 +122,14 @@ public class WriteBoardActivity extends AppCompatActivity {
 
 
     }
-    private boolean writeBoard(String t, String w, Route route, String c, String l, String d){
+    private boolean writeBoard(String t, String w, Route route, String c, String l, String d, int theme, int p){
         try {
 
-            int r = writeRoute(route);
+            int r = writeRoute(route, theme);
             if(r==-1) return false;
 
             String url = sv + "writeBoard.jsp?routeID="+r+"&userID="+w
-                    +"&maxP=4&appliT="+d+"&boardTitle="+t+"&boardContent="+c+"&kakaoLink="+l;
+                    +"&maxP="+p+"&appliT="+d+"&boardTitle="+t+"&boardContent="+c+"&kakaoLink="+l;
             System.out.println(url);
 
 
@@ -131,12 +156,12 @@ public class WriteBoardActivity extends AppCompatActivity {
         }
         return false;
     }
-    private int writeRoute(Route route) {
+    private int writeRoute(Route route, int theme) {
 
 
         try {
             String url = sv + "writeRoute.jsp?userID=" + route.userId
-                    + "&routeTitle=테스트&routeList=" + route.spots + "&Thema=" + route.theme + "&arriveTime=" + route.arrivalTime;
+                    + "&routeTitle=테스트&routeList=" + route.spots + "&Thema=" + theme + "&arriveTime=" + route.arrivalTime;
             System.out.println(url);
 
 
@@ -189,6 +214,7 @@ public class WriteBoardActivity extends AppCompatActivity {
                             arrList = arrList + ",";
                             arrList = arrList + String.valueOf(arrivals2.get(i));
                         }
+                        routes2.clear();
                         routes2.add(new Route(rs,userId,"2021-11-18",s.getSpotsId().toString(),"0",depList,arrList));
                         runOnUiThread(new Runnable() {
                             @Override
