@@ -69,7 +69,7 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
         public TextView placeRainfallProb;
         public TextView placeRainfallInfo;
 
-        public TextView placeSpendTime;
+        public TextView placeArrivalTime;
 
         public Button visitButton;
         public Button testButton;
@@ -91,7 +91,7 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
             placeRainfallProb = (TextView)view.findViewById(R.id.trip_alarm_rv_item_rainfallProbablityInfo);
             placeRainfallInfo = (TextView)view.findViewById(R.id.trip_alarm_rv_item_rainfallInfo);
 
-            placeSpendTime = (TextView)view.findViewById(R.id.trip_alarm_rv_item_spendTime);
+            placeArrivalTime = (TextView)view.findViewById(R.id.trip_alarm_rv_item_arrivalTime);
 
             visitButton = (Button)view.findViewById(R.id.trip_alarm_rv_item_visitButton);
             testButton = (Button)view.findViewById(R.id.trip_alarm_rv_item_testButton);
@@ -116,17 +116,23 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
                 case 5: weatherIcon.setImageResource(R.drawable.snow); break;
                 case 6: weatherIcon.setImageResource(R.drawable.shower); break;
             }
-            placeName.setText("장소 : " + tripAlarm_rv_item_info.getPlaceName());
+            placeName.setText(tripAlarm_rv_item_info.getPlaceName());
             placeTmp.setText("온도 : " + tripAlarm_rv_item_info.getPlaceTmp());
             placeHum.setText("습도 : " + tripAlarm_rv_item_info.getPlaceHum() + "%");
             placeRainfallProb.setText("강수확률 : " + tripAlarm_rv_item_info.getPlaceRainfallProb() + "%");
             placeRainfallInfo.setText(tripAlarm_rv_item_info.getPlaceRainfallInfo());
 
-            if(tripAlarm_rv_item_info.getSpendingTime_text()=="없음") {
+            String at = tripAlarm_rv_item_info.getArrivalTime();
+            String at_h = at.substring(0,2);
+            String at_m = at.substring(2);
+            placeArrivalTime.setText(at_h+":"+at_m);
+            /*
+            if(tripAlarm_rv_item_info.getSpendingTime_text().equals("null")) {
                 placeSpendTime.setText("마지막 행선지입니다.");
             }else {
                 placeSpendTime.setText("소요시간 : 약" + tripAlarm_rv_item_info.getSpendingTime_text());
             }
+             */
 
             changeVisibility(selectedItems.get(position));
 
@@ -167,9 +173,7 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
 
                 case R.id.trip_alarm_rv_item_visitButton:
                     isVisitList.set(position,true);
-                    //item_detail.setBackgroundColor(Color.RED);
-                    Log.d("VISITBUTTONACTIVE","OK");
-                    Log.d("ISVISITLISTSIZE",""+isVisitList.size());
+                    item_detail.setBackgroundColor(Color.RED);;
                     break;
 
                 case R.id.trip_alarm_rv_item_testButton:
