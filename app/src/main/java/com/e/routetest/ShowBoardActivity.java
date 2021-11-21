@@ -208,11 +208,10 @@ public class ShowBoardActivity extends AppCompatActivity {
                     if(obj.spotID==Integer.parseInt(rArr[i])){
                         spots2.add(obj);
                         arrivals2.add(Integer.parseInt(aArr[i]));
-                        departures2.add(-1);
+                        departures2.add(arrivals2.get(i)+3600);
                     }
                 }
             }
-
             board.add(routeList);
             return true;
 

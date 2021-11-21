@@ -200,20 +200,8 @@ public class WriteBoardActivity extends AppCompatActivity {
                         Sp s = db.spRepository().findById(num);
                         int rs = routes2.size();
                         String sArr[] = s.getSpotsName().toString().split(",");
-                        for(int i=0;i<sArr.length;i++){
-                            departures2.add(-1);
-                            arrivals2.add(-1);
-                        }
-                        String depList = String.valueOf(departures2.get(0));
-                        for (int i = 1; i < departures2.size(); i++) {
-                            depList = depList + ",";
-                            depList = depList + String.valueOf(departures2.get(i));
-                        }
-                        String arrList = String.valueOf(arrivals2.get(0));
-                        for (int i = 1; i < arrivals2.size(); i++) {
-                            arrList = arrList + ",";
-                            arrList = arrList + String.valueOf(arrivals2.get(i));
-                        }
+                        String depList = s.getDesTime();
+                        String arrList = s.getArrTime();
                         routes2.clear();
                         routes2.add(new Route(rs,userId,"2021-11-18",s.getSpotsId().toString(),"0",depList,arrList));
                         runOnUiThread(new Runnable() {

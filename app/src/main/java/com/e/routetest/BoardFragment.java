@@ -7,11 +7,13 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -21,8 +23,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -39,9 +44,26 @@ public class BoardFragment extends Fragment {
     boolean[] checked = new boolean[7];
     BoardAdapter boardAdapter;
     int bs=1;
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    Date date1;
+    Date date2;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_board, container, false);
+
+        EditText editDate1 = (EditText)view.findViewById(R.id.editTextDate);
+        EditText editDate2 = (EditText)view.findViewById(R.id.editTextDate2);
+        date1 = new Date();
+        date2 = new Date();
+        String d1 = editDate1.getText().toString();
+        String d2 = editDate2.getText().toString();
+        try {
+            date1 = sdf.parse(d1);
+            date2 = sdf.parse(d2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         MaterialButtonToggleGroup materialButtonToggleGroup = (MaterialButtonToggleGroup)view.findViewById(R.id.toggleTheme);
         boardAdapter = new BoardAdapter(getActivity().getApplicationContext(),boards2);
         materialButtonToggleGroup.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
@@ -95,6 +117,7 @@ public class BoardFragment extends Fragment {
                             boards2.addAll(boards);
                             bs++;
                             boardAdapter.notifyDataSetChanged();
+                            System.out.println("글 갯수" + boards2.size());
                         }
                     });
                 }
@@ -104,11 +127,8 @@ public class BoardFragment extends Fragment {
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boardAdapter.notifyDataSetChanged();
-                for(int i=0;i<boards.size();i++){
-                    System.out.println(boards.get(i).boardTitle);
 
-                }
+
             }
         });
 
@@ -126,15 +146,44 @@ public class BoardFragment extends Fragment {
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        boards2.clear();
                                         boards2.addAll(boards);
                                         bs++;
                                         boardAdapter.notifyDataSetChanged();
+                                        System.out.println("글 갯수" + boards2.size());
                                     }
                                 });
                             }
                         }
                     }.start();
                 }
+            }
+        });
+
+        SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.boardRe);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                boards.clear();
+                boards2.clear();
+                bs=1;
+                new Thread(){
+                    public void run(){
+                        if(getSpot(bs)){
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    boards2.addAll(boards);
+                                    bs++;
+                                    boardAdapter.notifyDataSetChanged();
+                                    System.out.println("글 갯수" + boards2.size());
+                                }
+                            });
+                        }
+                    }
+                }.start();
+
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
         return view;

@@ -42,7 +42,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.Holder>{
         String temp = boardList.get(itemPosition).boardTitle;
         holder.titleView.setText(temp);
         holder.themeView.setText(items[boardList.get(itemPosition).themeID]);
-        holder.dateView.setText(boardList.get(itemPosition).boardDate);
+        holder.dateView.setText(boardList.get(itemPosition).appliT);
         holder.nickView.setText(boardList.get(itemPosition).nickName);
         holder.desView.setText(boardList.get(itemPosition).destiny);
         holder.arrView.setText(boardList.get(itemPosition).arrival);
