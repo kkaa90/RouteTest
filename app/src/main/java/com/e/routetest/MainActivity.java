@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -87,10 +89,6 @@ public class MainActivity extends AppCompatActivity {
                         databaseReference.child("users").child(userId).child("token").setValue(token);
                         System.out.println("nickName : "+nN+" gender : "+gender+" age : " +age );
                     }
-
                 });
-
     }
-
-
 }

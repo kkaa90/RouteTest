@@ -14,6 +14,9 @@ import com.e.routetest.MyFireBaseMessagingService;
 import com.e.routetest.Notify;
 import com.e.routetest.NotifyAppDatabase;
 import com.e.routetest.NotifyRepository;
+import com.e.routetest.PlaceWeatherTimeBasedata;
+import com.e.routetest.TempPlace;
+import com.e.routetest.TempPlaceDatabase;
 import com.e.routetest.TripAlarmComponent;
 import com.e.routetest.TripAlarm_rv_item_info;
 import com.e.routetest.trip_alarm_info;
@@ -24,6 +27,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -40,12 +44,47 @@ public class APIWorker extends Worker {
         int TOTAL_ELEMENTS = 8;
 
         NotifyAppDatabase notifyDb = NotifyAppDatabase.getInstance(getApplicationContext());
-
         TripAlarmComponent component = new TripAlarmComponent();
+
         Log.d("APIWORKER_STATE","ACTIVATE");
+
+        //임시경로DB에서 데이터 받기
+        TempPlaceDatabase tDb = TempPlaceDatabase.getInstance(getApplicationContext());
+        List<TempPlace> tempRoutedata = new ArrayList<>(tDb.tempPlaceRepository().findAll());
+        ArrayList<TripAlarm_rv_item_info> basedata = new ArrayList<>();
+        int counter = 0;
+
+        basedata.clear();
+        if(tempRoutedata != null){
+            for(int i=0;i<tempRoutedata.size();i++){
+                if(tempRoutedata.get(i).isVisit()){ //방문을 했던 곳은 스킵
+                    continue;
+                }
+                else{
+                    counter++;
+                    //다음 행선지가 있는 경우 = 다음행선지 정보/ 없는경우 1000 or null
+                    double bLatitude = (i+1)<tempRoutedata.size()?Double.parseDouble(tempRoutedata.get(i+1).getLatitude()):1000;
+                    double bLongitude = (i+1)<tempRoutedata.size()?Double.parseDouble(tempRoutedata.get(i+1).getLongitude()):1000;
+                    String nextArrivalTime = (i+1)<tempRoutedata.size()?tempRoutedata.get(i+1).getArrivalTime():"null";
+
+                    basedata.add(component.getItemInfo(
+                            tempRoutedata.get(i).getPlaceName(),
+                            tempRoutedata.get(i).getPlaceAddress(),
+                            Double.parseDouble(tempRoutedata.get(i).getLatitude()),
+                            Double.parseDouble(tempRoutedata.get(i).getLongitude()),
+                            bLatitude,bLongitude,
+                            tempRoutedata.get(i).getArrivalTime(),nextArrivalTime));
+                }
+            }
+        }
+        //특이사항 체크 및 푸시
+        for(int i=0;i<counter;i++){
+            component.tripAlarmPush(basedata.get(i),getApplicationContext());
+        }
+
         //현재는 임시데이터 사용중....
         //String sourceData = "3,동아대,사하구,35.11637001672873,128.9682497981559,35.10630701217876,128.96670639796537,0900,1300,하단역,사하구,35.10630701217876,128.96670639796537,35.20956456649422,129.00355907077622,1300,1715,구포시장,북구,35.20956456649422,129.00355907077622,null,null,1715,null";
-
+        /*
         String sourceData = getInputData().getString("APIWORKER_INPUTDATA");
         String[] split_data = sourceData.split(",",2);
         Log.d("SOURCEDATA",sourceData);
@@ -87,6 +126,7 @@ public class APIWorker extends Worker {
         for(int i=0;i<sizeOfArray_i;i++){
             component.tripAlarmPush(API_info_list.get(i),getApplicationContext());
         }
+        */
         /*
         String errorTitle = null;
         String errorBody = null;
@@ -116,7 +156,6 @@ public class APIWorker extends Worker {
             //시간문제 error_alarm_code : 4
         }
          */
-
         /*
         //결과를 Data객체에 넣은 뒤 반환
         String result = convert_result(API_info_list);

@@ -1,9 +1,17 @@
 package com.e.routetest;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -14,6 +22,7 @@ import com.google.gson.JsonParser;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -23,10 +32,9 @@ import okhttp3.Response;
 
 //TripAlarm 관련 함수 및 변수 모음
 public class TripAlarmComponent {
-    public static double STANDARD_MAX_TEMPERUATURE = 32;     //알림 기준 최대온도
-    public static double STANDARD_MIN_TEMPERTATURE = -5;     //알림 기준 최저온도
-    public static double STANDARD_HUMIDITY = 70;             //알림 기준 습도
-
+    private double STANDARD_MAX_TEMPERATURE = 32;     //알림 기준 최대온도
+    private double STANDARD_MIN_TEMPERATURE = -5;     //알림 기준 최저온도
+    private double STANDARD_HUMIDITY = 70;             //알림 기준 습도
 
     //특이사항 발생시 알림 푸쉬
     public void tripAlarmPush(TripAlarm_rv_item_info basedata, Context context){
@@ -47,17 +55,20 @@ public class TripAlarmComponent {
                 errorBody = errorBody + "눈이 오고 있습니다.";
             }
             NotifyAppDatabase.getInstance(context).notifyRepository().insert(new Notify(2,errorTitle,errorBody));
+            showMessage(errorTitle,errorBody,context);
         }
-        else if(Double.parseDouble(basedata.getPlaceHum()) >= STANDARD_HUMIDITY) {         //강수확률 70%이상
+        else if(Double.parseDouble(basedata.getPlaceRainfallProb()) >= STANDARD_HUMIDITY) {         //강수확률 70%이상
             errorTitle = basedata.getPlaceName()+"에 강수 확률 경고";
             errorBody = "현재 "+basedata.getPlaceName()+"에 강수확률이 " + basedata.getPlaceRainfallProb()+"% 입니다.";
             NotifyAppDatabase.getInstance(context).notifyRepository().insert(new Notify(2,errorTitle,errorBody));
+            showMessage(errorTitle,errorBody,context);
         }
-        else if(Double.parseDouble(basedata.getPlaceTmp()) >= STANDARD_MIN_TEMPERTATURE
-                || Double.parseDouble(basedata.getPlaceTmp()) <= STANDARD_MAX_TEMPERUATURE) {         //온도 32도 이상 or -5도 이하
+        else if(Double.parseDouble(basedata.getPlaceTmp()) >= STANDARD_MAX_TEMPERATURE
+                || Double.parseDouble(basedata.getPlaceTmp()) <= STANDARD_MIN_TEMPERATURE) {         //온도 32도 이상 or -5도 이하
             errorTitle = basedata.getPlaceName()+"에 기온 경고";
             errorBody = "현재 "+basedata.getPlaceName()+"에 기온이 "+ basedata.getPlaceTmp()+"°C입니다.";
             NotifyAppDatabase.getInstance(context).notifyRepository().insert(new Notify(2,errorTitle,errorBody));
+            showMessage(errorTitle,errorBody,context);
         }
 
         //시간 관련 문제
@@ -129,7 +140,7 @@ public class TripAlarmComponent {
 
                 tempValues[index_num] = tempStr;
 
-                Log.d("API_INFO",tempValues[index_num] +","+ index_num);
+                //Log.d("API_INFO",tempValues[index_num] +","+ index_num);
             }
         }
         catch(Exception e){
@@ -192,8 +203,8 @@ public class TripAlarmComponent {
         int spendTime; //소요시간 저장
         String spendTime_text; //소요시간(String)
 
-        Log.d("nowMap",":"+aLatitude+","+aLongitude);
-        Log.d("nextMap",":"+bLatitude+","+bLongitude);
+        //Log.d("nowMap",":"+aLatitude+","+aLongitude);
+        //Log.d("nextMap",":"+bLatitude+","+bLongitude);
 
         if(nextLatitude>999||nextLongitude>999) {   //다음 행선지가 없는 경우
             spendTime = 0;
@@ -223,8 +234,8 @@ public class TripAlarmComponent {
                 spendTime = jsonObject3.get("value").getAsInt();
                 spendTime_text = jsonObject3.get("text").getAsString();
 
-                Log.d("API_SPENDTIME","0"+spendTime);
-                Log.d("SPI_SPENDTIMEDETAIL",spendTime_text);
+                //Log.d("API_SPENDTIME","0"+spendTime);
+                //Log.d("SPI_SPENDTIMEDETAIL",spendTime_text);
             }catch(Exception e){
                 spendTime = -1;
                 spendTime_text = "null";
@@ -241,11 +252,11 @@ public class TripAlarmComponent {
         }
         else{
             moveTime = calc_timeDifference(nextArrivalTime,Integer.toString(spendTime),true);
-            Log.d("TIMENOW",getTime());
+            //Log.d("TIMENOW",getTime());
             remainTime = calc_timeDifference(moveTime, getTime(),false);
         }
-        Log.d("MOVETIME",moveTime);
-        Log.d("REMAINTIME",remainTime);
+        //Log.d("MOVETIME",moveTime);
+        //Log.d("REMAINTIME",remainTime);
 
         //------------------------------ 시간정보 가져오기 종료 ------------------------------
 
@@ -253,7 +264,7 @@ public class TripAlarmComponent {
         TripAlarm_rv_item_info tempItem
                 = new TripAlarm_rv_item_info(placeName, address, arrivalTime, tempValues[6], tempValues[3], tempValues[0], rainSnowInfo, iconType, spendTime_text, moveTime, remainTime);
 
-
+        Log.d("API_INFO",placeName+","+address+","+arrivalTime+","+tempValues[6]+","+tempValues[3]+","+tempValues[0]+","+rainSnowInfo+","+iconType+","+spendTime_text+","+moveTime+","+remainTime);
         //경고 알림 푸시
         //날씨 (비, 눈)
         //온도 (33이상, -10이하)
@@ -334,8 +345,25 @@ public class TripAlarmComponent {
         return result;
     }
 
+    //Sp를 이름, ID, 주소, 위도, 경도, 도착시간(TempPlace)으로 구성된 String으로 변환
+    public String AL_SpToStringTempPlace(ArrayList<Sp> routeData){
+        int listSize = routeData.size();
+        String result = Integer.toString(listSize);
+
+        for(int i=0;i<listSize;i++){
+            result = result + "," + routeData.get(i).getSpotsName()
+                    + "," + routeData.get(i).getSpotsId()
+                    + "," + routeData.get(i).getSpotsAddress()
+                    + "," + routeData.get(i).getSpotsX()
+                    + "," + routeData.get(i).getSpotsY()
+                    + "," + routeData.get(i).getArrTime();
+        }
+
+        return result;
+    }
+    /*
     //기존 경로(이름,주소,위도,경도,도착시간)을 string으로 변환
-    public String encoude_Route(ArrayList<PlaceWeatherTimeBasedata> routeData){
+    public String AL_placeWeatherTimeBaseDataToString(ArrayList<PlaceWeatherTimeBasedata> routeData){
         int listSize = routeData.size();
         String result = Integer.toString(listSize);
 
@@ -349,7 +377,9 @@ public class TripAlarmComponent {
 
         return result;
     }
+     */
 
+    //장소이름, 장소ID, 주소, 경도, 위도, 도착시간으로 구성된 String -> ArrayList<PlaceWeatherTimeBasedata>로 변환
     public ArrayList<PlaceWeatherTimeBasedata> decode_Route(String routeData){
         ArrayList<PlaceWeatherTimeBasedata> result = new ArrayList<>();
 
@@ -365,13 +395,14 @@ public class TripAlarmComponent {
         String arrivalTime = null;
         String[] temp2 = temp1[1].split(",");
         for(int i=0;i<temp2.length;i++){
-            int j = i%5;
+            int j = i%6;
             switch(j){
                 case 0: placeName = temp2[i]; break;
-                case 1: placeAddress = temp2[i]; break;
-                case 2: latitude = Double.parseDouble(temp2[i]); break;
-                case 3: longitude = Double.parseDouble(temp2[i]); break;
-                case 4:
+                case 1: break;
+                case 2: placeAddress = split_Str(temp2[i]); break;
+                case 3: latitude = Double.parseDouble(temp2[i]); break;
+                case 4: longitude = Double.parseDouble(temp2[i]); break;
+                case 5:
                     arrivalTime = temp2[i];
                     result.add(new PlaceWeatherTimeBasedata(placeName,placeAddress,latitude,longitude,arrivalTime));
             }
@@ -567,7 +598,7 @@ public class TripAlarmComponent {
         return time;
     }
 
-    //현재시간(YYYY.MM.DD hh:mm) 반환하는 매서드
+    //현재시간(YYYY.MM.DD hh:mm) 반환하는 메서드
     public String getNowTime(){
         //시간 관련 변수
         long mNow = System.currentTimeMillis();
@@ -588,5 +619,41 @@ public class TripAlarmComponent {
 
         return timedata;
     }
+
+    //notification 발생 메서드
+    public void showMessage(String msgTitle, String msgContent,Context context){
+        Intent intent = new Intent(context,LoadingActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context,0,intent,PendingIntent.FLAG_ONE_SHOT);
+
+        NotificationCompat.Builder notificationBuilder;
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= 26) {
+
+            String channelId = "test push";
+            String channelName = msgTitle;  //
+            String channelDescription = msgContent; //
+            NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription(channelDescription);
+            //각종 채널에 대한 설정
+            channel.enableLights(true);
+            channel.setLightColor(Color.RED);
+            channel.enableVibration(true);
+            channel.setVibrationPattern(new long[]{100, 200, 300});
+            notificationManager.createNotificationChannel(channel);
+            //channel이 등록된 builder
+            notificationBuilder = new NotificationCompat.Builder(context, channelId);
+        } else {
+            notificationBuilder = new NotificationCompat.Builder(context);
+        }
+        notificationBuilder.setSmallIcon(R.drawable.ic_notifications_black_24dp)
+                .setContentTitle(msgTitle)
+                .setAutoCancel(true)
+                .setContentText(msgContent)
+                .setContentIntent(pendingIntent);
+        int localTime = LocalTime.now().getSecond();
+        notificationManager.notify(localTime,notificationBuilder.build());
+    }
     //======================================== 내부용 함수 종료 ========================================
+
 }

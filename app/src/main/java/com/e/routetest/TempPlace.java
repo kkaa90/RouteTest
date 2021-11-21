@@ -9,6 +9,7 @@ public class TempPlace {
     @PrimaryKey(autoGenerate = true)
     private int routeId = 0;
     private int placeIndex;     //장소 순서
+    private int placeID;     //장소 ID
     private String placeName;   //장소 이름
     private String placeAddress;
     private String latitude;
@@ -16,8 +17,9 @@ public class TempPlace {
     private String arrivalTime;
     private boolean isVisit;
 
-    public TempPlace(int placeIndex, String placeName, String placeAddress, String latitude, String longitude, String arrivalTime, boolean isVisit){
+    public TempPlace(int placeIndex, int placeID, String placeName, String placeAddress, String latitude, String longitude, String arrivalTime, boolean isVisit){
         this.placeIndex = placeIndex;
+        this.placeID = placeID;
         this.placeName = placeName;
         this.placeAddress = placeAddress;
         this.latitude = latitude;
@@ -28,6 +30,9 @@ public class TempPlace {
 
     public int getPlaceIndex() {return placeIndex;}
     public void setPlaceIndex(int placeIndex) {this.placeIndex = placeIndex;}
+
+    public int getPlaceID() {return placeID;}
+    public void setPlaceID(int placeID) {this.placeID = placeID;}
 
     public int getRouteId() {return routeId;}
     public void setRouteId(int routeId) {this.routeId = routeId;}
