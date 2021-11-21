@@ -11,8 +11,8 @@ import java.util.List;
 public interface TempPlaceRepository {
 
     //primary Key로 찾기
-    @Query("SELECT * FROM tempplace WHERE routeID = (:routeID)")
-    TempPlace findById(int routeID);
+    @Query("SELECT * FROM tempplace WHERE placeIndex = (:placeIndex)")
+    TempPlace findById(int placeIndex);
 
     //임시경로 전체 불러오기
     @Query("SELECT * FROM tempplace")
@@ -25,8 +25,8 @@ public interface TempPlaceRepository {
     //특정 routeID내부 요소 변경(
     @Query("UPDATE tempplace " +
             "SET placeID = (:placeID), placeIndex = (:placeIndex), placeName = (:placeName), placeAddress = (:placeAddress), latitude = (:latitude), longitude = (:longitude), arrivalTime = (:arrivalTime)" +
-            "WHERE routeId = (:routeId) ")
-    void updateAll(int routeId, int placeIndex, int placeID, String placeName, String placeAddress, String latitude, String longitude, String arrivalTime);
+            "WHERE placeIndex = (:placeIndex)")
+    void updateAll(int placeIndex, int placeID, String placeName, String placeAddress, String latitude, String longitude, String arrivalTime);
 
     //특정 entity의 isVisit변경
     @Query("UPDATE tempplace SET isVIsit = (:isVisit) WHERE placeIndex = (:placeIndex)")

@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -32,7 +33,7 @@ import okhttp3.Response;
 
 //TripAlarm 관련 함수 및 변수 모음
 public class TripAlarmComponent {
-    private double STANDARD_MAX_TEMPERATURE = 32;     //알림 기준 최대온도
+    private double STANDARD_MAX_TEMPERATURE = 30;     //알림 기준 최대온도
     private double STANDARD_MIN_TEMPERATURE = -5;     //알림 기준 최저온도
     private double STANDARD_HUMIDITY = 70;             //알림 기준 습도
 
@@ -74,6 +75,7 @@ public class TripAlarmComponent {
         //시간 관련 문제
     }
 
+    //날씨정보 받아오기
     @NotNull
     public TripAlarm_rv_item_info getItemInfo(
             String placeName, String address, double placeLatitude, double placeLongitude,
@@ -345,101 +347,6 @@ public class TripAlarmComponent {
         return result;
     }
 
-    //Sp를 이름, ID, 주소, 위도, 경도, 도착시간(TempPlace)으로 구성된 String으로 변환
-    public String AL_SpToStringTempPlace(ArrayList<Sp> routeData){
-        int listSize = routeData.size();
-        String result = Integer.toString(listSize);
-
-        for(int i=0;i<listSize;i++){
-            result = result + "," + routeData.get(i).getSpotsName()
-                    + "," + routeData.get(i).getSpotsId()
-                    + "," + routeData.get(i).getSpotsAddress()
-                    + "," + routeData.get(i).getSpotsX()
-                    + "," + routeData.get(i).getSpotsY()
-                    + "," + routeData.get(i).getArrTime();
-        }
-
-        return result;
-    }
-    /*
-    //기존 경로(이름,주소,위도,경도,도착시간)을 string으로 변환
-    public String AL_placeWeatherTimeBaseDataToString(ArrayList<PlaceWeatherTimeBasedata> routeData){
-        int listSize = routeData.size();
-        String result = Integer.toString(listSize);
-
-        for(int i=0;i<listSize;i++){
-            result = result + "," + routeData.get(i).getPlaceName()
-                    + "," + routeData.get(i).getPlaceAddress()
-                    + "," + routeData.get(i).getLatitude()
-                    + "," + routeData.get(i).getLongitude()
-                    + "," + routeData.get(i).getArrivalTime();
-        }
-
-        return result;
-    }
-     */
-
-    //장소이름, 장소ID, 주소, 경도, 위도, 도착시간으로 구성된 String -> ArrayList<PlaceWeatherTimeBasedata>로 변환
-    public ArrayList<PlaceWeatherTimeBasedata> decode_Route(String routeData){
-        ArrayList<PlaceWeatherTimeBasedata> result = new ArrayList<>();
-
-        String[] temp1 = routeData.split(",",2);
-        int arraySize = Integer.parseInt(temp1[0]);
-
-        result.clear();
-
-        String placeName = null;
-        String placeAddress = null;
-        double latitude = 0;
-        double longitude = 0;
-        String arrivalTime = null;
-        String[] temp2 = temp1[1].split(",");
-        for(int i=0;i<temp2.length;i++){
-            int j = i%6;
-            switch(j){
-                case 0: placeName = temp2[i]; break;
-                case 1: break;
-                case 2: placeAddress = split_Str(temp2[i]); break;
-                case 3: latitude = Double.parseDouble(temp2[i]); break;
-                case 4: longitude = Double.parseDouble(temp2[i]); break;
-                case 5:
-                    arrivalTime = temp2[i];
-                    result.add(new PlaceWeatherTimeBasedata(placeName,placeAddress,latitude,longitude,arrivalTime));
-            }
-        }
-
-        return result;
-    }
-
-    //경로 정보를 문자열로 바꿔주는 메서드 APIWORKER 데이터 전달용(배열size, 장소이름, 주소, 현재경도, 현재위도, 다음경도, 다음위도, 도착시간, 다음도착시간....")
-    public String convert_placeInfo(ArrayList<PlaceWeatherTimeBasedata> basedata){
-        String arraySize = Integer.toString(basedata.size());
-        String address = null;
-        String bLatitude = null;
-        String bLongitude = null;
-        String nextArrivalTime = null;
-
-        String result = arraySize;
-        for(int i=0;i<basedata.size();i++){
-            if((i+1)>=basedata.size()){
-                bLatitude = "null"; bLongitude = "null";
-                nextArrivalTime = "null";
-            }
-            else{
-                bLatitude = Double.toString(basedata.get(i+1).getLatitude());
-                bLongitude = Double.toString(basedata.get(i+1).getLongitude());
-                nextArrivalTime = basedata.get(i+1).getArrivalTime();
-            }
-            address = split_Str(basedata.get(i).getPlaceAddress());
-            result = result + "," + basedata.get(i).getPlaceName() + "," + address
-                    + "," + basedata.get(i).getLatitude() + "," + basedata.get(i).getLongitude()
-                    + "," + bLatitude + "," + bLongitude
-                    + "," + basedata.get(i).getArrivalTime() + "," + nextArrivalTime;
-
-        }
-        return result;
-    }
-
     //주소 -> 자체 격자 좌표 변환
     public String conv_xpos(String address){
         switch(address){
@@ -585,7 +492,7 @@ public class TripAlarmComponent {
         return -1;
     }
 
-    //현재시간(hh
+    //현재시간(HHmm)
     public String getTime(){//시간 관련 변수
         long mNow = System.currentTimeMillis();
         Date mReDate = new Date(mNow);
@@ -598,6 +505,8 @@ public class TripAlarmComponent {
         return time;
     }
 
+
+    //======================================== 내부용 함수 종료 ========================================
     //현재시간(YYYY.MM.DD hh:mm) 반환하는 메서드
     public String getNowTime(){
         //시간 관련 변수
@@ -654,6 +563,129 @@ public class TripAlarmComponent {
         int localTime = LocalTime.now().getSecond();
         notificationManager.notify(localTime,notificationBuilder.build());
     }
-    //======================================== 내부용 함수 종료 ========================================
 
+    //Sp(내부DB경로정보)를 받아서 TRoute(현재임시경로)에 저장
+    public void save_Sp_on_TRouteDB(Sp sp, Context context){
+        String placeNames = sp.getSpotsName();
+        String placeIDs = sp.getSpotsId();
+        String longitudes = sp.getSpotsX();
+        String latitudes = sp.getSpotsY();
+        String placeAddresses = sp.getSpotsAddress();
+        String date = sp.getDate();
+        String arrTimes = sp.getArrTime();
+        String desTimes = sp.getDesTime();
+        String serverID = Integer.toString(sp.getSvId());
+        String isVisit = "";
+
+        //isVisit생성 (새 경로용)
+        String[] temp = placeIDs.split(",");
+        int placeNum = temp.length;
+        for(int i=0;i<placeNum;i++){
+            isVisit += ",0";
+        }
+
+        TRoute tRoute = new TRoute(placeNames, placeIDs, longitudes, latitudes, placeAddresses, arrTimes,isVisit,serverID);
+
+        TRouteDataBase tDb = TRouteDataBase.getInstance(context);
+        new Thread() {
+            public void run() {
+                tDb.tRouteRepository().deleteAll();
+                tDb.tRouteRepository().insert(tRoute);
+            }
+        }.start();
+    }
+
+    //List<TRoute>에서 isVisit정보 추출 (Room사용 = 작업 Thread에서 실행)
+    public ArrayList<Boolean> extract_isVisitFromLTroute(List<TRoute> basedata){
+        ArrayList<Boolean> isVisit = new ArrayList<>();
+        isVisit.clear();
+
+        if(basedata.size()==1){
+            String[] _isVisit = basedata.get(0).getIsVisit().split(",");
+            for(int i=0;i<_isVisit.length;i++){
+                if(_isVisit[i].equals("0")){
+                    isVisit.add(false);
+                }
+                else{
+                    isVisit.add(true);
+                }
+            }
+        }
+        return isVisit;
+    }
+
+    //List<TRoute> -> ArrayList<TripAlarm_rv_item_info> 변환 (API사용 = 작업 Thread에서 실행) isSkip = true : 방문한곳 정보 갱신 안함
+    public ArrayList<TripAlarm_rv_item_info> convert_LTRouteToALWeatherInfo(List<TRoute> basedata, boolean isSkip){
+        ArrayList<TripAlarm_rv_item_info> itemInfos = new ArrayList<>();
+        itemInfos.clear();
+        Log.d("CONVERT_LTROUTETOALWEATHERINFO","ACTIVATE");
+
+        //내부저장된 데이터가 1개일때만 실행 아니면 null반환
+        if(basedata.size()==1){
+            String[] placeNames = basedata.get(0).getPlaceNames().split(",");
+            String[] placeIDs = basedata.get(0).getPlaceIDs().split(",");
+            String[] longitudes = basedata.get(0).getLongitudes().split(",");
+            String[] latitudes = basedata.get(0).getLatitudes().split(",");
+            String[] placeAddresses = basedata.get(0).getPlaceAddresses().split(",");
+            String[] arrivalTimes = basedata.get(0).getArrivalTimes().split(",");
+            String[] isVisit = basedata.get(0).getIsVisit().split(",");
+
+            int placeNum = placeIDs.length;
+            Log.d("CONVERT_LTROUTETOALWEATHERINFO","length"+placeNum);
+            for(int i=0;i<placeNum;i++){
+                if(isVisit[i].equals("1")&&isSkip){
+                    continue;
+                }
+                Log.d("CONVERT_LTROUTETOALWEATHERINFO","i : "+i);
+                double bLatitude = (i+1)<placeNum ? Double.parseDouble(latitudes[i+1]) : 1000;
+                double bLongitude = (i+1)<placeNum ? Double.parseDouble(longitudes[i+1]) : 1000;
+                String nextArrivalTime = (i+1)<placeNum ? convert_SecToHHMM(arrivalTimes[i+1]) : "null";
+
+                Log.d("CONVERT_LTROUTETOALWEATHERINFO",
+                        placeNames[i]+split_Str(placeAddresses[i])+
+                        Double.parseDouble(latitudes[i])+
+                        Double.parseDouble(longitudes[i])+
+                        bLatitude+bLongitude+
+                        convert_SecToHHMM(arrivalTimes[i])+
+                        nextArrivalTime);
+
+                //날씨+시간정보 받아오기
+                itemInfos.add(getItemInfo(
+                        placeNames[i],split_Str(placeAddresses[i]),
+                        Double.parseDouble(latitudes[i]),
+                        Double.parseDouble(longitudes[i]),
+                        bLatitude,bLongitude,
+                        convert_SecToHHMM(arrivalTimes[i]),
+                        nextArrivalTime));
+
+            }
+        }
+        return itemInfos;
+    }
+
+    //초단위를 HHmm단위로 변환
+    public String convert_SecToHHMM(String time){
+        int base = Integer.parseInt(time);
+
+        int hour = base/3600;
+        int minute = (base%3600)/60;
+
+        String result = (hour<10) ? "0"+hour : Integer.toString(hour);
+        result = (minute<10)? result+"0"+minute : result+minute;
+
+        return result;
+    }
+
+    //HHmm단위를 초단위로 변환
+    public String convert_HHMMToSec(String time){
+        String hour = time.substring(0,2);
+        String minute = time.substring(2);
+
+        int _hour = Integer.parseInt(hour);
+        int _minute = Integer.parseInt(minute);
+
+        int sec = _hour*3600 + _minute*60;
+
+        return Integer.toString(sec);
+    }
 }

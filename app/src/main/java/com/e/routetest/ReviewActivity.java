@@ -37,19 +37,22 @@ public class ReviewActivity extends AppCompatActivity {
         //reviewData.add(new ReviewData(126078,"광안리해수욕장",0.0f));
         //reviewData.add(new ReviewData(126079,"다대포해수욕장",0.0f));
         //reviewData.add(new ReviewData(126080,"송정해수욕장",0.0f));
-        reviewData.add(new ReviewData(126081,"해운대해수욕장",0.0f));
+        //reviewData.add(new ReviewData(126081,"해운대해수욕장",0.0f));
         ReviewAdapter reviewAdapter = new ReviewAdapter(getApplicationContext(),reviewData);
 
 
         //임시저장경로에서 경로 받아오기
-        TempPlaceDatabase tDb =TempPlaceDatabase.getInstance(getApplicationContext());//DB객체생성
-        reviewData.clear();
+        TRouteDataBase tDb = TRouteDataBase.getInstance(getApplicationContext());
         new Thread(){
             public void run(){
-                List<TempPlace> tempRoutedata = new ArrayList<TempPlace>(tDb.tempPlaceRepository().findAll());
-                if(tempRoutedata!=null) {
-                    for (int i = 0; i < tempRoutedata.size(); i++) {
-                        reviewData.add(new ReviewData(tempRoutedata.get(i).getPlaceID(), tempRoutedata.get(i).getPlaceName(), 0.0f));
+                List<TRoute> tRouteList = new ArrayList<>(tDb.tRouteRepository().findAll());
+                reviewData.clear();
+                if(!tRouteList.isEmpty()){
+                    String[] placeIDs = tRouteList.get(0).getPlaceIDs().split(",");
+                    String[] placeNames = tRouteList.get(0).getPlaceNames().split(",");
+
+                    for(int i=0;i<placeIDs.length;i++){
+                        reviewData.add(new ReviewData(Integer.parseInt(placeIDs[i]),placeNames[i],0.0f));
                     }
                     runOnUiThread(new Runnable() {
                         @Override

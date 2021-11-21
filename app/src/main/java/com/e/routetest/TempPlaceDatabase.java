@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {TempPlace.class}, version = 2)
+@Database(entities = {TempPlace.class}, version = 3)
 public abstract class TempPlaceDatabase extends RoomDatabase {
     private static TempPlaceDatabase INSTANCE3 = null;
     public abstract TempPlaceRepository tempPlaceRepository();

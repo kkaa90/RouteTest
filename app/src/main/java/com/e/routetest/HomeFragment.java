@@ -41,31 +41,38 @@ public class HomeFragment extends Fragment {
         BoardAdapter boardAdapter = new BoardAdapter(getActivity().getApplicationContext(),boards);
 
         //------------------------------ 여행지 알림 버튼 연결부 (시작) ------------------------------
-
         //임시데이터 생성
-        ArrayList<PlaceWeatherTimeBasedata> placeWeatherTimeBasedataList = new ArrayList<>();
+        Sp test_route = new Sp(
+                "금정산 (부산 국가지질공원),광안리해수욕장,다대포해수욕장,송정해수욕장,해운대해수욕장",
+                "126028,126078,126079,126080,126081",
+                "129.0518587773,129.1184922375,128.9680332493,129.1996400523,129.1603078991",
+                "35.2684489780,35.1537908369,35.0464195263,35.1787117732,35.1591243474",
+                "부산광역시 금정구 금성동,부산광역시 수영구 광안해변로 219,부산광역시 사하구 몰운대1길 14,부산광역시 해운대구 송정해변로 62,부산광역시 해운대구 해운대해변로 264",
+                "20211102",
+                "32400,43200,51300,58500,69300",
+                "36000,45000,56100,61200,75600",
+                111);
 
-        ArrayList<Sp> test_routeList = new ArrayList<>();
-        test_routeList.clear();
-//        test_routeList.add(new Sp("다대포해수욕장","126079", "35.0464195263","128.9680332493","부산시 사하구", "20211120","0900","1000"));
-//        test_routeList.add(new Sp("송정해수욕장","126080", "35.1787117732","129.1996400523","부산광역시 해운대구", "20211120","1300","1330"));
-//        test_routeList.add(new Sp("광안리해수욕장","126078", "35.1537908369","129.1184922375","부산시 수영구", "20211120","1715","2100"));
+        //String tripAlarmTestData = new TripAlarmComponent().convert_SptoString(test_route);
+        //Log.d("HOMEFRAGMENTS DATA",tripAlarmTestData);
 
-        //placeWeatherTimeBasedataList.clear();
-        //placeWeatherTimeBasedataList.add(new PlaceWeatherTimeBasedata("동아대","부산시 사하구",35.11637001672873,128.9682497981559,"0900"));
-        //placeWeatherTimeBasedataList.add(new PlaceWeatherTimeBasedata("하단역","부산광역시 사하구",35.10630701217876,128.96670639796537,"1300"));
-        //placeWeatherTimeBasedataList.add(new PlaceWeatherTimeBasedata("구포시장","부산시 북구",35.20956456649422,129.00355907077622,"1715"));
-        Button test_button = (Button)view.findViewById(R.id.show_trip_alarm_button);
-
-        String tripAlarmTestData = new TripAlarmComponent().AL_SpToStringTempPlace(test_routeList);
-        // String tripAlarmTestData = new TripAlarmComponent().AL_placeWeatherTimeBaseDataToString(placeWeatherTimeBasedataList);
-        Log.d("HOMEFRAGMENTS DATA",tripAlarmTestData);
-
-        test_button.setOnClickListener(new View.OnClickListener(){
+        Button test_button1 = (Button)view.findViewById(R.id.show_trip_alarm_button1);
+        test_button1.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(),TripAlarmIntroActivity.class);
-                intent.putExtra("DATA_FROM_HOMEFRAGMENT_TO_INTROACTIVITY",tripAlarmTestData);
+                new TripAlarmComponent().save_Sp_on_TRouteDB(test_route,getContext());
+                Intent intent = new Intent(getContext(),TripAlarmListActivity.class);
+                //Intent intent = new Intent(getContext(),TripAlarmIntroActivity.class);
+               // intent.putExtra("DATA_FROM_HOMEFRAGMENT_TO_INTROACTIVITY",tripAlarmTestData);
+                startActivity(intent);
+            }
+        });
+
+        Button test_button2 = (Button)view.findViewById(R.id.show_trip_alarm_button2);
+        test_button2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(),TripAlarmListActivity.class);
                 startActivity(intent);
             }
         });

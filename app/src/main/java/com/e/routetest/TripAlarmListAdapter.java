@@ -70,6 +70,7 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
         public TextView placeRainfallInfo;
 
         public TextView placeArrivalTime;
+        public TextView placeMoveTime;
 
         public Button visitButton;
         public Button testButton;
@@ -92,13 +93,14 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
             placeRainfallInfo = (TextView)view.findViewById(R.id.trip_alarm_rv_item_rainfallInfo);
 
             placeArrivalTime = (TextView)view.findViewById(R.id.trip_alarm_rv_item_arrivalTime);
+            //placeMoveTime = (TextView) view.findViewById(R.id.trip_alarm_rv_item_moveTimeInfo);
 
-            visitButton = (Button)view.findViewById(R.id.trip_alarm_rv_item_visitButton);
-            testButton = (Button)view.findViewById(R.id.trip_alarm_rv_item_testButton);
+            //visitButton = (Button)view.findViewById(R.id.trip_alarm_rv_item_visitButton);
+            //testButton = (Button)view.findViewById(R.id.trip_alarm_rv_item_testButton);
 
             item_detail = (LinearLayout)view.findViewById(R.id.trip_alarm_rv_item_detail);
             item_info = (LinearLayout)view.findViewById(R.id.trip_alarm_rv_item_infoList);
-            changeButton = (Button)view.findViewById(R.id.trip_alarm_rv_item_changeButton);
+            //changeButton = (Button)view.findViewById(R.id.trip_alarm_rv_item_changeButton);
         }
 
         //onBindViewHolder에서 bind시켜주는 함수
@@ -117,16 +119,25 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
                 case 6: weatherIcon.setImageResource(R.drawable.shower); break;
             }
             placeName.setText(tripAlarm_rv_item_info.getPlaceName());
-            placeTmp.setText("온도 : " + tripAlarm_rv_item_info.getPlaceTmp());
-            placeHum.setText("습도 : " + tripAlarm_rv_item_info.getPlaceHum() + "%");
-            placeRainfallProb.setText("강수확률 : " + tripAlarm_rv_item_info.getPlaceRainfallProb() + "%");
-            placeRainfallInfo.setText(tripAlarm_rv_item_info.getPlaceRainfallInfo());
+            placeTmp.setText(tripAlarm_rv_item_info.getPlaceTmp()+"°C");
+            placeHum.setText(tripAlarm_rv_item_info.getPlaceHum() + "%");
+            placeRainfallProb.setText(tripAlarm_rv_item_info.getPlaceRainfallProb() + "%");
 
-            String at = tripAlarm_rv_item_info.getArrivalTime();
-            String at_h = at.substring(0,2);
-            String at_m = at.substring(2);
+            String rainSnow_unit = (tripAlarm_rv_item_info.getPlaceWeatherIconType()==3)?"mm":"cm";
+            placeRainfallInfo.setText(tripAlarm_rv_item_info.getPlaceRainfallInfo()+rainSnow_unit);
+
+            //도착시간 출력
+            String a_time = tripAlarm_rv_item_info.getArrivalTime();
+            String at_h = a_time.substring(0,2);
+            String at_m = a_time.substring(2);
             placeArrivalTime.setText(at_h+":"+at_m);
             /*
+            //출발해야될 최소 시간 출력
+            String m_time = tripAlarm_rv_item_info.getMoveTime();
+            String mt_h = m_time.substring(0,2);
+            String mt_m = m_time.substring(2);
+            placeMoveTime.setText(mt_h+"시 "+mt_m+"분에 출발해야 도착이 예상됩니다.");
+
             if(tripAlarm_rv_item_info.getSpendingTime_text().equals("null")) {
                 placeSpendTime.setText("마지막 행선지입니다.");
             }else {
@@ -137,9 +148,9 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
             changeVisibility(selectedItems.get(position));
 
             item_info.setOnClickListener(this);
-            changeButton.setOnClickListener(this);
-            visitButton.setOnClickListener(this);
-            testButton.setOnClickListener(this);
+            //changeButton.setOnClickListener(this);
+            //visitButton.setOnClickListener(this);
+            //testButton.setOnClickListener(this);
         }
         @Override
         public void onClick(View v) {
@@ -160,7 +171,7 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
                     //클릭된 position 저장
                     prePosition = position;
                     break;
-
+                /*
                 case R.id.trip_alarm_rv_item_changeButton:
                     AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
                     builder.setTitle("여행지 변경 확인");
@@ -179,6 +190,7 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
                 case R.id.trip_alarm_rv_item_testButton:
                     Log.d("ISVISIT?",isVisitList.get(position)?"T":"F");
                     break;
+                 */
             }
         }
 

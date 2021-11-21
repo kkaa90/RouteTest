@@ -17,7 +17,7 @@ public class TempPlaceDatabaseController {
                 for(int i=start;i<=finish;i++){
                     if(tDb.tempPlaceRepository().findById(i+1)!=null){
                         tDb.tempPlaceRepository()
-                                .updateAll(i+1,
+                                .updateAll(
                                         i,
                                         basedata.get(i).getPlaceID(),
                                         basedata.get(i).getPlaceName(),

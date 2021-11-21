@@ -40,7 +40,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class TripAlarmListActivity extends AppCompatActivity {
-    private static ArrayList<PlaceWeatherTimeBasedata> placeWeatherTimeBasedataList = new ArrayList<>();    //여행지 기본 정보
     private static ArrayList<TripAlarm_rv_item_info> tripAlarmItems = new ArrayList<TripAlarm_rv_item_info>(); //날씨및 시간 정보(결과물)
     private static ArrayList<Boolean> isVisitList = new ArrayList<>();  //여행지 도착확인용
     private TripAlarmComponent component = new TripAlarmComponent();
@@ -69,7 +68,6 @@ public class TripAlarmListActivity extends AppCompatActivity {
         //String v_sourceDate = intent.getStringExtra("V_DATA_FROM_INTRO_TO_LIST");
         //Log.d("DATA_FROM_INTRO_TO_LIST",sourceData);
         //Log.d("V_DATA_FROM_INTRO_TO_LIST",v_sourceDate);
-        placeWeatherTimeBasedataList.clear();
         //placeWeatherTimeBasedataList = component.decode_Route(sourceData);
 
         swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.trip_alarm_activity_swipe_layout);
@@ -103,6 +101,7 @@ public class TripAlarmListActivity extends AppCompatActivity {
         //workManager.cancelUniqueWork("GET_API_INFO");
         //============================== Worker작동 종료 ==============================
 
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(tripAlarmListAdapter);
@@ -110,13 +109,26 @@ public class TripAlarmListActivity extends AppCompatActivity {
 
     //======================================== 내부용 함수 시작 ========================================
     //API에서 정보를 받아오는 메서드
-    void showItems(){
+    private void showItems(){
         new Thread() {
             public void run() {
+                //tripAlarmItems.clear();
                 //임시경로DB에서 데이터 받기
                 tripAlarmItems.clear();
                 TripAlarmComponent component = new TripAlarmComponent();
 
+                //DB연결
+                TRouteDataBase tDb = TRouteDataBase.getInstance(getApplicationContext());
+                //DB정보 받아오기
+                List<TRoute> tRouteList = new ArrayList<>(tDb.tRouteRepository().findAll());
+
+                //기상+날씨정보 초기화 및 정보 받기
+                tripAlarmItems.clear(); tripAlarmItems.addAll(component.convert_LTRouteToALWeatherInfo(tRouteList,false));
+                //Log.d("SHOWITEMS","tripAlarmItems size : "+tripAlarmItems.size());
+                //방문정보내역 초기화 및 정보 받기
+                isVisitList.clear(); isVisitList.addAll(component.extract_isVisitFromLTroute(tRouteList));
+
+                /*
                 TempPlaceDatabase tDb = TempPlaceDatabase.getInstance(getApplicationContext());
                 List<TempPlace> tempRoutedata = new ArrayList<>(tDb.tempPlaceRepository().findAll());
                 ArrayList<TripAlarm_rv_item_info> basedata = new ArrayList<>();
@@ -145,59 +157,21 @@ public class TripAlarmListActivity extends AppCompatActivity {
                         }
                     }
                 }
+
                 tripAlarmItems.addAll(basedata);
                 isVisitList.addAll(_isVisitList);
+                */
 
-                Log.d("SHOW_INFO","데이터받기 종료");
-                /*
-                tripAlarmItems.clear();
-                double nextLatitude, nextLongitude;    //경도, 위도
-                String nextArrivalTime;
-                for (int i = 0; i < placeWeatherTimeBasedataList.size(); i++) {
-                    //방문한적 있는 곳이면 자료갱신 안함
-                    if(isVisitList.get(i)){
-                        Log.d("LIST_API_STATUS","skip("+i+")");
-                        continue;
-                    }
-                    Log.d("LIST_API_STATUS","OK("+i+")");
-                    if((i+1) < placeWeatherTimeBasedataList.size()) { //다음 행선지가 있는 경우
-                        nextLatitude = placeWeatherTimeBasedataList.get(i + 1).getLatitude();
-                        nextLongitude = placeWeatherTimeBasedataList.get(i+1).getLongitude();
-                        nextArrivalTime = placeWeatherTimeBasedataList.get(i+1).getArrivalTime();
-                    }else{  //마지막 행선지인 경우
-                        nextLatitude = 1000; nextLongitude = 1000;
-                        nextArrivalTime = "null";
-                    }
-                    TripAlarm_rv_item_info tripAlarm_rv_item_info = component.getItemInfo(
-                            placeWeatherTimeBasedataList.get(i).getPlaceName(),
-                            placeWeatherTimeBasedataList.get(i).getPlaceAddress(),
-                            placeWeatherTimeBasedataList.get(i).getLatitude(),
-                            placeWeatherTimeBasedataList.get(i).getLongitude(),
-                            nextLatitude, nextLongitude,
-                            placeWeatherTimeBasedataList.get(i).getArrivalTime(),nextArrivalTime);
-                    tripAlarmItems.add(tripAlarm_rv_item_info);
-                }
-                 */
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        //Log.d("SHOWITEMS","갱신시작");
                         tripAlarmListAdapter.notifyDataSetChanged();
                         //갱신일자 넣기
                         refreshTime.setText("갱신시간 : "+component.getNowTime());
                     }
                 });
-
             }
         }.start();
-        /*
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                tripAlarmListAdapter.notifyDataSetChanged();
-            }
-        }, 3000);
-        //갱신일자 넣기
-        refreshTime.setText("갱신시간 : "+component.getNowTime());
-         */
     }
 }
