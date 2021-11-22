@@ -77,7 +77,7 @@ public class TripAlarmComponent {
 
     //날씨정보 받아오기
     @NotNull
-    public TripAlarm_rv_item_info getItemInfo(
+    public TripAlarm_rv_item_info getItemInfo(String serverID, String placeID,
             String placeName, String address, double placeLatitude, double placeLongitude,
             double nextLatitude, double nextLongitude, String arrivalTime, String nextArrivalTime){
 
@@ -264,9 +264,9 @@ public class TripAlarmComponent {
 
         //객체 생성
         TripAlarm_rv_item_info tempItem
-                = new TripAlarm_rv_item_info(placeName, address, arrivalTime, tempValues[6], tempValues[3], tempValues[0], rainSnowInfo, iconType, spendTime_text, moveTime, remainTime);
+                = new TripAlarm_rv_item_info(serverID, placeID, placeName, address, arrivalTime, tempValues[6], tempValues[3], tempValues[0], rainSnowInfo, iconType, spendTime_text, moveTime, remainTime);
 
-        Log.d("API_INFO",placeName+","+address+","+arrivalTime+","+tempValues[6]+","+tempValues[3]+","+tempValues[0]+","+rainSnowInfo+","+iconType+","+spendTime_text+","+moveTime+","+remainTime);
+        Log.d("API_INFO",serverID+","+placeID+","+placeName+","+address+","+arrivalTime+","+tempValues[6]+","+tempValues[3]+","+tempValues[0]+","+rainSnowInfo+","+iconType+","+spendTime_text+","+moveTime+","+remainTime);
         //경고 알림 푸시
         //날씨 (비, 눈)
         //온도 (33이상, -10이하)
@@ -622,6 +622,7 @@ public class TripAlarmComponent {
 
         //내부저장된 데이터가 1개일때만 실행 아니면 null반환
         if(basedata.size()==1){
+            String serverID = basedata.get(0).getServerID();
             String[] placeNames = basedata.get(0).getPlaceNames().split(",");
             String[] placeIDs = basedata.get(0).getPlaceIDs().split(",");
             String[] longitudes = basedata.get(0).getLongitudes().split(",");
@@ -629,6 +630,9 @@ public class TripAlarmComponent {
             String[] placeAddresses = basedata.get(0).getPlaceAddresses().split(",");
             String[] arrivalTimes = basedata.get(0).getArrivalTimes().split(",");
             String[] isVisit = basedata.get(0).getIsVisit().split(",");
+
+            Log.d("CONVERT_LTROUTETOALWEATHERINFO","serverID : "+serverID);
+            Log.d("CONVERT_LTROUTETOALWEATHERINFO","placeIDs : "+placeIDs[0]);
 
             int placeNum = placeIDs.length;
             Log.d("CONVERT_LTROUTETOALWEATHERINFO","length"+placeNum);
@@ -651,6 +655,7 @@ public class TripAlarmComponent {
 
                 //날씨+시간정보 받아오기
                 itemInfos.add(getItemInfo(
+                        serverID,placeIDs[i],
                         placeNames[i],split_Str(placeAddresses[i]),
                         Double.parseDouble(latitudes[i]),
                         Double.parseDouble(longitudes[i]),

@@ -2,6 +2,8 @@ package com.e.routetest;
 
 public class TripAlarm_rv_item_info {
     //날씨정보용 변수
+    private String serverID;    //루트ID
+    private String placeID;     //여행지ID
     private String placeName;   //여행지이름
     private String address;     //주소
     private String placeTmp;    //온도
@@ -21,6 +23,8 @@ public class TripAlarm_rv_item_info {
 
     //생성자
     public TripAlarm_rv_item_info(
+            String serverID,
+            String placeID,
             String placeName,
             String address,
             String arrivalTime,
@@ -32,6 +36,8 @@ public class TripAlarm_rv_item_info {
             String spendingTime_text,
             String moveTime,
             String remainTime){
+        this.serverID = serverID;
+        this.placeID = placeID;
         this.placeName = placeName;
         this.address = address;
         this.arrivalTime = arrivalTime;
@@ -48,6 +54,13 @@ public class TripAlarm_rv_item_info {
     }
 
     //======================================== getter, setter 시작 ========================================
+
+    public String getServerID() {return serverID;}
+    public void setServerID(String serverID) {this.serverID = serverID;}
+
+    public String getPlaceID() {return placeID;}
+    public void setPlaceID(String placeID) {this.placeID = placeID;}
+
     public String getPlaceName(){return placeName;}
     public void setPlaceName(String placeName){this.placeName = placeName;}
 

@@ -3,6 +3,8 @@ package com.e.routetest;
 import android.animation.ValueAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -72,9 +74,6 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
         public TextView placeArrivalTime;
         public TextView placeMoveTime;
 
-        public Button visitButton;
-        public Button testButton;
-
         public Button changeButton;
         public LinearLayout item_detail;
         public LinearLayout item_info;
@@ -93,10 +92,7 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
             placeRainfallInfo = (TextView)view.findViewById(R.id.trip_alarm_rv_item_rainfallInfo);
 
             placeArrivalTime = (TextView)view.findViewById(R.id.trip_alarm_rv_item_arrivalTime);
-            //placeMoveTime = (TextView) view.findViewById(R.id.trip_alarm_rv_item_moveTimeInfo);
-
-            //visitButton = (Button)view.findViewById(R.id.trip_alarm_rv_item_visitButton);
-            //testButton = (Button)view.findViewById(R.id.trip_alarm_rv_item_testButton);
+            placeMoveTime = (TextView) view.findViewById(R.id.trip_alarm_rv_item_moveTimeInfo);
 
             item_detail = (LinearLayout)view.findViewById(R.id.trip_alarm_rv_item_detail);
             item_info = (LinearLayout)view.findViewById(R.id.trip_alarm_rv_item_infoList);
@@ -108,6 +104,7 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
             this.tripAlarm_rv_item_info = tripAlarm_rv_item_info;
             this.position = position;
 
+            //날씨아이콘
             int temp = tripAlarm_rv_item_info.getPlaceWeatherIconType();
             switch (temp){  //맑음0 구름많음1 흐림2 비3 비/눈4 눈5 소나기6
                 case 0: weatherIcon.setImageResource(R.drawable.sunny); break;
@@ -118,26 +115,49 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
                 case 5: weatherIcon.setImageResource(R.drawable.snow); break;
                 case 6: weatherIcon.setImageResource(R.drawable.shower); break;
             }
+            //장소이름
             placeName.setText(tripAlarm_rv_item_info.getPlaceName());
-            placeTmp.setText(tripAlarm_rv_item_info.getPlaceTmp()+"°C");
-            placeHum.setText(tripAlarm_rv_item_info.getPlaceHum() + "%");
-            placeRainfallProb.setText(tripAlarm_rv_item_info.getPlaceRainfallProb() + "%");
-
-            String rainSnow_unit = (tripAlarm_rv_item_info.getPlaceWeatherIconType()==3)?"mm":"cm";
-            placeRainfallInfo.setText(tripAlarm_rv_item_info.getPlaceRainfallInfo()+rainSnow_unit);
+            //온도
+            String temperature = tripAlarm_rv_item_info.getPlaceTmp();
+            temperature = temperature.equals("null")?"-":temperature+"°C";
+            placeTmp.setText(temperature);
+            //습도
+            String humidity = tripAlarm_rv_item_info.getPlaceHum();
+            humidity = humidity.equals("null")?"-":humidity+"%";
+            placeHum.setText(humidity);
+            //강수확률
+            String rainProb = tripAlarm_rv_item_info.getPlaceRainfallProb();
+            rainProb = rainProb.equals("null")?"-":rainProb+"%";
+            placeRainfallProb.setText(rainProb);
+            //강수or적설량
+            String rsTmp1 = tripAlarm_rv_item_info.getPlaceRainfallInfo();
+            if(rsTmp1.equals("null")) {
+                placeRainfallInfo.setText("-");
+            }else if(rsTmp1.equals("강수량 : 1.0mm 미만")){
+                placeRainfallInfo.setText("-");
+            }else{
+                String[] rsTmp2 = rsTmp1.split(" ");
+                String rainSnowInfo = rsTmp2[2];
+                placeRainfallInfo.setText(rainSnowInfo);
+            }
 
             //도착시간 출력
             String a_time = tripAlarm_rv_item_info.getArrivalTime();
             String at_h = a_time.substring(0,2);
             String at_m = a_time.substring(2);
             placeArrivalTime.setText(at_h+":"+at_m);
-            /*
+
             //출발해야될 최소 시간 출력
             String m_time = tripAlarm_rv_item_info.getMoveTime();
-            String mt_h = m_time.substring(0,2);
-            String mt_m = m_time.substring(2);
-            placeMoveTime.setText(mt_h+"시 "+mt_m+"분에 출발해야 도착이 예상됩니다.");
+            if(m_time.equals("null")){
+                placeMoveTime.setText("시간정보를 받아오지 못하였습니다.");
+            }else {
+                String mt_h = m_time.substring(0, 2);
+                String mt_m = m_time.substring(2);
+                placeMoveTime.setText(mt_h + "시 " + mt_m + "분에 출발해야 시간내에 도착이 예상됩니다.");
+            }
 
+            /*
             if(tripAlarm_rv_item_info.getSpendingTime_text().equals("null")) {
                 placeSpendTime.setText("마지막 행선지입니다.");
             }else {
@@ -145,10 +165,11 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
             }
              */
 
+
             changeVisibility(selectedItems.get(position));
 
             item_info.setOnClickListener(this);
-            //changeButton.setOnClickListener(this);
+            changeButton.setOnClickListener(this);
             //visitButton.setOnClickListener(this);
             //testButton.setOnClickListener(this);
         }
@@ -176,7 +197,27 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
                     AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
                     builder.setTitle("여행지 변경 확인");
                     builder.setMessage("여행지를 변경하시겠습니까?");
-                    builder.setPositiveButton("예",null);
+                    builder.setPositiveButton("예",new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                           String s_spotID = tripAlarm_rv_item_info.getPlaceID();
+                           String s_routeID = tripAlarm_rv_item_info.getServerID();
+                           Log.d("ADAPTER",s_spotID);
+                           Log.d("ADAPTER",s_routeID);
+                            if(s_spotID!=null && s_routeID!=null){
+                                Intent intent = new Intent(context,RecommendActivity.class);
+                                intent.putExtra("spotId",Integer.parseInt(s_spotID));
+                                intent.putExtra("routeId",Integer.parseInt(s_routeID));
+                                intent.putExtra("now",position);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                            }
+                            else{
+                                Log.e("CHANGEBUTTON_ERROR","SPOTID or ROUTEID MISSING");
+                            }
+                        }
+                    });
                     builder.setNegativeButton("아니오",null);
                     AlertDialog dialog = builder.create();
                     dialog.show();

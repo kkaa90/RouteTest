@@ -82,77 +82,96 @@
         android:background="@color/colorGray">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:padding="5dp">
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@mipmap/ic_launcher" />
+            android:layout_width="360dp"
+            android:layout_height="100dp"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/trip_alarm_rv_item_temperauterInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="23도"
-                android:textSize="20sp"
-                android:layout_marginRight="2dp"
-                android:paddingVertical="6dp"/>
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@mipmap/ic_launcher" />
+                android:text="&lt;상세정보&gt;"/>
 
             <TextView
-                android:id="@+id/trip_alarm_rv_item_HumidityInfo"
+                android:id="@+id/trip_alarm_rv_item_moveTimeInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="70%"
-                android:textSize="20sp"
-                android:layout_marginRight="2dp"
-                android:paddingVertical="6dp"/>
+                android:paddingVertical="5dp"
+                android:paddingHorizontal="8dp"
+                android:text="12시 00분에 출발해야 시간내에 도착이 예상됩니다."
+                android:textSize="14dp"
+                android:textStyle="bold"/>
 
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@mipmap/ic_launcher" />
-
-            <TextView
-                android:id="@+id/trip_alarm_rv_item_rainfallProbablityInfo"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="70%"
-                android:textSize="20sp"
-                android:layout_marginRight="2dp"
-                android:paddingVertical="6dp"/>
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
 
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@mipmap/ic_launcher" />
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/ic_launcher"/>
 
-            <TextView
-                android:id="@+id/trip_alarm_rv_item_rainfallInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="70%"
-                android:textSize="20sp"
-                android:paddingVertical="6dp"/>
+                <TextView
+                    android:id="@+id/trip_alarm_rv_item_temperauterInfo"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="23.3°C"
+                    android:textStyle="bold"
+                    android:textSize="13sp"
+                    android:paddingVertical="10dp"/>
 
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/trip_alarm_rv_item_HumidityInfo"
+                    android:layout_width="45dp"
+                    android:layout_height="wrap_content"
+                    android:text="100%"
+                    android:textStyle="bold"
+                    android:textSize="13sp"
+                    android:paddingVertical="10dp"/>
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/trip_alarm_rv_item_rainfallProbablityInfo"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="100%"
+                    android:textStyle="bold"
+                    android:textSize="13sp"
+                    android:paddingVertical="10dp"/>
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/trip_alarm_rv_item_rainfallInfo"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="100mm"
+                    android:textStyle="bold"
+                    android:textSize="13sp"
+                    android:paddingVertical="10dp"/>
+
+
+            </LinearLayout>
 
         </LinearLayout>
 
         <Button
             android:id="@+id/trip_alarm_rv_item_changeButton"
             android:layout_width="40dp"
-            android:layout_height="40dp"/>
-
-
-
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 
