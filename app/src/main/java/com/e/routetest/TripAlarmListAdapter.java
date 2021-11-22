@@ -263,4 +263,5 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
             va.start();
         }
     }
+
 }

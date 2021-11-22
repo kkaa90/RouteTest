@@ -41,6 +41,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static com.e.routetest.LoadingActivity.allSpotList;
+
 public class TripAlarmListActivity extends AppCompatActivity {
     private static ArrayList<TripAlarm_rv_item_info> tripAlarmItems = new ArrayList<TripAlarm_rv_item_info>(); //날씨및 시간 정보(결과물)
     private static ArrayList<Boolean> isVisitList = new ArrayList<>();  //여행지 도착확인용
@@ -50,6 +52,7 @@ public class TripAlarmListActivity extends AppCompatActivity {
     private TextView refreshTime;
     private RecyclerView recyclerView;
     private TripAlarmListAdapter tripAlarmListAdapter;
+    Spot s;
 
     //뒤로가기 누를시 MainActivity로 이동
     @Override
@@ -165,5 +168,23 @@ public class TripAlarmListActivity extends AppCompatActivity {
                 });
             }
         }.start();
+    }
+    protected void onActivityResult(int requestCode, int result, Intent data){
+        super.onActivityResult(requestCode,result,data);
+        if(requestCode==10){
+            if(result==RESULT_OK){
+                int now = data.getIntExtra("now",0);
+                int spotId = data.getIntExtra("routeId",0);
+
+                for(Spot obj:allSpotList){
+                    if(obj.spotID==spotId){
+                        s=obj;
+                    }
+                }
+            }
+            else{
+
+            }
+        }
     }
 }
