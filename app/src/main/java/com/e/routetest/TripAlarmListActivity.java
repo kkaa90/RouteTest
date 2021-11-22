@@ -104,7 +104,6 @@ public class TripAlarmListActivity extends AppCompatActivity {
     private void showItems(){
         new Thread() {
             public void run() {
-                //tripAlarmItems.clear();
                 //임시경로DB에서 데이터 받기
                 tripAlarmItems.clear();
                 TripAlarmComponent component = new TripAlarmComponent();
@@ -119,40 +118,6 @@ public class TripAlarmListActivity extends AppCompatActivity {
                 //Log.d("SHOWITEMS","tripAlarmItems size : "+tripAlarmItems.size());
                 //방문정보내역 초기화 및 정보 받기
                 isVisitList.clear(); isVisitList.addAll(component.extract_isVisitFromLTroute(tRouteList));
-
-                /*
-                TempPlaceDatabase tDb = TempPlaceDatabase.getInstance(getApplicationContext());
-                List<TempPlace> tempRoutedata = new ArrayList<>(tDb.tempPlaceRepository().findAll());
-                ArrayList<TripAlarm_rv_item_info> basedata = new ArrayList<>();
-                ArrayList<Boolean> _isVisitList = new ArrayList<>();
-
-                basedata.clear();
-                _isVisitList.clear();
-                if(tempRoutedata != null) {
-                    for (int i = 0; i < tempRoutedata.size(); i++) {
-                        _isVisitList.add(tempRoutedata.get(i).isVisit());
-                        if (tempRoutedata.get(i).isVisit()) { //방문을 했던 곳은 스킵
-                            continue;
-                        } else {
-                            //다음 행선지가 있는 경우 = 다음행선지 정보/ 없는경우 1000 or null
-                            double bLatitude = (i + 1) < tempRoutedata.size() ? Double.parseDouble(tempRoutedata.get(i + 1).getLatitude()) : 1000;
-                            double bLongitude = (i + 1) < tempRoutedata.size() ? Double.parseDouble(tempRoutedata.get(i + 1).getLongitude()) : 1000;
-                            String nextArrivalTime = (i + 1) < tempRoutedata.size() ? tempRoutedata.get(i + 1).getArrivalTime() : "null";
-
-                            basedata.add(component.getItemInfo(
-                                    tempRoutedata.get(i).getPlaceName(),
-                                    component.split_Str(tempRoutedata.get(i).getPlaceAddress()),
-                                    Double.parseDouble(tempRoutedata.get(i).getLatitude()),
-                                    Double.parseDouble(tempRoutedata.get(i).getLongitude()),
-                                    bLatitude, bLongitude,
-                                    tempRoutedata.get(i).getArrivalTime(), nextArrivalTime));
-                        }
-                    }
-                }
-
-                tripAlarmItems.addAll(basedata);
-                isVisitList.addAll(_isVisitList);
-                */
 
                 runOnUiThread(new Runnable() {
                     @Override

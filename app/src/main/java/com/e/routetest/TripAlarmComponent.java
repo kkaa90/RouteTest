@@ -568,8 +568,8 @@ public class TripAlarmComponent {
     public void save_Sp_on_TRouteDB(Sp sp, Context context){
         String placeNames = sp.getSpotsName();
         String placeIDs = sp.getSpotsId();
-        String longitudes = sp.getSpotsX();
-        String latitudes = sp.getSpotsY();
+        String longitudes = sp.getSpotsY();
+        String latitudes = sp.getSpotsX();
         String placeAddresses = sp.getSpotsAddress();
         String date = sp.getDate();
         String arrTimes = sp.getArrTime();
@@ -692,5 +692,62 @@ public class TripAlarmComponent {
         int sec = _hour*3600 + _minute*60;
 
         return Integer.toString(sec);
+    }
+
+    //Spot객체 받아서 기존 TRoute정보 갱신하는 메서드
+    public void updateTRouteByIndex(Context context,int index,Spot spot,int spotArrivalTime){
+        new Thread() {
+            public void run() {
+                //임시경로DB에서 데이터 받기
+                TripAlarmComponent component = new TripAlarmComponent();
+
+                //DB연결 및 기존 루트 받아오기
+                TRouteDataBase tDb = TRouteDataBase.getInstance(context);
+                List<TRoute> orinalRoute = new ArrayList<>(tDb.tRouteRepository().findAll());
+
+                //정보 추출
+                String[] placeNames = orinalRoute.get(0).getPlaceNames().split(",");
+                String[] placeIDs = orinalRoute.get(0).getPlaceIDs().split(",");
+                String[] longitudes = orinalRoute.get(0).getLongitudes().split(",");
+                String[] latitudes = orinalRoute.get(0).getLatitudes().split(",");
+                String[] placeAddresses = orinalRoute.get(0).getPlaceAddresses().split(",");
+                String[] arrivalTimes = orinalRoute.get(0).getArrivalTimes().split(",");
+                String[] isVisit = orinalRoute.get(0).getArrivalTimes().split(",");
+                String serverID = orinalRoute.get(0).getServerID();
+
+                String newPlaceNames = null;
+                String newPlaceIDs = null;
+                String newLongitudes = null;
+                String newLatitudes = null;
+                String newPlaceAddresses = null;
+                String newArrivalTimes = null;
+                String newIsVisit = null;
+
+                //정보 통합
+                for(int i=0;i<placeIDs.length;i++){
+                    newPlaceNames = (i==index)? newPlaceNames + "," + spot.getSpotName() : newPlaceNames + "," + placeNames[i];
+                    newPlaceAddresses = (i==index)? newPlaceAddresses + "," + spot.getSpotAddress() : newPlaceAddresses + "," + placeAddresses[i];
+                    newLongitudes = (i==index)? newLongitudes + "," + spot.getSpotX() : newLongitudes + "," + longitudes[i];
+                    newLatitudes = (i==index)? newLatitudes + "," + spot.getSpotY() : newLatitudes + "," + latitudes[i];
+                    newPlaceIDs = (i==index)? newPlaceIDs + "," + spot.getSpotID() : newPlaceIDs + "," + placeIDs[i];
+                    newIsVisit = (i==index)? newIsVisit + "," + "0" : newIsVisit + "," + isVisit[i];
+                    newArrivalTimes = (i==index)? newArrivalTimes + "," + spotArrivalTime : newArrivalTimes + "," + arrivalTimes[i];
+                }
+                placeNames = newPlaceNames.split(",",2);
+                placeNames = newPlaceNames.split(",",2);
+                placeIDs = newPlaceIDs.split(",",2);
+                longitudes = newLongitudes.split(",",2);
+                latitudes = newLatitudes.split(",",2);
+                placeAddresses = newPlaceAddresses.split(",",2);
+                arrivalTimes = newArrivalTimes.split(",",2);
+                isVisit = newIsVisit.split(",",2);
+
+
+                TRoute newRoute = new TRoute(placeNames[1],placeIDs[1],longitudes[1],latitudes[1],placeAddresses[1],arrivalTimes[1],isVisit[1],serverID);
+
+                tDb.tRouteRepository().deleteAll();
+                tDb.tRouteRepository().insert(newRoute);
+            }
+        }.start();
     }
 }
