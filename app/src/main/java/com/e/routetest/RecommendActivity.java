@@ -81,6 +81,7 @@ public class RecommendActivity extends AppCompatActivity {
         double x;
         double y;
         String address;
+        float score;
         int status = 0;
         try {
             String url = sv + "recommend.jsp?routeID=12&attractionID="+String.valueOf(spot.spotID)+"&mapX="+spot.spotY+"&mapY="+spot.spotX;
@@ -105,6 +106,7 @@ public class RecommendActivity extends AppCompatActivity {
                 x = jsonObject1.get("mapX").getAsDouble();
                 y = jsonObject1.get("mapY").getAsDouble();
                 address = jsonObject1.get("addr").getAsString();
+                score = jsonObject1.get("attractionScore").getAsFloat();
                 rSpot.add(new Spot(spotId, title, y, x, address));
                 //System.out.println(i);
             }

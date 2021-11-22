@@ -88,7 +88,7 @@ public class WriteBoardActivity extends AppCompatActivity {
             }
         });
         thEdit.setOnClickListener(new View.OnClickListener() {
-            String items[] = {"임시1","임시2","임시3","임시4","임시5","임시6","임시7"};
+            String items[] = {"자연","역사","휴양","문화시설","체험","레저","쇼핑"};
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder sDialog = new AlertDialog.Builder(WriteBoardActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);

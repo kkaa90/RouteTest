@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:tag="0"
-                android:text="테마1" />
+                android:text="자연" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle2"
@@ -51,7 +51,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:tag="1"
-                android:text="테마2" />
+                android:text="역사
+" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle3"
@@ -60,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:tag="2"
-                android:text="테마3" />
+                android:text="휴양" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle4"
@@ -69,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:tag="3"
-                android:text="테마4" />
+                android:text="문화시설" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle5"
@@ -78,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:tag="4"
-                android:text="테마5" />
+                android:text="체험" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle6"
@@ -87,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:tag="5"
-                android:text="테마6" />
+                android:text="레저" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle7"
@@ -96,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:tag="6"
-                android:text="테마7" />
+                android:text="쇼핑" />
 
 
         </com.google.android.material.button.MaterialButtonToggleGroup>

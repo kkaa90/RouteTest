@@ -45,7 +45,7 @@ public class EditRouteAdapter extends RecyclerView.Adapter<EditRouteAdapter.Hold
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         int itemPosition=position;
-        holder.imageView.setImageResource(R.drawable.photo1);
+        //holder.imageView.setImageResource(R.drawable.photo1);
         holder.spotName.setText(list.get(itemPosition).spotName);
 
         String arr=String.valueOf(arrList.get(itemPosition)/3600)+ ":";
@@ -66,13 +66,13 @@ public class EditRouteAdapter extends RecyclerView.Adapter<EditRouteAdapter.Hold
     }
 
     public class Holder extends RecyclerView.ViewHolder{
-        public ImageView imageView;
+        //public ImageView imageView;
         public TextView spotName;
         public TextView departureText;
         public TextView arrivalText;
         public Holder(View view){
             super(view);
-            imageView=(ImageView) view.findViewById(R.id.spotImage2);
+            //imageView=(ImageView) view.findViewById(R.id.spotImage2);
             spotName=(TextView) view.findViewById(R.id.spotName2);
             departureText=(TextView) view.findViewById(R.id.viewDeparture);
             arrivalText=(TextView) view.findViewById(R.id.viewArrival);

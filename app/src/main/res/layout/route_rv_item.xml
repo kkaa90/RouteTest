@@ -23,7 +23,8 @@
         android:src="@mipmap/ic_launcher_round"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/spotName2"
@@ -34,7 +35,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/spotImage2"
-        app:layout_constraintStart_toEndOf="@id/spotImage2"
+        app:layout_constraintStart_toStartOf="@+id/spotImage2"
         app:layout_constraintTop_toTopOf="@id/spotImage2" />
     <TextView
         android:id="@+id/viewArrival"

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="90dp"
     android:background="@drawable/border_layout">
 
     <ImageView
@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="[XXXX] 게시글에 참가 신청이 있습니다."
+        android:text="[XXXX] 게시글에\n 참가 신청이 있습니다."
         app:layout_constraintStart_toStartOf="@+id/nTypeView"
         app:layout_constraintTop_toBottomOf="@+id/nTypeView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

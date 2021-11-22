@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +35,10 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.Holder>{
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-        String items[] = {"임시1","임시2","임시3","임시4","임시5","임시6","임시7"};
+        String items[] = {"자연","역사","휴양","문화시설","체험","레저","쇼핑"};
         int itemPosition=position;
-        holder.pfImg.setImageResource(R.drawable.photo1);
+
+        //holder.pfImg.setImageResource(R.drawable.photo1);
 //        System.out.println(boardList.get(itemPosition).boardTitle);
 //        System.out.println(itemPosition);
         String temp = boardList.get(itemPosition).boardTitle;
@@ -56,7 +58,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.Holder>{
         return boardList.size();
     }
     public class Holder extends RecyclerView.ViewHolder{
-        public ImageView pfImg;
+       // public ImageView pfImg;
         public TextView titleView;
         public TextView themeView;
         public TextView dateView;
@@ -67,7 +69,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.Holder>{
         public TextView maxView;
         public Holder(View view){
             super(view);
-            pfImg=(ImageView)view.findViewById(R.id.pfImg);
+           // pfImg=(ImageView)view.findViewById(R.id.pfImg);
             titleView = (TextView)view.findViewById(R.id.titleText);
             themeView = (TextView)view.findViewById(R.id.themeT);
             dateView = (TextView)view.findViewById(R.id.dateRoute);
