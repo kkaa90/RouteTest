@@ -32,6 +32,7 @@ public class RecommendActivity extends AppCompatActivity {
     public ArrayList<Spot> rSpot = new ArrayList<Spot>();
     Spot n;
     public static Context rContext;
+    public static int now;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

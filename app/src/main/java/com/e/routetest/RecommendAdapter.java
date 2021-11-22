@@ -65,6 +65,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Hold
                     if(pos != RecyclerView.NO_POSITION){
                         Intent intent = new Intent();
                         intent.putExtra("spotId",allSpotList.get(pos).spotID);
+                        intent.putExtra("now", RecommendActivity.now);
                         ((RecommendActivity)rContext).setResult(RESULT_OK,intent);
                         ((RecommendActivity)rContext).finish();
                     }
