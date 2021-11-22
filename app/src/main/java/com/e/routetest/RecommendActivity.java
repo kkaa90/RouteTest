@@ -25,6 +25,7 @@ import okhttp3.Response;
 
 import static com.e.routetest.LoadingActivity.allSpotList;
 import static com.e.routetest.LoadingActivity.sv;
+import static com.e.routetest.LoginActivity.userId;
 import static com.e.routetest.RouteActivity.spots;
 import static com.e.routetest.RouteActivity.warning;
 
@@ -41,7 +42,8 @@ public class RecommendActivity extends AppCompatActivity {
         Intent spotIntent = getIntent();
         int spotId = spotIntent.getIntExtra("spotId",0);
         int routeId = spotIntent.getIntExtra("routeId",0);
-        int now = spotIntent.getIntExtra("now",0);
+        now = spotIntent.getIntExtra("now",0);
+        System.out.println("Rnow : "+now);
         for (Spot obj:allSpotList){
             if(spotId==obj.spotID){
                 n=obj;
@@ -60,10 +62,11 @@ public class RecommendActivity extends AppCompatActivity {
         viewRecommend.setAdapter(recommendAdapter);
         new Thread(){
             public void run(){
-                if(getSpot(n)){
+                if(getSpot(n,routeId)){
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            rSpot.remove(0);
                             recommendAdapter.notifyDataSetChanged();
                         }
                     });
@@ -75,7 +78,7 @@ public class RecommendActivity extends AppCompatActivity {
 
     }
 
-    public boolean getSpot(Spot spot) {
+    public boolean getSpot(Spot spot, int id) {
         int spotId;
         String title;
         double x;
@@ -84,7 +87,7 @@ public class RecommendActivity extends AppCompatActivity {
         float score;
         int status = 0;
         try {
-            String url = sv + "recommend.jsp?routeID=12&attractionID="+String.valueOf(spot.spotID)+"&mapX="+spot.spotY+"&mapY="+spot.spotX;
+            String url = sv + "recommend.jsp?userId="+userId+"&routeID="+id+"&attractionID="+String.valueOf(spot.spotID)+"&mapX="+spot.spotY+"&mapY="+spot.spotX;
             System.out.println(url);
 
 

@@ -21,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import static com.e.routetest.TripAlarmListActivity.tContext;
+
 public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdapter.Holder>{
     private Context context;
     private ArrayList<TripAlarm_rv_item_info> tripAlarmDataList;    //여행경로 데이터
@@ -214,12 +216,11 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
                            Log.d("ADAPTER",s_spotID);
                            Log.d("ADAPTER",s_routeID);
                             if(s_spotID!=null && s_routeID!=null){
-                                Intent intent = new Intent(context,RecommendActivity.class);
+                                Intent intent = new Intent(((TripAlarmListActivity)tContext),RecommendActivity.class);
                                 intent.putExtra("spotId",Integer.parseInt(s_spotID));
                                 intent.putExtra("routeId",Integer.parseInt(s_routeID));
                                 intent.putExtra("now",position);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
+                                ((TripAlarmListActivity)tContext).startActivityForResult(intent,10);
                             }
                             else{
                                 Log.e("CHANGEBUTTON_ERROR","SPOTID or ROUTEID MISSING");

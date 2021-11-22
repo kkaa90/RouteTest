@@ -15,14 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static com.e.routetest.RecommendActivity.now;
 import static com.e.routetest.RecommendActivity.rContext;
 
 public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Holder> {
-
-
+    private int nn = now;
     private Context context;
     private List<Spot> allSpotList=new ArrayList<>();
-
     public RecommendAdapter(Context context, List<Spot> allSpotList) {
         this.context = context;
         this.allSpotList = allSpotList;
@@ -61,13 +60,16 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Hold
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    System.out.println("nn : "+nn);
                     int pos = getAdapterPosition();
                     if(pos != RecyclerView.NO_POSITION){
                         Intent intent = new Intent();
                         intent.putExtra("spotId",allSpotList.get(pos).spotID);
-                        intent.putExtra("now", RecommendActivity.now);
-                        ((RecommendActivity)rContext).setResult(RESULT_OK,intent);
-                        ((RecommendActivity)rContext).finish();
+                        intent.putExtra("now", nn);
+                        if(nn!=0) {
+                            ((RecommendActivity) rContext).setResult(RESULT_OK, intent);
+                            ((RecommendActivity) rContext).finish();
+                        }
                     }
                 }
             });

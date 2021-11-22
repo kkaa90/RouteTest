@@ -53,7 +53,8 @@ public class TripAlarmListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private TripAlarmListAdapter tripAlarmListAdapter;
     Spot s;
-
+    Spot s2;
+    public static Context tContext;
     //뒤로가기 누를시 MainActivity로 이동
     @Override
     public void onBackPressed() {
@@ -71,7 +72,7 @@ public class TripAlarmListActivity extends AppCompatActivity {
         refreshTime = (TextView)findViewById(R.id.trip_alarm_activity_refreshTime);
         recyclerView = (RecyclerView)findViewById(R.id.weatherList);
         tripAlarmListAdapter = new TripAlarmListAdapter(getApplicationContext(),tripAlarmItems,isVisitList);
-
+        tContext=this;
         //실행시 데이터 받기 + 화면에 띄우기
         showItems();
 
@@ -109,7 +110,7 @@ public class TripAlarmListActivity extends AppCompatActivity {
             public void run() {
                 //임시경로DB에서 데이터 받기
                 tripAlarmItems.clear();
-                TripAlarmComponent component = new TripAlarmComponent();
+                component = new TripAlarmComponent();
 
                 //DB연결
                 TRouteDataBase tDb = TRouteDataBase.getInstance(getApplicationContext());
@@ -139,17 +140,74 @@ public class TripAlarmListActivity extends AppCompatActivity {
         if(requestCode==10){
             if(result==RESULT_OK){
                 int now = data.getIntExtra("now",0);
-                int spotId = data.getIntExtra("routeId",0);
-
+                int spotId = data.getIntExtra("spotId",0);
+                System.out.println("ID : "+spotId);
+                System.out.println("now : "+ now);
                 for(Spot obj:allSpotList){
                     if(obj.spotID==spotId){
                         s=obj;
                     }
                 }
+                for(Spot obj:allSpotList){
+                    if(obj.spotID==Integer.parseInt(tripAlarmItems.get(now-1).getPlaceID())){
+                        s2=obj;
+                    }
+                }
+                final int[] t = new int[1];
+                new Thread(){
+                    public void run(){
+                        t[0] = getTime(s2,s);
+                    }
+                }.start();
+
+                component.updateTRouteByIndex(tContext,now,s, t[0]);
+                tripAlarmListAdapter.notifyDataSetChanged();
             }
             else{
 
             }
         }
+    }
+    public int getTime(Spot A, Spot B){
+        int arrtime=-1;
+        double ax=A.spotX;
+        double ay=A.spotY;
+        double bx=B.spotX;
+        double by=B.spotY;
+
+        /*System.out.println("ax : "+ax);
+        System.out.println("ay : "+ay);
+        System.out.println("bx : "+bx);
+        System.out.println("by : "+by);*/
+        try {
+            String url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&mode=transit&origins="
+                    +ax+","+ay+"&destinations="+bx+","+by+"&region=KR&key=AIzaSyAn-Tk1TUWDZWTHbdshVkc9z2uQG4dULNQ";
+            //String url = "http://3.34.178.98:8080/teamproject/viewAttaction.jsp";
+            System.out.println(url);
+
+
+            OkHttpClient client = new OkHttpClient();
+            Request.Builder builder = new Request.Builder().url(url).get();
+            Request request = builder.build();
+
+            Response response = client.newCall(request).execute();
+            Gson gson = new Gson();
+            JsonParser jsonParser = new JsonParser();
+            JsonElement jsonElement = jsonParser.parse(response.body().string());
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+
+            JsonArray row = jsonObject.get("rows").getAsJsonArray();
+            JsonObject jsonObject1 = (JsonObject) row.get(0);
+            JsonArray row2 = jsonObject1.get("elements").getAsJsonArray();
+            JsonObject jsonObject2 = (JsonObject) row2.get(0);
+            JsonObject jsonObject3 = jsonObject2.get("duration").getAsJsonObject();
+            arrtime = jsonObject3.get("value").getAsInt();
+
+            System.out.println(arrtime);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return arrtime;
     }
 }
