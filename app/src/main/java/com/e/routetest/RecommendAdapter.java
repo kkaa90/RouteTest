@@ -1,6 +1,7 @@
 package com.e.routetest;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
+import static com.e.routetest.RecommendActivity.rContext;
 
 public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Holder> {
 
@@ -59,7 +63,10 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Hold
                 public void onClick(View view) {
                     int pos = getAdapterPosition();
                     if(pos != RecyclerView.NO_POSITION){
-
+                        Intent intent = new Intent();
+                        intent.putExtra("spotId",allSpotList.get(pos).spotID);
+                        ((RecommendActivity)rContext).setResult(RESULT_OK,intent);
+                        ((RecommendActivity)rContext).finish();
                     }
                 }
             });

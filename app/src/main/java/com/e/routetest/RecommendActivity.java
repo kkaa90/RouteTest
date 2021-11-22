@@ -4,8 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -19,44 +23,58 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static com.e.routetest.LoadingActivity.allSpotList;
 import static com.e.routetest.LoadingActivity.sv;
 import static com.e.routetest.RouteActivity.spots;
 import static com.e.routetest.RouteActivity.warning;
 
 public class RecommendActivity extends AppCompatActivity {
     public ArrayList<Spot> rSpot = new ArrayList<Spot>();
-    public ArrayList<Spot> wSpot = new ArrayList<Spot>();
+    Spot n;
+    public static Context rContext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommend);
-        wSpot.add(spots.get(warning));
-        RecyclerView viewChange = findViewById(R.id.viewChange);
+        rContext = this;
+        Intent spotIntent = getIntent();
+        int spotId = spotIntent.getIntExtra("spotId",0);
+        int routeId = spotIntent.getIntExtra("routeId",0);
+        int now = spotIntent.getIntExtra("now",0);
+        for (Spot obj:allSpotList){
+            if(spotId==obj.spotID){
+                n=obj;
+            }
+        }
+        ImageView imageView = (ImageView)findViewById(R.id.rSpotImage);
+        imageView.setImageResource(R.drawable.photo1);
+        TextView textView = (TextView)findViewById(R.id.rSpotName);
+        textView.setText(n.getSpotName());
+        TextView textView1 = (TextView)findViewById(R.id.rSpotAddress);
+        textView1.setText(n.getSpotAddress());
         RecyclerView viewRecommend = findViewById(R.id.viewRecommend);
-        viewChange.setHasFixedSize(true);
         viewRecommend.setHasFixedSize(true);
-        RecommendAdapter viewSpotAdapter = new RecommendAdapter(getApplicationContext(),wSpot);
         RecommendAdapter recommendAdapter = new RecommendAdapter(getApplicationContext(),rSpot);
-        viewChange.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         viewRecommend.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        viewChange.setAdapter(viewSpotAdapter);
         viewRecommend.setAdapter(recommendAdapter);
         new Thread(){
             public void run(){
-                getSpot(wSpot.get(0));
+                if(getSpot(n)){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            recommendAdapter.notifyDataSetChanged();
+                        }
+                    });
+
+                }
             }
         }.start();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                viewSpotAdapter.notifyDataSetChanged();
-                recommendAdapter.notifyDataSetChanged();
-            }
-        }, 1000);
+
 
     }
 
-    public void getSpot(Spot spot) {
+    public boolean getSpot(Spot spot) {
         int spotId;
         String title;
         double x;
@@ -91,9 +109,10 @@ public class RecommendActivity extends AppCompatActivity {
             }
 
             status = 1;
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return;
+        return false;
     }
 }

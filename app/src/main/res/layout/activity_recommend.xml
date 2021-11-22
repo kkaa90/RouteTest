@@ -7,29 +7,63 @@
     tools:context=".RecommendActivity">
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/viewChange"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rrc"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="60dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/rSpotName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="여행지12345678910"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/rSpotImage"
+            app:layout_constraintTop_toTopOf="@+id/rSpotImage" />
+
+        <ImageView
+            android:id="@+id/rSpotImage"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_marginStart="10dp"
+            android:src="@mipmap/ic_launcher_round"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/rSpotAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="여행지12345678910"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/rSpotName"
+            app:layout_constraintTop_toBottomOf="@+id/rSpotName" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/viewRecommend"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewChange" />
+        app:layout_constraintTop_toBottomOf="@+id/rrc">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
