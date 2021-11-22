@@ -1,5 +1,6 @@
 package com.e.routetest;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -20,7 +21,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -33,12 +37,23 @@ import static com.e.routetest.LoadingActivity.sv;
 public class HomeFragment extends Fragment {
 
     ArrayList<Board> boards = new ArrayList<Board>();
+    ArrayList<Sp> routes = new ArrayList<Sp>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_home, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.home_board);
         BoardAdapter boardAdapter = new BoardAdapter(getActivity().getApplicationContext(),boards);
+
+        //Route 리사이클러뷰 생성 및 적용
+        RecyclerView route_recyclerView = (RecyclerView)view.findViewById(R.id.home_route);
+        HomeFragmentSpAdapter homeFragmentSpAdapter = new HomeFragmentSpAdapter(getActivity().getApplicationContext(),routes);
+
+        route_recyclerView.setHasFixedSize(true);
+        route_recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(),RecyclerView.HORIZONTAL,false));
+        route_recyclerView.setAdapter(homeFragmentSpAdapter);
+
+        //Route에 필요한 데이터 받아온 뒤 notifyChanged실행
 
         //------------------------------ 여행지 알림 버튼 연결부 (시작) ------------------------------
         //임시데이터 생성
@@ -52,10 +67,11 @@ public class HomeFragment extends Fragment {
                 "32400,43200,51300,58500,69300",
                 "36000,45000,56100,61200,75600",
                 111);
-
+        //routes.add(test_route);
         //String tripAlarmTestData = new TripAlarmComponent().convert_SptoString(test_route);
         //Log.d("HOMEFRAGMENTS DATA",tripAlarmTestData);
 
+        /*
         Button test_button1 = (Button)view.findViewById(R.id.show_trip_alarm_button1);
         test_button1.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -67,6 +83,7 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+         */
 
         Button test_button2 = (Button)view.findViewById(R.id.show_trip_alarm_button2);
         test_button2.setOnClickListener(new View.OnClickListener(){
@@ -81,12 +98,16 @@ public class HomeFragment extends Fragment {
         new Thread(){
             public void run(){
                 getSpot();
+                //오늘날짜 기반으로 routes데이터 업데이트
+                routes.clear();
+                routes.addAll(getRouteByDate(getToday(),getActivity().getApplicationContext()));
             }
         }.start();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                homeFragmentSpAdapter.notifyDataSetChanged();
                 boardAdapter.notifyDataSetChanged();
             }
         },2000);
@@ -194,5 +215,27 @@ public class HomeFragment extends Fragment {
         }
 
         return rL;
+    }
+
+    //날짜기반으로 Sp데이터 받아오기
+    private List<Sp> getRouteByDate(String date, Context context){
+        AppDatabase appDatabase = AppDatabase.getInstance(context);
+        List<Sp> spList = appDatabase.spRepository().findAllbyDate(date);
+
+        return spList;
+    }
+
+    //오늘 날짜 받아오기 (yyyy-MM-dd)
+    String getToday(){
+        long mNow = System.currentTimeMillis();
+        Date mReDate = new Date(mNow);
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
+        SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
+        SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+        String year_ = yearFormat.format(mReDate);
+        String month_ = monthFormat.format(mReDate);
+        String day_ = dayFormat.format(mReDate);
+
+        return year_+"-"+month_+"-"+day_;
     }
 }

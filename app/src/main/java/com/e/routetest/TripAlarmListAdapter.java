@@ -100,7 +100,7 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
 
             item_detail = (LinearLayout)view.findViewById(R.id.trip_alarm_rv_item_detail);
             item_info = (LinearLayout)view.findViewById(R.id.trip_alarm_rv_item_infoList);
-            //changeButton = (Button)view.findViewById(R.id.trip_alarm_rv_item_changeButton);
+            changeButton = (Button)view.findViewById(R.id.trip_alarm_rv_item_changeButton);
         }
 
         //onBindViewHolder에서 bind시켜주는 함수
@@ -171,7 +171,7 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
                     //클릭된 position 저장
                     prePosition = position;
                     break;
-                /*
+
                 case R.id.trip_alarm_rv_item_changeButton:
                     AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
                     builder.setTitle("여행지 변경 확인");
@@ -181,7 +181,7 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
                     AlertDialog dialog = builder.create();
                     dialog.show();
                     break;
-
+                /*
                 case R.id.trip_alarm_rv_item_visitButton:
                     isVisitList.set(position,true);
                     item_detail.setBackgroundColor(Color.RED);;
