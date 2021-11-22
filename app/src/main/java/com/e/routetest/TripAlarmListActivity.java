@@ -9,7 +9,9 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -62,14 +64,6 @@ public class TripAlarmListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_alarm_list);
 
-        //HomeFragment로부터 데이터 받기
-        //Intent intent = getIntent();
-        //String sourceData = intent.getStringExtra("DATA_FROM_INTRO_TO_LIST");
-        //String v_sourceDate = intent.getStringExtra("V_DATA_FROM_INTRO_TO_LIST");
-        //Log.d("DATA_FROM_INTRO_TO_LIST",sourceData);
-        //Log.d("V_DATA_FROM_INTRO_TO_LIST",v_sourceDate);
-        //placeWeatherTimeBasedataList = component.decode_Route(sourceData);
-
         swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.trip_alarm_activity_swipe_layout);
         refreshTime = (TextView)findViewById(R.id.trip_alarm_activity_refreshTime);
         recyclerView = (RecyclerView)findViewById(R.id.weatherList);
@@ -88,7 +82,6 @@ public class TripAlarmListActivity extends AppCompatActivity {
             }
         });
 
-
         //============================== Worker작동 시작 ==============================
         //WorkManager생성
         WorkManager workManager = WorkManager.getInstance(getApplicationContext());
@@ -100,7 +93,6 @@ public class TripAlarmListActivity extends AppCompatActivity {
         //취소하려면...
         //workManager.cancelUniqueWork("GET_API_INFO");
         //============================== Worker작동 종료 ==============================
-
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));

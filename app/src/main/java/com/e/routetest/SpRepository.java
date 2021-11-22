@@ -18,6 +18,10 @@ public interface SpRepository {
     @Query("SELECT * FROM sp where routeid= (:routeId)")
     Sp findById(int routeId);
 
+    //특정 날짜로 등록되어 있는 경로 전부 불러오기
+    @Query("SELECT * FROM sp where date= (:date)")
+    List<Sp> findAllbyDate(String date);
+
     @Insert
     void insert(Sp sp);
 

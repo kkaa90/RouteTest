@@ -55,13 +55,14 @@
                     android:layout_height="match_parent"
                     android:id="@+id/home_route"/>
 
-                <!-- 여행지 알림 테스트 버튼 -->
+                <!-- 여행지 알림 테스트 버튼
                 <Button
                     android:id="@+id/show_trip_alarm_button1"
                     android:layout_width="50dp"
                     android:layout_height="30dp"
                     android:layout_gravity="bottom|end"
                     android:text="새 경로"/>
+                    -->
                 <Button
                     android:id="@+id/show_trip_alarm_button2"
                     android:layout_width="50dp"
