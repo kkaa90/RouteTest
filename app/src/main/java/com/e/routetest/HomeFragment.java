@@ -151,8 +151,8 @@ public class HomeFragment extends Fragment {
                 int boardID=jsonObject1.get("boardID").getAsInt();
                 String boardTitle = jsonObject1.get("boardTitle").getAsString();
                 String temp= boardTitle;
-                if(boardTitle.length()>8){
-                    temp = boardTitle.substring(0,6);
+                if(boardTitle.length()>14){
+                    temp = boardTitle.substring(0,12);
                     temp=temp +"...";
                 }
                 String userID=jsonObject1.get("userID").getAsString();

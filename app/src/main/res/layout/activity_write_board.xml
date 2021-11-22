@@ -28,7 +28,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/titleEdit"
         app:layout_constraintEnd_toEndOf="@+id/writer"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/titleEdit" />
+        app:layout_constraintTop_toTopOf="@+id/titleEdit"
+        android:textColor="@color/black"/>
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/titleEdit"
@@ -49,7 +50,8 @@
         android:text="글쓴이"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleEdit" />
+        app:layout_constraintTop_toBottomOf="@+id/titleEdit"
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/writerEdit"
@@ -71,7 +73,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/routeNum"
         app:layout_constraintEnd_toEndOf="@+id/writer"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/routeNum" />
+        app:layout_constraintTop_toTopOf="@+id/routeNum"
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/routeNum"
@@ -95,7 +98,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/datePick"
         app:layout_constraintEnd_toEndOf="@+id/writer"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/datePick" />
+        app:layout_constraintTop_toTopOf="@+id/datePick"
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/datePick"
@@ -120,6 +124,7 @@
         app:layout_constraintEnd_toEndOf="@+id/writer"
         app:layout_constraintStart_toStartOf="@+id/writer"
         app:layout_constraintTop_toTopOf="@+id/thema"
+        android:textColor="@color/black"
         />
 
     <com.google.android.material.textfield.TextInputEditText
@@ -144,7 +149,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/themeEdit"
         app:layout_constraintEnd_toEndOf="@+id/centerT"
         app:layout_constraintStart_toStartOf="@+id/centerT"
-        app:layout_constraintTop_toTopOf="@+id/themeEdit" />
+        app:layout_constraintTop_toTopOf="@+id/themeEdit"
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/themeEdit"
@@ -168,7 +174,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/contentEdit"
         app:layout_constraintEnd_toEndOf="@+id/writer"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/contentEdit" />
+        app:layout_constraintTop_toTopOf="@+id/contentEdit"
+        android:textColor="@color/black"/>
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/contentEdit"
@@ -190,7 +197,9 @@
         android:gravity="center"
         android:scrollbars="vertical"
         android:text="카카오톡\n링크"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/linkEdit"
+        app:layout_constraintEnd_toEndOf="@+id/writer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/linkEdit" />
 

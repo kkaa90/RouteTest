@@ -45,7 +45,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> im
     @Override
     public void onBindViewHolder(@NonNull SearchAdapter.Holder holder, int position) {
         int itemPosition = position;
-        holder.imageView2.setImageResource(R.drawable.photo1);
+        //holder.imageView2.setImageResource(R.drawable.photo1);
         holder.textSpotName.setText(filteredList.get(itemPosition).spotName);
         holder.textSpotAddress.setText(filteredList.get(itemPosition).spotAddress);
     }
@@ -90,12 +90,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> im
     }
 
     public class Holder extends RecyclerView.ViewHolder{
-        ImageView imageView2;
+        //ImageView imageView2;
         TextView textSpotName;
         TextView textSpotAddress;
         public Holder(View view){
             super(view);
-            imageView2 = (ImageView)view.findViewById(R.id.spotImage2);
+            //imageView2 = (ImageView)view.findViewById(R.id.spotImage2);
             textSpotName=(TextView)view.findViewById(R.id.spotName2);
             textSpotAddress=(TextView)view.findViewById(R.id.spotAddress);
 
