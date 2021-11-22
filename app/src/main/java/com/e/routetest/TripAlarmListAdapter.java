@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdapter.Holder>{
     private Context context;
-    private ArrayList<TripAlarm_rv_item_info> tripAlarmDataList = new ArrayList<TripAlarm_rv_item_info>();    //여행경로 데이터
+    private ArrayList<TripAlarm_rv_item_info> tripAlarmDataList;    //여행경로 데이터
     private ArrayList<Boolean> isVisitList; //여행지 방문 정보
 
     //아이템 확대 축소에 사용되는 변수들
@@ -148,9 +148,14 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
             placeArrivalTime.setText(at_h+":"+at_m);
 
             //출발해야될 최소 시간 출력
+            int lastIndex = tripAlarmDataList.size()-1;
             String m_time = tripAlarm_rv_item_info.getMoveTime();
             if(m_time.equals("null")){
-                placeMoveTime.setText("시간정보를 받아오지 못하였습니다.");
+                if(position == lastIndex) {
+                    placeMoveTime.setText("마지막 여행지입니다.");
+                }else {
+                    placeMoveTime.setText("시간정보를 받아오지 못하였습니다.");
+                }
             }else {
                 String mt_h = m_time.substring(0, 2);
                 String mt_m = m_time.substring(2);
@@ -200,7 +205,10 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
                     builder.setPositiveButton("예",new DialogInterface.OnClickListener(){
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
+                            //함수테스트
+                            //Spot testSpot = new Spot(126078,"광안리해수욕장",129.1184922375,35.1537908369,"부산광역시 수영구 광안해변로 219");
+                            //int testArrivalTime = 54000;
+                            //new TripAlarmComponent().updateTRouteByIndex(context,position,testSpot,testArrivalTime);
                            String s_spotID = tripAlarm_rv_item_info.getPlaceID();
                            String s_routeID = tripAlarm_rv_item_info.getServerID();
                            Log.d("ADAPTER",s_spotID);
