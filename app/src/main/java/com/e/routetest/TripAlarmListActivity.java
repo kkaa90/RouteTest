@@ -159,7 +159,10 @@ public class TripAlarmListActivity extends AppCompatActivity {
                         t[0] = getTime(s2,s);
                     }
                 }.start();
+                while (t[0]==0){
 
+                }
+                System.out.println(t[0]);
                 component.updateTRouteByIndex(tContext,now,s, t[0]);
                 tripAlarmListAdapter.notifyDataSetChanged();
             }

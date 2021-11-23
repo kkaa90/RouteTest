@@ -322,7 +322,7 @@ public class TripAlarmComponent {
         String result = "";
 
         if(hour_diff<0){
-            result="지각";
+            result="null";
         }
         else{
             if(hour_diff<10){
