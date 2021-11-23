@@ -605,7 +605,7 @@ public class TripAlarmComponent {
         String arrTimes = sp.getArrTime();
         String desTimes = sp.getDesTime();
         String serverID = Integer.toString(sp.getSvId());
-        String isVisit = "";
+        String isVisit = "a";
 
         //isVisit생성 (새 경로용)
         String[] temp = placeIDs.split(",");
@@ -613,8 +613,9 @@ public class TripAlarmComponent {
         for(int i=0;i<placeNum;i++){
             isVisit += ",0";
         }
+        String[] t_isVisit = isVisit.split(",",2);
 
-        TRoute tRoute = new TRoute(placeNames, placeIDs, longitudes, latitudes, placeAddresses, arrTimes,isVisit,serverID);
+        TRoute tRoute = new TRoute(placeNames, placeIDs, longitudes, latitudes, placeAddresses, arrTimes,t_isVisit[1],serverID);
 
         TRouteDataBase tDb = TRouteDataBase.getInstance(context);
         new Thread() {
@@ -742,7 +743,7 @@ public class TripAlarmComponent {
                 String[] latitudes = orinalRoute.get(0).getLatitudes().split(",");
                 String[] placeAddresses = orinalRoute.get(0).getPlaceAddresses().split(",");
                 String[] arrivalTimes = orinalRoute.get(0).getArrivalTimes().split(",");
-                String[] isVisit = orinalRoute.get(0).getArrivalTimes().split(",");
+                String[] isVisit = orinalRoute.get(0).getIsVisit().split(",");
                 String serverID = orinalRoute.get(0).getServerID();
 
                 String newPlaceNames = null;

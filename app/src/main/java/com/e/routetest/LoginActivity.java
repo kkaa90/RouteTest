@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
                         String s = signIn(userId,pEditText.getText().toString());
                         if(s.equals("true")){
                             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                            intent.putExtra("USER_ID",userId);
                             startActivity(intent);
                             finish();
                         }

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -132,6 +133,9 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
             }
             //장소이름
             placeName.setText(tripAlarm_rv_item_info.getPlaceName());
+            placeName.setSingleLine(true);
+            placeName.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+            placeName.setSelected(true);
             //온도
             String temperature = tripAlarm_rv_item_info.getPlaceTmp();
             temperature = temperature.equals("null")?"-":temperature+"°C";
@@ -256,6 +260,8 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
                     builder.setNegativeButton("아니오",null);
                     AlertDialog dialog = builder.create();
                     dialog.show();
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                    dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
                     break;
                 /*
                 case R.id.trip_alarm_rv_item_visitButton:

@@ -1,5 +1,6 @@
 package com.e.routetest;
 
+import static com.e.routetest.LoginActivity.userId;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -120,6 +122,8 @@ public class HomeFragment extends Fragment {
 
         //마이메뉴
         LinearLayout myMenuButton = (LinearLayout) view.findViewById(R.id.myMenu);
+        TextView userNameTV = (TextView)view.findViewById(R.id.userName);
+        userNameTV.setText(userId);
         myMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
