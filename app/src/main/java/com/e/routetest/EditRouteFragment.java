@@ -287,7 +287,7 @@ public class EditRouteFragment extends Fragment {
                         String dArr[] = s.getDesTime().split(",");
                         String aArr[] = s.getArrTime().split(",");
                         for(int i=0;i<sNArr.length;i++){
-                            spots.add(new Spot(Integer.parseInt(sIArr[i]),sNArr[i],Double.parseDouble(sXArr[i]),Double.parseDouble(sYArr[i]),sAArr[i]));
+                            spots.add(new Spot(Integer.parseInt(sIArr[i]),sNArr[i],Double.parseDouble(sXArr[i]),Double.parseDouble(sYArr[i]),sAArr[i],0.0f));
                             departures.add(Integer.parseInt(dArr[i]));
                             arrivals.add(Integer.parseInt(aArr[i]));
                         }

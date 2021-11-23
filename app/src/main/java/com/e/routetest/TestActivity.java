@@ -104,7 +104,7 @@ public class TestActivity extends AppCompatActivity {
                         String sYArr[] = s.getSpotsY().split(",");
                         String sAArr[] = s.getSpotsAddress().split(",");
                         for(int i=0;i<sNArr.length;i++){
-                            spots2.add(new Spot(Integer.parseInt(sIArr[i]),sNArr[i],Double.parseDouble(sXArr[i]),Double.parseDouble(sYArr[i]),sAArr[i]));
+                            spots2.add(new Spot(Integer.parseInt(sIArr[i]),sNArr[i],Double.parseDouble(sXArr[i]),Double.parseDouble(sYArr[i]),sAArr[i],0.0f));
                             departures2.add(-1);
                             arrivals2.add(-1);
                         }

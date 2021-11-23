@@ -38,14 +38,18 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle1"
                 style="?attr/materialButtonOutlinedStyle"
+                android:textColor="@color/toggle_color"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:tag="0"
-                android:text="자연" />
+                android:text="자연"
+
+                />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle2"
+                android:textColor="@color/toggle_color"
                 style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -57,6 +61,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle3"
                 style="?attr/materialButtonOutlinedStyle"
+                android:textColor="@color/toggle_color"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -66,6 +71,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle4"
                 style="?attr/materialButtonOutlinedStyle"
+                android:textColor="@color/toggle_color"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -75,6 +81,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle5"
                 style="?attr/materialButtonOutlinedStyle"
+                android:textColor="@color/toggle_color"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -84,6 +91,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle6"
                 style="?attr/materialButtonOutlinedStyle"
+                android:textColor="@color/toggle_color"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -93,6 +101,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle7"
                 style="?attr/materialButtonOutlinedStyle"
+                android:textColor="@color/toggle_color"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"

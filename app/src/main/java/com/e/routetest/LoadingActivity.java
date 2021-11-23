@@ -22,6 +22,7 @@ public class LoadingActivity extends AppCompatActivity {
     static String sv = "http://13.125.244.193:8080/teamproject/";
     public static ArrayList<Spot> allSpotList = new ArrayList<Spot>();
     public static ArrayList<String> allSpotName = new ArrayList<String>();
+    //public static ArrayList<Float> allSpotScore = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +50,7 @@ public class LoadingActivity extends AppCompatActivity {
         double y;
         String address;
         int status = 0;
+        float score = 0.0f;
         try {
             String url = sv + "viewAttraction.jsp";
             System.out.println(url);
@@ -72,7 +74,8 @@ public class LoadingActivity extends AppCompatActivity {
                 x = jsonObject1.get("mapX").getAsDouble();
                 y = jsonObject1.get("mapY").getAsDouble();
                 address = jsonObject1.get("addr").getAsString();
-                allSpotList.add(new Spot(spotId, title, y, x, address));
+                score = jsonObject1.get("attractionScore").getAsFloat();
+                allSpotList.add(new Spot(spotId, title, y, x, address,score));
                 allSpotName.add(title);
                 //System.out.println(i);
             }
