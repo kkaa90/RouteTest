@@ -33,6 +33,7 @@ public class TripAlarm_rv_item_info {
             String placeRainfallProb,
             String placeRainfallInfo,
             int placeWeatherIconType,
+            int spendingTime,
             String spendingTime_text,
             String moveTime,
             String remainTime){
@@ -46,6 +47,7 @@ public class TripAlarm_rv_item_info {
         this.placeRainfallProb = placeRainfallProb;
         this.placeRainfallInfo = placeRainfallInfo;
         this.placeWeatherIconType = placeWeatherIconType;
+        this.spendingTime = spendingTime;
         this.spendingTime_text = spendingTime_text;
         this.moveTime = moveTime;
         this.remainTime = remainTime;

@@ -17,7 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -66,6 +69,8 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
 
     //Holder : recyclerview의 subView를 setting해주는 곳
     public class Holder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        public TextView serialNo;
+
         public ImageView weatherIcon;
         public TextView placeName;
         public TextView placeTmp;
@@ -73,11 +78,12 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
         public TextView placeRainfallProb;
         public TextView placeRainfallInfo;
 
+        public ImageView timeIcon;
         public TextView placeArrivalTime;
         public TextView placeMoveTime;
 
-        public Button changeButton;
-        public LinearLayout item_detail;
+        public ImageView changeButton;
+        public ConstraintLayout item_detail;
         public LinearLayout item_info;
 
         private TripAlarm_rv_item_info tripAlarm_rv_item_info;
@@ -86,6 +92,8 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
         //Holder 생성자
         public Holder(@NonNull View view) {
             super(view);
+            serialNo = (TextView)view.findViewById(R.id.trip_alarm_rv_item_serial);
+
             weatherIcon = (ImageView)view.findViewById(R.id.trip_alarm_rv_item_weatherIcon);
             placeName = (TextView)view.findViewById(R.id.trip_alarm_rv_item_placeName);
             placeTmp = (TextView)view.findViewById(R.id.trip_alarm_rv_item_temperauterInfo);
@@ -93,18 +101,23 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
             placeRainfallProb = (TextView)view.findViewById(R.id.trip_alarm_rv_item_rainfallProbablityInfo);
             placeRainfallInfo = (TextView)view.findViewById(R.id.trip_alarm_rv_item_rainfallInfo);
 
+            timeIcon = (ImageView)view.findViewById(R.id.trip_alarm_rv_item_timeIcon);
             placeArrivalTime = (TextView)view.findViewById(R.id.trip_alarm_rv_item_arrivalTime);
             placeMoveTime = (TextView) view.findViewById(R.id.trip_alarm_rv_item_moveTimeInfo);
 
-            item_detail = (LinearLayout)view.findViewById(R.id.trip_alarm_rv_item_detail);
+            item_detail = (ConstraintLayout)view.findViewById(R.id.trip_alarm_rv_item_detail);
             item_info = (LinearLayout)view.findViewById(R.id.trip_alarm_rv_item_infoList);
-            changeButton = (Button)view.findViewById(R.id.trip_alarm_rv_item_changeButton);
+            changeButton = (ImageView)view.findViewById(R.id.trip_alarm_rv_item_changeButton);
         }
 
         //onBindViewHolder에서 bind시켜주는 함수
         void onBind(TripAlarm_rv_item_info tripAlarm_rv_item_info, int position){
             this.tripAlarm_rv_item_info = tripAlarm_rv_item_info;
             this.position = position;
+            TripAlarmComponent component = new TripAlarmComponent();
+
+            //시리얼
+            serialNo.setText("No."+component.makeSerial(position)+"  ");
 
             //날씨아이콘
             int temp = tripAlarm_rv_item_info.getPlaceWeatherIconType();
@@ -163,14 +176,27 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
                 String mt_m = m_time.substring(2);
                 placeMoveTime.setText(mt_h + "시 " + mt_m + "분에 출발해야 시간내에 도착이 예상됩니다.");
             }
+            Log.d("ADAPTER_REMAIN_TIME",""+tripAlarm_rv_item_info.getRemainTime());
 
-            /*
-            if(tripAlarm_rv_item_info.getSpendingTime_text().equals("null")) {
-                placeSpendTime.setText("마지막 행선지입니다.");
-            }else {
-                placeSpendTime.setText("소요시간 : 약" + tripAlarm_rv_item_info.getSpendingTime_text());
+            //남은시간
+            if(tripAlarm_rv_item_info.getRemainTime().equals("null")){
+                timeIcon.setImageResource(R.drawable.time4_g);
             }
-             */
+            else{
+                int remainTime = Integer.parseInt(tripAlarm_rv_item_info.getRemainTime()) - component.STANDARD_SPARE_TIME_MINUTE;
+                int conv_remainTime = (remainTime%3600)/60;
+                if(conv_remainTime>30){
+                    timeIcon.setImageResource(R.drawable.time4_g);
+                }else if(conv_remainTime>20&&conv_remainTime<=30){
+                    timeIcon.setImageResource(R.drawable.time3);
+                }else if(conv_remainTime>10&&conv_remainTime<=20){
+                    timeIcon.setImageResource(R.drawable.time2);
+                }else if(conv_remainTime>0&&conv_remainTime<=10){
+                    timeIcon.setImageResource(R.drawable.time1);
+                }else if(conv_remainTime<=0){
+                    timeIcon.setImageResource(R.drawable.time0);
+                }
+            }
 
 
             changeVisibility(selectedItems.get(position));
@@ -247,7 +273,7 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
         //view 확장을 위한 메소드
         private void changeVisibility(final boolean isExpanded){
             //height 값을 dp로 지정해서 넣고싶으면 아래 소스를 이용
-            int dpValue = 130;
+            int dpValue = 110;
             float d = context.getResources().getDisplayMetrics().density;
             int height = (int)(dpValue*d);
 

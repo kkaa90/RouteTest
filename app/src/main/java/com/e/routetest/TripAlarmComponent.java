@@ -36,6 +36,7 @@ public class TripAlarmComponent {
     private double STANDARD_MAX_TEMPERATURE = 30;     //알림 기준 최대온도
     private double STANDARD_MIN_TEMPERATURE = -5;     //알림 기준 최저온도
     private double STANDARD_HUMIDITY = 70;             //알림 기준 습도
+    public final int STANDARD_SPARE_TIME_MINUTE = 10*60;     //여유시간
 
     //특이사항 발생시 알림 푸쉬
     public void tripAlarmPush(TripAlarm_rv_item_info basedata, Context context){
@@ -73,6 +74,15 @@ public class TripAlarmComponent {
         }
 
         //시간 관련 문제
+        if(!basedata.getRemainTime().equals("null")) {
+            int remainTime = Integer.parseInt(basedata.getRemainTime()) - STANDARD_SPARE_TIME_MINUTE;
+            if (remainTime <= 30 && remainTime>=0) {  //출발시간까지 30분남았을때부터 알림시작
+                errorTitle = basedata.getPlaceName() + "에 시간 경고";
+                errorBody = basedata.getPlaceName() + "에서 예상 출발시간까지 " + (remainTime % 3600) / 60 + "분 남았습니다.";
+                NotifyAppDatabase.getInstance(context).notifyRepository().insert(new Notify(2, errorTitle, errorBody));
+                showMessage(errorTitle, errorBody, context);
+            }
+        }
     }
 
     //날씨정보 받아오기
@@ -255,16 +265,18 @@ public class TripAlarmComponent {
         else{
             moveTime = calc_timeDifference(nextArrivalTime,Integer.toString(spendTime),true);
             //Log.d("TIMENOW",getTime());
-            remainTime = calc_timeDifference(moveTime, getTime(),false);
+            remainTime = Integer.toString(convert_HHMMToSec(moveTime) - getTime());
+            //remainTime = calc_timeDifference(moveTime, getTime(),false);
         }
-        //Log.d("MOVETIME",moveTime);
-        //Log.d("REMAINTIME",remainTime);
+        Log.d("MOVETIME",moveTime);
+        Log.d("REMAINTIME",remainTime);
+        Log.d("GETNOW",""+getTime());
 
         //------------------------------ 시간정보 가져오기 종료 ------------------------------
 
         //객체 생성
         TripAlarm_rv_item_info tempItem
-                = new TripAlarm_rv_item_info(serverID, placeID, placeName, address, arrivalTime, tempValues[6], tempValues[3], tempValues[0], rainSnowInfo, iconType, spendTime_text, moveTime, remainTime);
+                = new TripAlarm_rv_item_info(serverID, placeID, placeName, address, arrivalTime, tempValues[6], tempValues[3], tempValues[0], rainSnowInfo, iconType, spendTime, spendTime_text, moveTime, remainTime);
 
         Log.d("API_INFO",serverID+","+placeID+","+placeName+","+address+","+arrivalTime+","+tempValues[6]+","+tempValues[3]+","+tempValues[0]+","+rainSnowInfo+","+iconType+","+spendTime_text+","+moveTime+","+remainTime);
         //경고 알림 푸시
@@ -492,8 +504,8 @@ public class TripAlarmComponent {
         return -1;
     }
 
-    //현재시간(HHmm)
-    public String getTime(){//시간 관련 변수
+    //현재시간(ss)
+    public int getTime(){//시간 관련 변수
         long mNow = System.currentTimeMillis();
         Date mReDate = new Date(mNow);
         SimpleDateFormat hourFormat = new SimpleDateFormat("HH");
@@ -501,12 +513,30 @@ public class TripAlarmComponent {
         String hour_ = hourFormat.format(mReDate);
         String minute_ = minuteFormat.format(mReDate);
 
-        String time = ""+hour_+minute_;
+        //Log.d("GETTIME()_HOUR",hour_);
+        //Log.d("GETTIME()_MINUTE",minute_);
+
+        int time = Integer.parseInt(hour_)*3600 + Integer.parseInt(minute_)*60;
         return time;
     }
 
 
     //======================================== 내부용 함수 종료 ========================================
+    public String makeSerial(int index){
+        long mNow = System.currentTimeMillis();
+        Date mReDate = new Date(mNow);
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
+        SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
+        SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+        String year_ = yearFormat.format(mReDate);
+        String month_ = monthFormat.format(mReDate);
+        String day_ = dayFormat.format(mReDate);
+
+        String result = year_+month_+day_+"-"+index;
+
+        return result;
+    }
+
     //현재시간(YYYY.MM.DD hh:mm) 반환하는 메서드
     public String getNowTime(){
         //시간 관련 변수
@@ -682,16 +712,16 @@ public class TripAlarmComponent {
     }
 
     //HHmm단위를 초단위로 변환
-    public String convert_HHMMToSec(String time){
+    public int convert_HHMMToSec(String time){
         String hour = time.substring(0,2);
         String minute = time.substring(2);
 
         int _hour = Integer.parseInt(hour);
         int _minute = Integer.parseInt(minute);
 
-        int sec = _hour*3600 + _minute*60;
+        int result = _hour*3600 + _minute*60;
 
-        return Integer.toString(sec);
+        return result;
     }
 
     //Spot객체 받아서 기존 TRoute정보 갱신하는 메서드
@@ -727,8 +757,8 @@ public class TripAlarmComponent {
                 for(int i=0;i<placeIDs.length;i++){
                     newPlaceNames = (i==index)? newPlaceNames + "," + spot.getSpotName() : newPlaceNames + "," + placeNames[i];
                     newPlaceAddresses = (i==index)? newPlaceAddresses + "," + spot.getSpotAddress() : newPlaceAddresses + "," + placeAddresses[i];
-                    newLongitudes = (i==index)? newLongitudes + "," + spot.getSpotX() : newLongitudes + "," + longitudes[i];
-                    newLatitudes = (i==index)? newLatitudes + "," + spot.getSpotY() : newLatitudes + "," + latitudes[i];
+                    newLongitudes = (i==index)? newLongitudes + "," + spot.getSpotY() : newLongitudes + "," + longitudes[i];
+                    newLatitudes = (i==index)? newLatitudes + "," + spot.getSpotX() : newLatitudes + "," + latitudes[i];
                     newPlaceIDs = (i==index)? newPlaceIDs + "," + spot.getSpotID() : newPlaceIDs + "," + placeIDs[i];
                     newIsVisit = (i==index)? newIsVisit + "," + "0" : newIsVisit + "," + isVisit[i];
                     newArrivalTimes = (i==index)? newArrivalTimes + "," + spotArrivalTime : newArrivalTimes + "," + arrivalTimes[i];

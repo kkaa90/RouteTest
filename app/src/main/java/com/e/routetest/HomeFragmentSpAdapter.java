@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class HomeFragmentSpAdapter extends RecyclerView.Adapter<HomeFragmentSpAd
 
         public TextView firstPlace;
         public TextView lastPlace;
-        public Button goButton;
+        public ConstraintLayout goButton;
 
         //Holder 생성자
         public Holder(@NonNull View view) {
@@ -56,7 +57,7 @@ public class HomeFragmentSpAdapter extends RecyclerView.Adapter<HomeFragmentSpAd
 
             firstPlace = (TextView)view.findViewById(R.id.home_route_rv_start);
             lastPlace = (TextView)view.findViewById(R.id.home_route_rv_goal);
-            goButton = (Button)view.findViewById(R.id.home_route_rv_button);
+            goButton = (ConstraintLayout) view.findViewById(R.id.home_route_rv_main);
 
         }
 

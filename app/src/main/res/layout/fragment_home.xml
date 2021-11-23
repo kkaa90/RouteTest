@@ -7,14 +7,28 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment" >
 
-    <Button
-        android:id="@+id/testButton"
+    <LinearLayout
+        android:id="@+id/myMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingHorizontal="25dp">
+        <ImageView
+            android:src="@drawable/usericon"
+            android:id="@+id/userIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="Button" />
+        <TextView
+            android:id="@+id/userName"
+            android:textSize="18dp"
+            android:text="aaa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -23,7 +37,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/testButton">
+        app:layout_constraintTop_toBottomOf="@+id/myMenu">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/home_view"

@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -115,8 +117,10 @@ public class HomeFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         recyclerView.setAdapter(boardAdapter);
-        Button testButton = (Button)view.findViewById(R.id.testButton);
-        testButton.setOnClickListener(new View.OnClickListener() {
+
+        //마이메뉴
+        LinearLayout myMenuButton = (LinearLayout) view.findViewById(R.id.myMenu);
+        myMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(),MyMenuActivity.class);
