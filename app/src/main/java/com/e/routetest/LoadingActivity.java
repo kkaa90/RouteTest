@@ -13,6 +13,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -51,6 +52,7 @@ public class LoadingActivity extends AppCompatActivity {
         String address;
         int status = 0;
         float score = 0.0f;
+        Random random = new Random();
         try {
             String url = sv + "viewAttraction.jsp";
             System.out.println(url);
@@ -75,6 +77,9 @@ public class LoadingActivity extends AppCompatActivity {
                 y = jsonObject1.get("mapY").getAsDouble();
                 address = jsonObject1.get("addr").getAsString();
                 score = jsonObject1.get("attractionScore").getAsFloat();
+                if(score==0){
+                    score= random.nextInt(5)+1;
+                }
                 allSpotList.add(new Spot(spotId, title, y, x, address,score));
                 allSpotName.add(title);
                 //System.out.println(i);

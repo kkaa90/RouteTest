@@ -164,7 +164,12 @@ public class TripAlarmListActivity extends AppCompatActivity {
                 }
                 System.out.println(t[0]);
                 component.updateTRouteByIndex(tContext,now,s, t[0]);
-                tripAlarmListAdapter.notifyDataSetChanged();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tripAlarmListAdapter.notifyDataSetChanged();
+                    }
+                });
             }
             else{
 
