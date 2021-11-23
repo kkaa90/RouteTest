@@ -31,6 +31,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static com.e.routetest.TripAlarmListActivity.check;
+
 //TripAlarm 관련 함수 및 변수 모음
 public class TripAlarmComponent {
     private double STANDARD_MAX_TEMPERATURE = 30;     //알림 기준 최대온도
@@ -782,7 +784,10 @@ public class TripAlarmComponent {
 
                 tDb.tRouteRepository().deleteAll();
                 tDb.tRouteRepository().insert(newRoute);
+                check = true;
             }
         }.start();
+
+
     }
 }

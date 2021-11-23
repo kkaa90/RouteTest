@@ -55,6 +55,7 @@ public class TripAlarmListActivity extends AppCompatActivity {
     Spot s;
     Spot s2;
     public static Context tContext;
+    public static boolean check;
     //뒤로가기 누를시 MainActivity로 이동
     @Override
     public void onBackPressed() {
@@ -159,17 +160,23 @@ public class TripAlarmListActivity extends AppCompatActivity {
                         t[0] = getTime(s2,s);
                     }
                 }.start();
+
                 while (t[0]==0){
 
                 }
-                System.out.println(t[0]);
                 component.updateTRouteByIndex(tContext,now,s, t[0]);
+                while (!check){
+
+                }
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        tripAlarmListAdapter.notifyDataSetChanged();
+                        showItems();
+                        check=false;
                     }
                 });
+
             }
             else{
 
