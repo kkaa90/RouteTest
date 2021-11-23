@@ -10,7 +10,7 @@
     android:layout_marginVertical="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@color/colorGray"
+        android:background="#87CEFA"
         android:layout_width="match_parent"
         android:layout_height="20dp">
 
@@ -92,8 +92,7 @@
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:orientation="horizontal"
-        android:paddingTop="5dp"
-        android:background="@color/colorGray">
+        android:background="#87CEFA">
 
         <LinearLayout
             android:layout_width="340dp"
@@ -127,7 +126,7 @@
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@drawable/thermometer"/>
 
                 <TextView
                     android:id="@+id/trip_alarm_rv_item_temperauterInfo"
@@ -141,7 +140,7 @@
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@drawable/humidity" />
 
                 <TextView
                     android:id="@+id/trip_alarm_rv_item_HumidityInfo"
@@ -155,7 +154,7 @@
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@drawable/rainprob" />
 
                 <TextView
                     android:id="@+id/trip_alarm_rv_item_rainfallProbablityInfo"
@@ -169,7 +168,7 @@
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@drawable/raininfo" />
 
                 <TextView
                     android:id="@+id/trip_alarm_rv_item_rainfallInfo"

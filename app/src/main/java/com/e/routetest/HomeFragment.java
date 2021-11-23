@@ -89,7 +89,7 @@ public class HomeFragment extends Fragment {
         });
          */
 
-        Button test_button2 = (Button)view.findViewById(R.id.show_trip_alarm_button2);
+        TextView test_button2 = (TextView) view.findViewById(R.id.show_trip_alarm_button2);
         test_button2.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
