@@ -11,6 +11,16 @@
     android:background="@drawable/item_border">
 
 
+    <RatingBar
+        android:id="@+id/spotRatingBar"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:isIndicator="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/spotAddress" />
+
     <ImageView
         android:id="@+id/spotImage2"
         android:layout_width="54dp"
@@ -19,10 +29,10 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:src="@mipmap/ic_launcher_round"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/spotName2"

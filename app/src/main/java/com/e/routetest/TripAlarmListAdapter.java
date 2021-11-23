@@ -256,6 +256,8 @@ public class TripAlarmListAdapter extends RecyclerView.Adapter<TripAlarmListAdap
                     builder.setNegativeButton("아니오",null);
                     AlertDialog dialog = builder.create();
                     dialog.show();
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                    dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
                     break;
                 /*
                 case R.id.trip_alarm_rv_item_visitButton:

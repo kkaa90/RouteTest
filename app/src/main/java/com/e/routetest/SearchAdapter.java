@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> im
     private List<Spot> allSpotList=new ArrayList<>();
     private List<Spot> filteredList = new ArrayList<>();
 
+
     public SearchAdapter(Context context, List<Spot> allSpotList){
         this.context=context;
         this.allSpotList=allSpotList;
@@ -48,6 +50,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> im
         //holder.imageView2.setImageResource(R.drawable.photo1);
         holder.textSpotName.setText(filteredList.get(itemPosition).spotName);
         holder.textSpotAddress.setText(filteredList.get(itemPosition).spotAddress);
+        holder.spRatingBar.setRating(filteredList.get(itemPosition).score);
     }
 
     @Override
@@ -93,12 +96,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> im
         //ImageView imageView2;
         TextView textSpotName;
         TextView textSpotAddress;
+        RatingBar spRatingBar;
         public Holder(View view){
             super(view);
             //imageView2 = (ImageView)view.findViewById(R.id.spotImage2);
             textSpotName=(TextView)view.findViewById(R.id.spotName2);
             textSpotAddress=(TextView)view.findViewById(R.id.spotAddress);
-
+            spRatingBar=(RatingBar)view.findViewById(R.id.spotRatingBar);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -106,7 +110,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> im
                     if(pos != RecyclerView.NO_POSITION){
                         Spot now = filteredList.get(pos);
                         if(spots.size()<8) {
-                            spots.add(new Spot(now.spotID, now.spotName, now.spotX, now.spotY, now.spotAddress));
+                            spots.add(new Spot(now.spotID, now.spotName, now.spotX, now.spotY, now.spotAddress, now.score));
                             arrivals.add(-1);
                             departures.add(-1);
                             mMap.clear();

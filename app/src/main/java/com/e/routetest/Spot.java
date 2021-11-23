@@ -6,7 +6,7 @@ public class Spot {
     double spotX;
     double spotY;
     String spotAddress;
-   // float score;
+    float score;
     public int getSpotID() {
         return spotID;
     }
@@ -47,20 +47,20 @@ public class Spot {
         this.spotAddress = spotAddress;
     }
 
-//    public float getScore() {
-//        return score;
-//    }
-//
-//    public void setScore(float score) {
-//        this.score = score;
-//    }
+    public float getScore() {
+        return score;
+    }
 
-    public Spot(int spotID, String spotName, double spotX, double spotY, String spotAddress){
+    public void setScore(float score) {
+        this.score = score;
+    }
+
+    public Spot(int spotID, String spotName, double spotX, double spotY, String spotAddress, float score){
         this.spotID=spotID;
         this.spotName=spotName;
         this.spotX=spotX;
         this.spotY=spotY;
         this.spotAddress=spotAddress;
-       // this.score=score;
+        this.score=score;
     }
 }

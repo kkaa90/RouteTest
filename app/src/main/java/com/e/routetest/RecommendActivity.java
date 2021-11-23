@@ -110,7 +110,7 @@ public class RecommendActivity extends AppCompatActivity {
                 y = jsonObject1.get("mapY").getAsDouble();
                 address = jsonObject1.get("addr").getAsString();
                 score = jsonObject1.get("attractionScore").getAsFloat();
-                rSpot.add(new Spot(spotId, title, y, x, address));
+                rSpot.add(new Spot(spotId, title, y, x, address, 0.0f));
                 //System.out.println(i);
             }
 
