@@ -155,15 +155,20 @@ public class TripAlarmListActivity extends AppCompatActivity {
                     }
                 }
                 final int[] t = new int[1];
+                int temp = Integer.parseInt(tripAlarmItems.get(now-1).getArrivalTime());
+                int temp1 = ((temp/100)*3600)+((temp%100)*60)+3600;
+
                 new Thread(){
                     public void run(){
                         t[0] = getTime(s2,s);
                     }
                 }.start();
 
+
                 while (t[0]==0){
 
                 }
+                t[0]+=temp1;
                 component.updateTRouteByIndex(tContext,now,s, t[0]);
                 while (!check){
 
