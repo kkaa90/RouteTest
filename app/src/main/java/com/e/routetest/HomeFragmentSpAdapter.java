@@ -3,6 +3,7 @@ package com.e.routetest;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ public class HomeFragmentSpAdapter extends RecyclerView.Adapter<HomeFragmentSpAd
         private Sp sp;
         private int position;
 
+        public TextView serial;
         public TextView firstPlace;
         public TextView firstTime;
         public TextView lastPlace;
@@ -59,6 +61,8 @@ public class HomeFragmentSpAdapter extends RecyclerView.Adapter<HomeFragmentSpAd
         //Holder 생성자
         public Holder(@NonNull View view) {
             super(view);
+
+            serial = (TextView)view.findViewById(R.id.trip_alarm_rv_item_serial);
 
             firstPlace = (TextView)view.findViewById(R.id.home_route_rv_start);
             firstPlace.setSingleLine(true);
@@ -79,6 +83,8 @@ public class HomeFragmentSpAdapter extends RecyclerView.Adapter<HomeFragmentSpAd
             this.sp = sp;
             this.position = position;
 
+            //serial.setText("Tripvision Ticket "+(position+1));
+
             TripAlarmComponent component = new TripAlarmComponent();
 
             String[] placeNames = sp.getSpotsName().split(",");
@@ -88,11 +94,20 @@ public class HomeFragmentSpAdapter extends RecyclerView.Adapter<HomeFragmentSpAd
             String s_place = placeNames[0];
             String l_place = placeNames[lastIndex];
 
-            String s_arrivalTime = arrivalTimes[0];
-            String l_arrivalTime = arrivalTimes[lastIndex];
+            int s_arrivalTime = Integer.parseInt(arrivalTimes[0]);
+            int l_arrivalTime = Integer.parseInt(arrivalTimes[lastIndex]);
+            int s_hour = s_arrivalTime/3600;
+            int s_minute = (s_arrivalTime%3600)/60;
+            int l_hour = l_arrivalTime/3600;
+            int l_minute = (l_arrivalTime%3600)/60;
+
+            Log.d("HOME S_TIME",""+s_hour+s_minute);
 
             firstPlace.setText(s_place);
             lastPlace.setText(l_place);
+
+            //firstTime.setText(""+(s_arrivalTime/3600)+":"+((s_arrivalTime%3600)/60));
+            //lastTime.setText(""+(l_arrivalTime/3600)+":"+((l_arrivalTime%3600)/60));
 
             goButton.setOnClickListener(this);
         }

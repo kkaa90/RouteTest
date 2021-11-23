@@ -265,8 +265,12 @@ public class TripAlarmComponent {
         else{
             moveTime = calc_timeDifference(nextArrivalTime,Integer.toString(spendTime),true);
             //Log.d("TIMENOW",getTime());
-            remainTime = Integer.toString(convert_HHMMToSec(moveTime) - getTime());
-            //remainTime = calc_timeDifference(moveTime, getTime(),false);
+            if(moveTime.equals("null")){
+                remainTime = "null";
+            }else {
+                remainTime = Integer.toString(convert_HHMMToSec(moveTime) - getTime());
+                //remainTime = calc_timeDifference(moveTime, getTime(),false);
+            }
         }
         Log.d("MOVETIME",moveTime);
         Log.d("REMAINTIME",remainTime);
